@@ -7,7 +7,8 @@ import {
 
 import Topbar from './components/Topbar';
 import MainDisplay from './pages/MainDisplay';
-import {useState } from 'react'
+import PigeonMode from './components/PigeonMode';
+import {useState } from 'react';
 import partyPigeon from "./party-parrot.gif";
 import { Typography } from '@mui/material';
 
@@ -30,8 +31,8 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Router>
+        <Topbar pigeonMode={pigeonMode} setPigeonMode={setPigeonMode}/>
         {pigeonMode ? <AnimatedCursor>{Array.from({ length: 2 }, (_, i) => <img src={partyPigeon} alt="party pigeon" style={{height: "30px"}}/>)}</AnimatedCursor> : ""}
-        <Topbar setPigeonMode={setPigeonMode} pigeonMode={pigeonMode}/>
         <Routes>
           <Route path="/" element={<MainDisplay admin={false} pigeonMode={pigeonMode} sx={{cursor: "default"}}/>} />
           <Route path="/admin" element={<MainDisplay admin={true} pigeonMode={pigeonMode} sx={{cursor: "default"}}/>} />

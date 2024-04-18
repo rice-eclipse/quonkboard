@@ -9,12 +9,7 @@ const MainDisplay = (props) => {
             <Typography> Main Display {!admin || "ADMIN"} </Typography>
             <Grid container spacing={2} sx={{px:2}}>
                 <Grid item xs={6} sx={{textAlign: "center"}}>
-                    <Typography variant="h2">598 psi</Typography>
-                </Grid>
-                <Grid item xs={6} sx={{textAlign: "center"}}>
-                    <Typography variant="h2">1,548,392 psi</Typography>
-                </Grid>
-                <Grid item xs={6}>
+                    <Typography sx={{textAlign: "center"}} variant="h2">1,548,392 psi</Typography>
                     <LineChart
                         xAxis={[{ data: [1, 2, 3, 5, 8, 10, 12, 15, 16] }]}
                         series={[
@@ -27,23 +22,17 @@ const MainDisplay = (props) => {
                         margin={{ top: 10, bottom: 20 }}
                         />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} sx={{textAlign: "center"}}>
+                    <Typography sx={{textAlign: "center"}} variant="h2">1,548 psi</Typography>
                     <LineChart
                         xAxis={[{ data: [1, 2, 3, 5, 8, 10, 12, 15, 16] }]}
                         series={[
                             {
-                            data: [2, 5.5, 2, 8.5, 1.5, 5],
+                            data: [2, 5.5, 2, 8.5, 1.5, 5, 6, 5, 6],
                             valueFormatter: (value) => (value == null ? 'NaN' : value.toString()),
                             },
-                            {
-                            data: [null, null, null, null, 5.5, 2, 8.5, 1.5, 5],
-                            },
-                            {
-                            data: [7, 8, 5, 4, null, null, 2, 5.5, 1],
-                            valueFormatter: (value) => (value == null ? '?' : value.toString()),
-                            },
                         ]}
-                        height={200}
+                        height={300}
                         margin={{ top: 10, bottom: 20 }}
                         />
                 </Grid>
