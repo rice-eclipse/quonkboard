@@ -38,7 +38,7 @@
 
 #ox_fill_valve {
     position: absolute;
-    top: 111px;
+    top: 101px;
     left: 127px;
 }
 
@@ -50,12 +50,12 @@
 
 #nitrogen_purge_valve {
     position: absolute;
-    top: 111px;
+    top: 101px;
     left: 272px;
 }
 
 #engine_isolation_valve {
     position: absolute;
-    top: 111px;
+    top: 101px;
     left: 390px;
 }

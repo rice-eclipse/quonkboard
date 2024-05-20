@@ -20,18 +20,20 @@ class DiagramControls extends React.Component {
 
     render() {
         return (
-            <Box sx={{textAlign: "center", display: "flex"}} id="diagram-box">
-                <img src={Diagram} alt="Diagram" style={{height: 350}}></img>
-                <div id="feed_line_pt"><GaugeReading title="Feed Line PT"/></div>
-                <div id="cc_pt"><GaugeReading title="CC PT"/></div>
-                <div id="injector_pt"><GaugeReading title="Inj. PT"/></div>
-                <div id="ox_tank_pt"><GaugeReading title="Ox. PT"/></div>
-                <div id="load_cell"><GaugeReading title="Load Cell" size={90}/></div>
-                <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve"/></div>
-                <div id="ground_vent_valve"><Valve title="Ground Vent Valve" text_bottom text_margin="15px"/></div>
-                <div id="nitrogen_purge_valve"><Valve title="Nitrogen Purge Valve"/></div>
-                <div id="engine_isolation_valve"><Valve title="Engine Isolation Valve"/></div>
-            </Box>
+            <div>
+                <img src={Diagram} alt="Diagram" style={{height: 350, position: "absolute"}}></img>
+                <Box sx={{textAlign: "center"}} id="diagram-box">
+                    <div id="feed_line_pt"><GaugeReading title="Feed Line PT"/></div>
+                    <div id="cc_pt"><GaugeReading title="CC PT"/></div>
+                    <div id="injector_pt"><GaugeReading title="Inj. PT"/></div>
+                    <div id="ox_tank_pt"><GaugeReading title="Ox. PT"/></div>
+                    <div id="load_cell"><GaugeReading title="Load Cell" size={90}/></div>
+                    <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve"/></div>
+                    <div id="ground_vent_valve"><Valve title="Ground Vent Valve" text_bottom text_margin="22px"/></div>
+                    <div id="nitrogen_purge_valve"><Valve title="Nitrogen Purge Valve"/></div>
+                    <div id="engine_isolation_valve"><Valve title="Engine Isolation Valve"/></div>
+                </Box>
+            </div>
         )
     }
 }

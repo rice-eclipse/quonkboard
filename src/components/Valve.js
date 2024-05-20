@@ -2,6 +2,7 @@ import React from 'react';
 import open_valve from "../open_valve.svg";
 import closed_valve from "../closed_valve.svg";
 import Typography from "@mui/material/Typography";
+import { Button, Stack } from "@mui/material";
 
 class Valve extends React.Component {
     constructor(props) {
@@ -11,6 +12,12 @@ class Valve extends React.Component {
         }
     }
 
+    toggle = () => {
+        this.setState((state, props) => {
+            return {open: !state.open};
+        });
+    }
+
     render() {
         let text_margin = 0;
         if (this.props.text_margin) {
@@ -18,19 +25,19 @@ class Valve extends React.Component {
         }
         if (this.props.text_bottom) {
             return (
-                <div>
+                <Stack>
                     <img src={this.state.open ? open_valve : closed_valve} alt="valve" style={{height: 25}} />
-                    <Typography sx={{fontSize: 20, color:(this.state.open ? "green" : "red"), mt: text_margin}}>{this.state.open ? "OPEN" : "CLOSED"}</Typography>
-                    <Typography sx={{fontSize: 12, mt: "-5px"}}>{this.props.title}</Typography>
-                </div>
+                    <Button onClick={this.toggle} sx={{fontSize: 20, border: 1, padding: 0,color:(this.state.open ? "green" : "red"), mt: text_margin}}>{this.state.open ? "OPEN" : "CLOSED"}</Button>
+                    <Typography sx={{fontSize: 12, mt: "-2px"}}>{this.props.title}</Typography>
+                </Stack>
             )
         }
         return (
-            <div>
-                <Typography sx={{fontSize: 12, mb: "-5px"}}>{this.props.title}:</Typography>
-                <Typography sx={{mb: text_margin, fontSize: 20, color:(this.state.open ? "green" : "red")}}>{this.state.open ? "OPEN" : "CLOSED"}</Typography>
+            <Stack>
+                <Typography sx={{fontSize: 12, mb: "-2px"}}>{this.props.title}:</Typography>
+                <Button onClick={this.toggle} sx={{mb: text_margin, border: 1, padding: 0, fontSize: 20, color:(this.state.open ? "green" : "red")}}>{this.state.open ? "OPEN" : "CLOSED"}</Button>
                 <img src={this.state.open ? open_valve : closed_valve} alt="valve" style={{height: 25}} />
-            </div>
+            </Stack>
         )
     }
 }
