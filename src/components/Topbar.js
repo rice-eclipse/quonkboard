@@ -2,7 +2,8 @@ import { Typography, Box } from "@mui/material";
 import { Stack } from "@mui/material";
 import partyPigeon from "../party-parrot.gif";
 import logo from "../quonkboard.png";
-import PigeonMode from "./PigeonMode"
+import PigeonMode from "./PigeonMode";
+import ConnectBar from "./ConnectBar";
 
 const Topbar = (props) => {
 
@@ -17,12 +18,12 @@ const Topbar = (props) => {
       };
 
     return (
-            <Stack direction="row" sx={{width: 1.0, height: 90, mb:4}}>
-                <Typography variant="h1" sx={{cursor: "pointer", pr:4}} onClick={handleHeadingClick}>Quonkboard</Typography>
-                <Box justifyContent="space-between" alignItems="center" marginLeft="auto" marginRight="auto">
-                    <PigeonMode enable={pigeonMode} />
+            <Stack direction="row" sx={{width: 1.0, height: 90, mb:4, display: 'flex', borderBottom: 1, p: 1}}>
+                <img style={{"marginTop": "10px", "marginBottom": "10px", "marginRight": "10px", "float":"right"}} src={logo} alt="logo"/>
+                <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: 'flex'}} onClick={handleHeadingClick}>Quonkboard</Typography>
+                <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
+                    {pigeonMode ? <PigeonMode enable={pigeonMode} /> : <ConnectBar sx={{width: 1.0}}/> }
                 </Box>
-                <img style={{"margin-top": "10px", "margin-right": "10px", "float":"right"}} src={logo} alt="logo"/>
             </Stack>
     )
 }

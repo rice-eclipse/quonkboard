@@ -17,7 +17,7 @@ const PigeonMode = (props) => {
         }
     }
     return (
-        enable ? Array.from({ length: 10 }, (_, i) => <img src={partyPigeon} alt="party pigeon" style={{height: "70px"}}/>) : ""
+        enable ? Array.from({ length: 8 }, (_, i) => <img src={partyPigeon} alt="party pigeon" style={{height: "70px"}}/>) : ""
     );
 }
 
