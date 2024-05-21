@@ -20,8 +20,8 @@ class DiagramControls extends React.Component {
 
     render() {
         return (
-            <div>
-                <img src={Diagram} alt="Diagram" style={{height: 350, position: "absolute"}}></img>
+            <div style={{position: "relative"}}>
+                <img src={Diagram} alt="Diagram" style={{height: 350}}></img>
                 <Box sx={{textAlign: "center"}} id="diagram-box">
                     <div id="feed_line_pt"><GaugeReading title="Feed Line PT"/></div>
                     <div id="cc_pt"><GaugeReading title="CC PT"/></div>

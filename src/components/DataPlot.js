@@ -7,24 +7,27 @@ class DataPlot extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            times: [],
-            vals: []
+            times: [new Date(Date.now() - 4), new Date(Date.now() - 3), new Date(Date.now() - 2), new Date(Date.now() - 1), new Date(Date.now())],
+            vals: [0,0,0,0,0]
         }
     }
 
+    valueFormatter = (date) => {
+        console.log(date);
+        return date.toLocaleTimeString('it-IT');
+    }
+
     addData = (val) => {
-        this.setState({
-            times: this.state.times.concat(Date.now()),
-            vals: this.state.vals.concat(val)
+        this.setState((state) => {
+            return {times: [...state.times, Date.now()], vals: [...state.vals, val]};
         })
     }
 
     render() {
         return (
             <div>
-                <Typography sx={{textAlign: "center"}} variant="h2">1,548 psi</Typography>
                 <LineChart
-                    xAxis={[{ data: this.state.times }]}
+                    xAxis={[{ data: this.state.times, scaleType: "time", valueFormatter: this.valueFormatter }]}
                     series={[
                         {
                         data: this.state.vals,

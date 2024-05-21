@@ -32,10 +32,6 @@
     left: 650px;
 }
 
-#diagram-box {
-    position: relative;
-}
-
 #ox_fill_valve {
     position: absolute;
     top: 101px;
