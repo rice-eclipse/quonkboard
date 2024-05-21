@@ -13,6 +13,34 @@ const MainDisplay = (props) => {
     const readoutTable = useRef();
     const lc_plot = useRef();
     const pt_plot = useRef();
+    const diagram = useRef();
+    const telemetry = useRef();
+
+    const processData = (data) => {
+        console.log(lc_plot);
+        if (data.load_cell && lc_plot.current) {
+            lc_plot.current.addData({load_cell: data.load_cell});
+        }
+        if ((data.feed_line_pt || data.cc_pt || data.injector_pt || data.ox_tank_pt) && pt_plot.current) {
+            pt_plot.current.addData({
+                feed_line_pt: data.feed_line_pt,
+                cc_pt: data.cc_pt,
+                injector_pt: data.injector_pt,
+                ox_tank_pt: data.ox_tank_pt,
+            });
+        }
+        
+    }
+
+    setInterval(() => {
+        processData({
+            load_cell: 1,
+            feed_line_pt: 1.5,
+            cc_pt: 2.3,
+            injector_pt: 3.0,
+            ox_tank_pt: 4.0
+        });
+    }, 1000);
 
     return (
         <Box>
@@ -35,11 +63,11 @@ const MainDisplay = (props) => {
                             <DataPlot ref={lc_plot}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, my: 2.5}}>
-                            <DiagramControls sx={{position: "relative"}}/>
+                            <DiagramControls sx={{position: "relative"}} ref={diagram}/>
                         </Grid>
                         <Grid item xs={4} sx={{alignContent: "center"}}>
                             <Typography sx={{textAlign: "center", mb: 1}} variant="h4">Telemetry Logs</Typography>
-                            <Telemetry sx={{border: 1}}/>
+                            <Telemetry sx={{border: 1}} ref={telemetry}/>
                         </Grid>
                     </Grid>
                 </Grid>
