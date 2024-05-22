@@ -18,7 +18,7 @@ const Topbar = (props) => {
       };
 
     return (
-            <Stack direction="row" sx={{width: 1.0, height: 90, mb:4, display: 'flex', borderBottom: 1, p: 1}}>
+            <Stack direction="row" sx={{width: 1.0, height: 90, mb:2, display: 'flex', borderBottom: 1, p: 1}}>
                 <img style={{"marginTop": "10px", "marginBottom": "10px", "marginRight": "10px", "float":"right"}} src={logo} alt="logo"/>
                 <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: 'flex'}} onClick={handleHeadingClick}>Quonkboard</Typography>
                 <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>

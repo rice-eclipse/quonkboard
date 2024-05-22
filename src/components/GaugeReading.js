@@ -16,6 +16,11 @@ class GaugeReading extends React.Component {
             title: props.title,
         }
     }
+
+    setValue(value) {
+        this.setState({value: (value < 10 ? value.toFixed(1) : Math.floor(value))});
+    }
+
     render() {
         return (
         <div>

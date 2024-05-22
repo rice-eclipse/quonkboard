@@ -29,22 +29,27 @@ const MainDisplay = (props) => {
                 ox_tank_pt: data.ox_tank_pt,
             });
         }
-        
+        if (readoutTable !== null && readoutTable.current !== undefined) {
+            readoutTable.current.updateData(data);
+        }
+        if (diagram !== null && diagram.current !== undefined) {
+            diagram.current.updateData(data);
+        }
     }
 
     setInterval(() => {
         processData({
-            load_cell: 1,
-            feed_line_pt: 1.5,
-            cc_pt: 2.3,
-            injector_pt: 3.0,
-            ox_tank_pt: 4.0
+            load_cell: 1 + Math.random(),
+            feed_line_pt: 1.5 + Math.random(),
+            cc_pt: 2.3 + Math.random(),
+            injector_pt: 3.0 + Math.random(),
+            ox_tank_pt: 4.0 + Math.random()
         });
     }, 1000);
 
     return (
         <Box>
-            <Grid container spacing={2} sx={{px:2}}>
+            <Grid container spacing={1}>
                 <Grid item xs={2} sx={{textAlign: "center", alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <Stack>
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable}/>
@@ -53,13 +58,13 @@ const MainDisplay = (props) => {
                     </Stack>
                 </Grid>
                 <Grid item xs={10}>
-                    <Grid container spacing={2} sx={{px:2}}>
+                    <Grid container spacing={1}>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
-                            <Typography sx={{textAlign: "center"}} variant="h4">Pressure Transducers</Typography>
+                            {/* <Typography sx={{textAlign: "center"}} variant="h5">Pressure Transducers</Typography> */}
                             <DataPlot ref={pt_plot}/>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
-                            <Typography sx={{textAlign: "center"}} variant="h4">Load Cell</Typography>
+                            {/* <Typography sx={{textAlign: "center"}} variant="h5">Load Cell</Typography> */}
                             <DataPlot ref={lc_plot}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, my: 2.5}}>

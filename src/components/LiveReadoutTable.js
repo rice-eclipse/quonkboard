@@ -35,6 +35,15 @@ class LiveReadoutTable extends React.Component {
         }
     }
 
+    updateData(data) {
+        this.setState((state) => {
+          for (const [key, val] of Object.entries(data)){
+            state.data[key] = val;
+          }
+          return state;
+        })
+    }
+
     render() {
         const rows = []
         for (const [key, value] of Object.entries(this.state.data)) {
