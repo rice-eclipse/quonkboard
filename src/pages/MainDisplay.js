@@ -6,6 +6,7 @@ import { DiagramControls } from "../components/DiagramControls";
 import { IgnitionButton } from "../components/IgnitionButton";
 import DataPlot from "../components/DataPlot";
 import Telemetry from "../components/Telemetry";
+import DataDisplayOptions from "../components/DataDisplayOptions";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -15,6 +16,11 @@ const MainDisplay = (props) => {
     const pt_plot = useRef();
     const diagram = useRef();
     const telemetry = useRef();
+    const dataDisplayOptionsRef = useRef();
+
+    const [displayMode, setDisplayMode] = useState("rawData");
+    const [contextDuration, setContextDuration] = useState(10);
+    const [devInterval, setDevInterval] = useState(null);
 
     const processData = (data) => {
         console.log(lc_plot);
@@ -29,7 +35,7 @@ const MainDisplay = (props) => {
                 ox_tank_pt: data.ox_tank_pt,
             });
         }
-        if (readoutTable !== null && readoutTable.current !== undefined) {
+        if (readoutTable !== null && readoutTable.current !== null && readoutTable.current !== undefined) {
             readoutTable.current.updateData(data);
         }
         if (diagram !== null && diagram.current !== undefined) {
@@ -37,15 +43,17 @@ const MainDisplay = (props) => {
         }
     }
 
-    setInterval(() => {
-        processData({
-            load_cell: 1 + Math.random(),
-            feed_line_pt: 1.5 + Math.random(),
-            cc_pt: 2.3 + Math.random(),
-            injector_pt: 3.0 + Math.random(),
-            ox_tank_pt: 4.0 + Math.random()
-        });
-    }, 1000);
+    if (devInterval === null) {
+        setDevInterval(setInterval(() => {
+            processData({
+                load_cell: 1 + Math.random(),
+                feed_line_pt: 1.5 + Math.random(),
+                cc_pt: 2.3 + Math.random(),
+                injector_pt: 3.0 + Math.random(),
+                ox_tank_pt: 4.0 + Math.random()
+            });
+        }, 1000));
+    }
 
     return (
         <Box>
@@ -55,6 +63,8 @@ const MainDisplay = (props) => {
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable}/>
                         <br />
                         <IgnitionButton />
+                        <br />
+                        <DataDisplayOptions contextDuration={contextDuration} setContextDuration={setContextDuration} displayMode={displayMode} setDisplayMode={setDisplayMode}/>
                     </Stack>
                 </Grid>
                 <Grid item xs={10}>

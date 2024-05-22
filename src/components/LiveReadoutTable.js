@@ -52,19 +52,19 @@ class LiveReadoutTable extends React.Component {
         return (<TableContainer component={Paper}>
             <Table aria-label="sensor table">
               <TableHead>
-                <TableRow sx={{ 'td, th': { border: 1, fontSize: 30 } }}>
+                <TableRow sx={{ 'td, th': { border: 1, fontSize: 20 } }}>
                   <TableCell>Sensor</TableCell>
-                  <TableCell align="right">Value</TableCell>
+                  <TableCell>Value</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rows.map((row) => (
                   <TableRow
                     key={row.sensor}
-                    sx={{ 'td, th': { border: 1, fontSize: 18 } }}
+                    sx={{ 'td, th': { border: 1, fontSize: 16 } }}
                   >
                     <TableCell component="th" scope="row">{row.sensor}</TableCell>
-                    <TableCell align="right">{row.value}</TableCell>
+                    <TableCell >{row.value}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
