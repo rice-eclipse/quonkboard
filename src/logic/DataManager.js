@@ -1,6 +1,4 @@
-import React from "react"
-import fs from "fs";
-
+// import * as fs from 'fs';
 /**
  * A class that manages data and provides functionality to manipulate and save the data.
  */
@@ -9,7 +7,7 @@ class DataManager {
         this.displayMode = "rawData";
         this.contextLength = 10;
         this.data = [];
-        this.modifiedDataset = [];
+        this.modifiedDataset = this.data;
     }
 
     /**
@@ -17,12 +15,14 @@ class DataManager {
      * @param {Object} data - The data to be added to the dataset.
      */
     addData(data) {
-        this.data.push(data);
+        this.data.push({...data, time: new Date(Date.now())});
+        console.log("data", this.data);
         if (this.displayMode === "movingAverage") {
             this.addMovingAverage();
         } else if (this.displayMode === "rateOfChange") {
             this.addRateOfChange();
         }
+        console.log("modified", this.modifiedDataset);
     }
 
     /**
@@ -101,13 +101,24 @@ class DataManager {
         }
     }
 
+    // Use for outside access to the data
+    getData() {
+        console.log("GET DATA", this.modifiedDataset);
+        return this.modifiedDataset;
+    }
+
+    // Use for outside access to the display mode
+    getDisplayMode() {
+        return this.displayMode;
+    }
+
     /**
      * Save the dataset to a CSV file.
      */
-    saveToCsv() {
-        const csv = this.data.map(row => Object.values(row).join(",")).join("\n");
-        fs.writeFileSync("data.csv", csv);
-    }
+    // saveToCsv() {
+    //     const csv = this.data.map(row => Object.values(row).join(",")).join("\n");
+    //     fs.writeFileSync("data.csv", csv);
+    // }
 }
 
 export default DataManager

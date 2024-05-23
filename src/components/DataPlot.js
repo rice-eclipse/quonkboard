@@ -20,14 +20,12 @@ class DataPlot extends React.Component {
         };
     }
 
-    valueFormatter = (date) => {
-        return date.toLocaleTimeString('it-IT');
+    update(dataManager) {
+        this.setState({data: dataManager.modifiedDataset});
     }
 
-    addData = (data) => {
-        this.setState((state) => {
-            return {data: [...state.data, {time: new Date(Date.now()), ...data}]}
-        })
+    valueFormatter = (date) => {
+        return date.toLocaleTimeString('it-IT');
     }
 
     handleSliderChange = (event, newVals, activeThumb) => {
@@ -97,10 +95,13 @@ class DataPlot extends React.Component {
 
         const enabledGraphsList = []
         for (const [graph, enabled] of Object.entries(this.state.enabledGraphs)) {
-            if (enabled) {
+            if (enabled && this.props.keys.includes(graph)) {
                 enabledGraphsList.push(graph);
             }
         }
+        console.log(this.state.enabledGraphs);
+        console.log(this.props.keys);
+        console.log("enabled graph list", enabledGraphsList);
         
         return (
             <div>
@@ -118,7 +119,7 @@ class DataPlot extends React.Component {
                     />
                     <FormGroup aria-label="position" row sx={{textAlign: "center"}}>
                         {
-                            Array.from(graphs.values().map((key) => (
+                            Array.from(this.props.keys.values().map((key) => (
                                 <FormControlLabel
                                     control={<Checkbox defaultChecked checked={this.state.enabledGraphs[key]} onChange={(event) => this.handleGraphCheckboxChange(event, key)}/>}
                                     label={key}

@@ -11,6 +11,7 @@ class LiveReadoutTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            displayMode: "rawData",
             data: {
                 load_cell: 0.0,
                 feed_line_pt: 0.0,
@@ -25,6 +26,13 @@ class LiveReadoutTable extends React.Component {
                 injector_pt: "psig",
                 ox_tank_pt: "psig",
             },
+            display_unit: {
+              load_cell: "lbf",
+              feed_line_pt: "psig",
+              cc_pt: "psig",
+              injector_pt: "psig",
+              ox_tank_pt: "psig",
+            },
             precision: { // Nums past decimal point
                 load_cell: 2,
                 feed_line_pt: 2,
@@ -35,19 +43,28 @@ class LiveReadoutTable extends React.Component {
         }
     }
 
-    updateData(data) {
-        this.setState((state) => {
-          for (const [key, val] of Object.entries(data)){
-            state.data[key] = val;
-          }
-          return state;
-        })
+    update(dataManager) {
+      const newData = dataManager.modifiedDataset[dataManager.modifiedDataset.length - 1];
+      this.setState(
+        {
+          displayMode: dataManager.getDisplayMode(),
+          data: {
+            load_cell: newData.load_cell,
+            feed_line_pt: newData.feed_line_pt,
+            cc_pt: newData.cc_pt,
+            injector_pt: newData.injector_pt,
+            ox_tank_pt: newData.ox_tank_pt,
+          },
+          display_unit: ((this.state.displayMode === "rateOfChange") ? this.state.unit + "/s" : this.state.unit)
+        }
+      );
     }
 
     render() {
-        const rows = []
+        const rows = [];
         for (const [key, value] of Object.entries(this.state.data)) {
-            rows.push({sensor: key, value: value.toFixed(this.state.precision[key]) + " " + this.state.unit[key]});
+          if (value === undefined) continue;
+          rows.push({sensor: key, value: value.toFixed(this.state.precision[key]) + " " + this.state.display_unit[key]});
         }
         return (<TableContainer component={Paper}>
             <Table aria-label="sensor table">
