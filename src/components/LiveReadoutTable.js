@@ -45,6 +45,10 @@ class LiveReadoutTable extends React.Component {
 
     update(dataManager) {
       const newData = dataManager.modifiedDataset[dataManager.modifiedDataset.length - 1];
+      const rateOfChangeUnits = {}
+      for (const [key, value] of Object.entries(this.state.unit)) {
+        rateOfChangeUnits[key] = value + "/s";
+      }
       this.setState(
         {
           displayMode: dataManager.getDisplayMode(),
@@ -55,7 +59,7 @@ class LiveReadoutTable extends React.Component {
             injector_pt: newData.injector_pt,
             ox_tank_pt: newData.ox_tank_pt,
           },
-          display_unit: ((this.state.displayMode === "rateOfChange") ? this.state.unit + "/s" : this.state.unit)
+          display_unit: ((dataManager.displayMode === "rateOfChange") ? rateOfChangeUnits : this.state.unit)
         }
       );
     }
@@ -63,7 +67,7 @@ class LiveReadoutTable extends React.Component {
     render() {
         const rows = [];
         for (const [key, value] of Object.entries(this.state.data)) {
-          if (value === undefined) continue;
+          if (value === undefined || value === null || isNaN(value)) continue;
           rows.push({sensor: key, value: value.toFixed(this.state.precision[key]) + " " + this.state.display_unit[key]});
         }
         return (<TableContainer component={Paper}>

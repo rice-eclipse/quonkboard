@@ -57,7 +57,7 @@ class Telemetry extends React.Component {
     render() {
         return (
             <div>
-                <Box ref={this.scrollRef} component="div" sx={{ height: 275, overflow: "auto", border: 1}}>
+                <Box ref={this.scrollRef} component="div" sx={{ height: 250, overflow: "auto", border: 1}}>
                     {
                         this.state.logs.map((log) => {
                             return log.displayText();

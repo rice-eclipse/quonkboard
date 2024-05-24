@@ -3,11 +3,16 @@ import React from 'react';
 import { Typography, Box } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
 
+import dayjs from 'dayjs';
+
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import Stack from "@mui/material/Stack";
 import Slider from '@mui/material/Slider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 class DataPlot extends React.Component {
     constructor(props){
@@ -21,6 +26,7 @@ class DataPlot extends React.Component {
     }
 
     update(dataManager) {
+        console.log(dataManager.modifiedDataset);
         this.setState({data: dataManager.modifiedDataset});
     }
 
@@ -45,6 +51,28 @@ class DataPlot extends React.Component {
             enabledGraphs[key] = event.target.checked;
             return { enabledGraphs: enabledGraphs};
         })
+    }
+
+    handleEarliestTimeChange = (date) => {
+        if (date.toDate().getTime() < this.state.sliderrange[0]) {
+            date = dayjs(new Date(this.state.sliderrange[0]));
+        } else if (date.toDate().getTime() > this.state.slidervals[1]) {
+            date = dayjs(new Date(this.state.slidervals[1]));
+        }
+        setTimeout(() => {
+            this.setState((state) => ({slidervals: [date.toDate().getTime(), this.state.slidervals[1]]}));
+        }, 1000);
+    }
+    
+    handleLatestTimeChange = (date) => {
+        if (date.toDate().getTime() > this.state.sliderrange[1]) {
+            date = dayjs(new Date(this.state.sliderrange[1]));
+        } else if (date.toDate().getTime() < this.state.slidervals[0]) {
+            date = dayjs(new Date(this.state.slidervals[0]));
+        }
+        setTimeout(() => {
+            this.setState((state) => ({slidervals: [this.state.slidervals[0], date.toDate().getTime()]}));
+        }, 1000);
     }
 
     componentDidUpdate = () => {
@@ -102,43 +130,84 @@ class DataPlot extends React.Component {
         console.log(this.state.enabledGraphs);
         console.log(this.props.keys);
         console.log("enabled graph list", enabledGraphsList);
+
+        let data_in_range = 0;
+        for (const data_point of this.state.data) {
+            if (this.state.slidervals !== null && data_point.time.getTime() >= this.state.slidervals[0] && data_point.time.getTime() <= this.state.slidervals[1]) {
+                data_in_range++;
+            }
+        }
         
         return (
             <div>
-                <Stack direction="column" spacing={0}>
+                <Stack direction="column" spacing={1.25}>
                     <LineChart
                         xAxis={[{ scaleType: "time", dataKey: "time", valueFormatter: this.valueFormatter, ...(this.state.sliderrange === null ? {} : {max: new Date(this.state.slidervals[1]), min: new Date(this.state.slidervals[0])})}]}
                         series={enabledGraphsList.map((key) => ({
                             dataKey: key,
                             label: key,
+                            showMark: (data_in_range < 30),
                         }))}
                         dataset={this.state.data}
                         height={220}
                         margin={{ top: 50, bottom: 20 }}
                         grid={true}
                     />
-                    <FormGroup aria-label="position" row sx={{textAlign: "center"}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <Stack direction="row" spacing={0} sx={{px:3}}>
+                            <TimePicker
+                                label="Earliest Time"
+                                views={['hours', 'minutes', "seconds"]}
+                                disableOpenPicker
+                                value={dayjs(Array.isArray(this.state.slidervals) ? new Date(this.state.slidervals[0]) : new Date(0))}
+                                onChange={this.handleEarliestTimeChange}
+                                sx={{mr: 3,
+                                    '& .MuiInputBase-root': {
+                                        fontSize: '0.8rem', // Adjust as needed
+                                        height: '30px', // Adjust as needed
+                                    } }}
+                            />
+                            <Slider
+                                value={this.state.slidervals}
+                                onChange={this.handleSliderChange}
+                                valueLabelDisplay="auto"
+                                valueLabelFormat={(value) => (new Date(value)).toLocaleTimeString()}
+                                disableSwap
+                                min = {this.state.sliderrange === null ? 0 : this.state.sliderrange[0]}
+                                max = {this.state.sliderrange === null ? 1 : this.state.sliderrange[1]}
+                            />
+                            <TimePicker
+                                label="Latest Time"
+                                views={["hours", "minutes", "seconds"]}
+                                disableOpenPicker
+                                disableFuture
+                                minTime={dayjs(Array.isArray(this.state.sliderrange) ? new Date(this.state.sliderrange[0]) : new Date(0))}
+                                maxTime={dayjs(Array.isArray(this.state.sliderrange) ? new Date(this.state.sliderrange[1]) : new Date(0))}
+                                value={dayjs(Array.isArray(this.state.slidervals) ? new Date(this.state.slidervals[1]) : new Date(0))}
+                                onChange={this.handleLatestTimeChange}
+                                sx={{ ml: 3,
+                                    '& .MuiInputBase-root': {
+                                        fontSize: '0.8rem', // Adjust as needed
+                                        height: '30px', // Adjust as needed
+                                    }
+                                 }}
+                            />
+                        </Stack>
+                        <FormGroup aria-label="position" row sx={{mt: -3, '& .MuiButtonBase-root': {
+                            my:-2
+                        }}}>
                         {
+                            this.props.keys.length > 1 ?
                             Array.from(this.props.keys.values().map((key) => (
                                 <FormControlLabel
                                     control={<Checkbox defaultChecked checked={this.state.enabledGraphs[key]} onChange={(event) => this.handleGraphCheckboxChange(event, key)}/>}
                                     label={key}
                                     labelPlacement="start"
                                 /> 
-                            )))
+                            ))) : null
                         }
-                    </FormGroup>
-                    <Box sx={{px:3}}>
-                        <Slider
-                            value={this.state.slidervals}
-                            onChange={this.handleSliderChange}
-                            valueLabelDisplay="auto"
-                            valueLabelFormat={(value) => (new Date(value)).toLocaleTimeString()}
-                            disableSwap
-                            min = {this.state.sliderrange === null ? 0 : this.state.sliderrange[0]}
-                            max = {this.state.sliderrange === null ? 1 : this.state.sliderrange[1]}
-                        />
-                    </Box>
+                        </FormGroup>
+                    </LocalizationProvider>
                 </Stack>
             </div>
         );

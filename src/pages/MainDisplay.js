@@ -22,8 +22,7 @@ const MainDisplay = (props) => {
     const [displayMode, setDisplayMode] = useState("rawData");
     const [contextDuration, setContextDuration] = useState(10);
     const [devInterval, setDevInterval] = useState(null);
-
-    const dataManager = new DataManager();
+    const [dataManager, setDataManager] = useState(new DataManager());
 
     const processData = (data) => {
         dataManager.addData(data);
@@ -51,12 +50,13 @@ const MainDisplay = (props) => {
                 injector_pt: 3.0 + Math.random(),
                 ox_tank_pt: 4.0 + Math.random()
             });
+            console.log("data manager", dataManager);
         }, 1000));
     }
 
     return (
-        <Box>
-            <Grid container spacing={1}>
+        <Box sx={{my:-2}}>
+            <Grid container spacing={0}>
                 <Grid item xs={2} sx={{textAlign: "center", alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <Stack>
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable} dataManager={dataManager}/>
@@ -67,7 +67,7 @@ const MainDisplay = (props) => {
                     </Stack>
                 </Grid>
                 <Grid item xs={10}>
-                    <Grid container spacing={1}>
+                    <Grid container spacing={0}>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Pressure Transducers</Typography> */}
                             <DataPlot ref={pt_plot} dataManager={dataManager} keys={["feed_line_pt", "cc_pt", "injector_pt", "ox_tank_pt"]}/>
@@ -76,10 +76,10 @@ const MainDisplay = (props) => {
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Load Cell</Typography> */}
                             <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
                         </Grid>
-                        <Grid item xs={8} sx={{alignContent: "center", height: 350, my: 2.5}}>
+                        <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:-3}}>
                             <DiagramControls sx={{position: "relative"}} ref={diagram} dataManager={dataManager}/>
                         </Grid>
-                        <Grid item xs={4} sx={{alignContent: "center"}}>
+                        <Grid item xs={4} sx={{alignContent: "center", mt: -4}}>
                             <Typography sx={{textAlign: "center", mb: 1}} variant="h4">Telemetry Logs</Typography>
                             <Telemetry sx={{border: 1}} ref={telemetry} dataManager={dataManager}/>
                         </Grid>

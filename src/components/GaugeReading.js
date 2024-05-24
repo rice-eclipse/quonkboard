@@ -18,7 +18,11 @@ class GaugeReading extends React.Component {
     }
 
     setValue(value) {
-        this.setState({value: (value < 10 ? value.toFixed(1) : Math.floor(value))});
+        if (isNaN(value) || value === null || value === undefined) {
+            this.setState({value: null});
+        } else {
+            this.setState({value: (value < 10 ? value.toFixed(1) : Math.floor(value))});
+        }
     }
 
     render() {

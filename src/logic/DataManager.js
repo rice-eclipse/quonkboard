@@ -5,7 +5,7 @@
 class DataManager {
     constructor() {
         this.displayMode = "rawData";
-        this.contextLength = 10;
+        this.contextDuration = 10;
         this.data = [];
         this.modifiedDataset = this.data;
     }
@@ -26,13 +26,13 @@ class DataManager {
     }
 
     /**
-     * Update the display mode and context length. If the display mode is moving average or rate of change, recalculate.
+     * Update the display mode and context duration. If the display mode is moving average or rate of change, recalculate.
      * @param {string} displayMode - The new display mode.
-     * @param {number} contextLength - The new context length.
+     * @param {number} contextDuration - The new context duration.
      */
-    updateDisplayMode(displayMode, contextLength) {
+    updateDisplayMode(displayMode, contextDuration) {
         this.displayMode = displayMode;
-        this.contextLength = contextLength;
+        this.contextDuration = contextDuration;
         if (displayMode === "movingAverage") {
             this.recalculateMovingAverage();
         } else if (displayMode === "rateOfChange") {
@@ -45,59 +45,70 @@ class DataManager {
     /**
      * Calculate the moving average for the data points in the dataset.
      */
-    addMovingAverage() {
-        const movingAverage = [];
-        for (let i = 0; i < this.data.length; i++) {
-            let sum = 0;
-            let count = 0;
-            for (let j = i; j >= 0; j--) {
-                if (this.data[i].time - this.data[j].time <= this.contextLength * 1000) {
-                    sum += this.data[j].data;
-                    count++;
-                } else {
-                    break;
+    addMovingAverage(data_index = this.data.length - 1) {
+        let sum = {};
+        let count = {};
+        let i = data_index;
+        for (let j = i; j >= 0; j--) {
+            if (this.data[i].time.getTime() - this.data[j].time.getTime() <= this.contextDuration * 1000) {
+                for (const [key, value] of Object.entries(this.data[j])) {
+                    if (key === "time") continue;
+                    if (sum[key] === undefined) {
+                        sum[key] = 0;
+                        count[key] = 0;
+                    }
+                    sum[key] += value;
+                    count[key]++;
                 }
+            } else {
+                break;
             }
-            movingAverage.push({time: this.data[i].time, data: sum / count});
         }
-        this.modifiedDataset = movingAverage;
+        for (const key of Object.keys(sum)) {
+            sum[key] /= count[key];
+        }
+        this.modifiedDataset.push({time: this.data[i].time, ...sum });
     }
 
     /**
      * Calculate the rate of change for the data points in the dataset.
      */
-    addRateOfChange() {
-        const rateOfChange = [];
-        for (let i = 0; i < this.data.length; i++) {
-            let rate = 0;
-            for (let j = i; j >= 0; j--) {
-                if (this.data[i].time - this.data[j].time <= this.contextLength * 1000) {
-                    rate = (this.data[i].data - this.data[j].data) / (this.data[i].time - this.data[j].time);
-                    break;
-                }
-            }
-            rateOfChange.push({time: this.data[i].time, data: rate});
+    addRateOfChange(data_index = this.data.length - 1) {
+        let i = data_index;
+        let j = i;
+        while (this.data[i].time.getTime() - this.data[j].time.getTime() < this.contextDuration * 1000) {
+            j--;
+            if (j < 0) break;
         }
-        this.modifiedDataset = rateOfChange;
+        let rate = {};
+        for (const [key, value] of Object.entries(this.data[i])) {
+            if (key === "time") continue;
+            if (j < 0) {
+                rate[key] = null;
+            } else {
+                rate[key] = (value - this.data[j][key]) / ((this.data[i].time.getTime() - this.data[j].time.getTime()) / 1000);
+            }
+        }
+        this.modifiedDataset.push({time: this.data[i].time, ...rate});
     }
 
     /**
-     * Recalculate the moving average for all data points in the dataset when the context length or display mode changes.
+     * Recalculate the moving average for all data points in the dataset when the context duration or display mode changes.
      */
     recalculateMovingAverage() {
         this.modifiedDataset = [];
-        for (const data_point of this.data) {
-            this.addMovingAverage(data_point);
+        for (let i = 0; i < this.data.length; i++) {
+            this.addMovingAverage(i);
         }
     }
 
     /**
-     * Recalculate the rate of change for all data points in the dataset when the context length or display mode changes.
+     * Recalculate the rate of change for all data points in the dataset when the context duration or display mode changes.
      */
     recalculateRateOfChange() {
         this.modifiedDataset = [];
-        for (const data_point of this.data) {
-            this.addRateOfChange(data_point);
+        for (let i = 0; i < this.data.length; i++) {
+            this.addRateOfChange(i);
         }
     }
 

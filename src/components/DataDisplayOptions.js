@@ -11,18 +11,18 @@ import Input from '@mui/material/Input';
 class DataDisplayOptions extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            context_duration: 10,
-            mode: "rawData"
-        }
+        this.state = {dataManager : props.dataManager};
     }
 
     handleRadioChange = (event) => {
-        this.props.setDisplayMode(event.target.value);
+        this.props.dataManager.updateDisplayMode(event.target.value, this.props.dataManager.contextDuration);
+        this.setState({dataManager: this.props.dataManager});
+        console.log("Radio change", event.target.value, this.props.dataManager.contextDuration)
     }
 
     handleDurationChange = (event) => {
-        this.props.setContextDuration(event.target.value);
+        this.props.dataManager.updateDisplayMode(this.props.dataManager.displayMode, event.target.value);
+        this.setState({dataManager: this.props.dataManager});
     }
 
     render() {
@@ -33,22 +33,23 @@ class DataDisplayOptions extends React.Component {
                     <RadioGroup
                         aria-labelledby="data-display-mode-label"
                         name="data-display-mode"
-                        value={this.props.displayMode}
+                        value={this.props.dataManager.displayMode}
                         onChange={this.handleRadioChange}
                     >
-                        <FormControlLabel value="rawData" control={<Radio />} label="Raw Data" />
-                        <FormControlLabel value="movingAvg" control={<Radio />} label="Moving Average" />
-                        <FormControlLabel value="rateOfChange" control={<Radio />} label="Rate of Change" />
+                        <FormControlLabel value="rawData" control={<Radio />} label="Raw Data" sx={{my:-1}}/>
+                        <FormControlLabel value="movingAverage" control={<Radio />} label="Moving Average" sx={{my:-1}}/>
+                        <FormControlLabel value="rateOfChange" control={<Radio />} label="Rate of Change" sx={{my:-1}}/>
                     </RadioGroup>
                 </FormControl>
                 <FormControl sx={{mt:4, width: 150}}>
                     <InputLabel htmlFor="context-length">Context Length</InputLabel>
                     <Input
                         id="context-length"
-                        disabled={this.state.mode === "rawData"}
+                        disabled={this.props.dataManager.displayMode === "rawData"}
                         onChange={this.handleDurationChange}
-                        value={this.props.contextDuration}
+                        value={this.props.dataManager.contextDuration}
                         endAdornment={<InputAdornment position="right">seconds</InputAdornment>}
+                        autoComplete="off"
                     />
                 </FormControl>
             </div>
