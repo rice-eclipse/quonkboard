@@ -22,6 +22,7 @@ class DataPlot extends React.Component {
             sliderrange: null,
             slidervals: null,
             enabledGraphs: {},
+            constantTimeDelta: false,
         };
     }
 
@@ -39,8 +40,20 @@ class DataPlot extends React.Component {
             return;
           }
           if (activeThumb === 0) {
+            if (this.state.constantTimeDelta) {
+                newVals[1] = newVals[0] + this.state.slidervals[1] - this.state.slidervals[0];
+                if (newVals[1] > this.state.sliderrange[1]) {
+                    newVals = [this.state.sliderrange[1] - (this.state.slidervals[1] - this.state.slidervals[0]), this.state.sliderrange[1]];
+                }
+            }
             this.setState({slidervals: [Math.min(newVals[0], newVals[1] - 5000), newVals[1]]});
           } else {
+            if (this.state.constantTimeDelta) {
+                newVals[0] = newVals[1] - this.state.slidervals[1] + this.state.slidervals[0];
+                if (newVals[0] < this.state.sliderrange[0]) {
+                    newVals = [this.state.sliderrange[0], this.state.sliderrange[0] + (this.state.slidervals[1] - this.state.slidervals[0])];
+                }
+            }
             this.setState({slidervals: [newVals[0], Math.max(newVals[0] + 5000, newVals[1])]});
           }
     }
@@ -59,9 +72,23 @@ class DataPlot extends React.Component {
         } else if (date.toDate().getTime() > this.state.slidervals[1]) {
             date = dayjs(new Date(this.state.slidervals[1]));
         }
-        setTimeout(() => {
-            this.setState((state) => ({slidervals: [date.toDate().getTime(), this.state.slidervals[1]]}));
-        }, 1000);
+        if (this.state.constantTimeDelta) {
+            setTimeout(() => {
+                this.setState((state) => (
+                    {slidervals: [
+                        date.toDate().getTime(), 
+                        Math.min(
+                            date.toDate().getTime() + (this.state.slidervals[1] - this.state.slidervals[0]),
+                            this.state.sliderrange[1]
+                        )] 
+                    }
+                ));
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                this.setState((state) => ({slidervals: [date.toDate().getTime(), this.state.slidervals[1]]}));
+            }, 1000);
+        }
     }
     
     handleLatestTimeChange = (date) => {
@@ -70,9 +97,27 @@ class DataPlot extends React.Component {
         } else if (date.toDate().getTime() < this.state.slidervals[0]) {
             date = dayjs(new Date(this.state.slidervals[0]));
         }
-        setTimeout(() => {
-            this.setState((state) => ({slidervals: [this.state.slidervals[0], date.toDate().getTime()]}));
-        }, 1000);
+        if (this.state.constantTimeDelta) {
+            setTimeout(() => {
+                this.setState((state) => (
+                    {slidervals: [
+                        Math.max(
+                            date.toDate().getTime() - (this.state.slidervals[1] - this.state.slidervals[0]),
+                            this.state.sliderrange[0]
+                        ),
+                        date.toDate().getTime()]
+                    }
+                ));
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                this.setState((state) => ({slidervals: [this.state.slidervals[0], date.toDate().getTime()]}));
+            }, 1000);
+        }
+    }
+
+    handleConstantTimeDeltaChange = (event) => {
+        this.setState({constantTimeDelta: event.target.checked});
     }
 
     componentDidUpdate = () => {
@@ -91,7 +136,12 @@ class DataPlot extends React.Component {
 
         if (this.state.sliderrange === null || (sliderJustPopulated ? max_time : this.state.sliderrange[1]) < max_time) {
             if (!sliderJustPopulated && this.state.slidervals[1] === this.state.sliderrange[1]) {
-                this.setState((state) => ({sliderrange: [min_time, max_time], slidervals: [state.slidervals[0], max_time]}));
+                const newSliderVals = [...this.state.slidervals];
+                if (this.state.constantTimeDelta) {
+                    newSliderVals[0] = this.state.slidervals[0] + max_time - this.state.sliderrange[1];
+                }
+                newSliderVals[1] = max_time;
+                this.setState((state) => ({sliderrange: [min_time, max_time], slidervals: newSliderVals}));
             } else {
                 this.setState({sliderrange: [min_time, max_time]});
             }
@@ -141,18 +191,41 @@ class DataPlot extends React.Component {
         return (
             <div>
                 <Stack direction="column" spacing={1.25}>
-                    <LineChart
-                        xAxis={[{ scaleType: "time", dataKey: "time", valueFormatter: this.valueFormatter, ...(this.state.sliderrange === null ? {} : {max: new Date(this.state.slidervals[1]), min: new Date(this.state.slidervals[0])})}]}
-                        series={enabledGraphsList.map((key) => ({
-                            dataKey: key,
-                            label: key,
-                            showMark: (data_in_range < 30),
-                        }))}
-                        dataset={this.state.data}
-                        height={220}
-                        margin={{ top: 50, bottom: 20 }}
-                        grid={true}
-                    />
+                    <div style={{position: "relative"}}>
+                        <FormControlLabel 
+                            sx={{position: "absolute", right: 20}}
+                            label="Preserve timespan"
+                            labelPlacement='start'
+                            control={<Checkbox checked={this.state.constantTimeDelta} onChange={this.handleConstantTimeDeltaChange} />}
+                        />
+                            
+                        <LineChart
+                            slotProps={{
+                                legend: {
+                                    direction: "row",
+                                    position: {vertical: "top", horizontal: "left"},
+                                    padding: {left: 30, top: 6}
+                                }
+                            }}
+                            xAxis={[{ 
+                                scaleType: "time", 
+                                dataKey: "time", 
+                                valueFormatter: this.valueFormatter, 
+                                ...(this.state.sliderrange === null ? {} : {
+                                    max: new Date(this.state.slidervals[1]), min: new Date(this.state.slidervals[0])
+                                })
+                            }]}
+                            series={enabledGraphsList.map((key) => ({
+                                dataKey: key,
+                                label: key,
+                                showMark: (data_in_range < 30),
+                            }))}
+                            dataset={this.state.data}
+                            height={220}
+                            margin={{ top: 50, bottom: 20 }}
+                            grid={true}
+                        />
+                    </div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <Stack direction="row" spacing={0} sx={{px:3}}>
                             <TimePicker
