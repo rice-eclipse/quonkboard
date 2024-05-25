@@ -3,34 +3,19 @@ import {Typography, Box} from "@mui/material";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-class Log {
-    constructor(content) {
-        this.createdAt = new Date();
-        this.content = content;
-    }
-
-    displayText() {
-        return (
-            <div style={{paddingBottom: "14px"}}>
-                <Typography>{"[" + this.createdAt.toLocaleString() + "]"}</Typography>
-                <Typography>{this.content}</Typography>
-            </div>
-        )
-    }
-}
-
 class Telemetry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            logs: Array(20).fill(new Log("Telemetry initialized!")),
+            logs: this.props.dataManager.getLogs(),
             bottom_scroll: true,
         }
         this.scrollRef = React.createRef();
         this.scrollRef2 = React.createRef();
-        setInterval(() => {
-            this.addLog("hi there");
-        }, 1000);
+    }
+
+    update(dataManager) {
+        this.setState({logs: dataManager.getLogs()});
     }
 
     handleChangeScroll = (event) => {
@@ -48,10 +33,19 @@ class Telemetry extends React.Component {
         }
     }
 
-    addLog = (message) => {
+    addLog = (log) => {
         this.setState((state) => {
-            return {logs: [...state.logs, new Log(message)]}
+            return {logs: [...state.logs, log]}
         });
+    }
+
+    logDisplay = (log) => {
+        return (
+            <div style={{paddingBottom: "14px"}}>
+                <Typography>{"[" + log.createdAt.toLocaleString() + "]"}</Typography>
+                <Typography>{log.message}</Typography>
+            </div>
+        )
     }
 
     render() {
@@ -60,7 +54,7 @@ class Telemetry extends React.Component {
                 <Box ref={this.scrollRef} component="div" sx={{ height: 250, overflow: "auto", border: 1}}>
                     {
                         this.state.logs.map((log) => {
-                            return log.displayText();
+                            return this.logDisplay(log);
                         })
                     }
                     <div ref={this.scrollRef2} />

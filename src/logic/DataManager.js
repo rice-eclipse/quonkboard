@@ -7,6 +7,7 @@ class DataManager {
         this.displayMode = "rawData";
         this.contextDuration = 10;
         this.data = [];
+        this.logs = [];
         this.modifiedDataset = this.data;
     }
 
@@ -15,12 +16,24 @@ class DataManager {
      * @param {Object} data - The data to be added to the dataset.
      */
     addData(data) {
-        this.data.push({...data, time: new Date(Date.now())});
-        console.log("data", this.data);
-        if (this.displayMode === "movingAverage") {
-            this.addMovingAverage();
-        } else if (this.displayMode === "rateOfChange") {
-            this.addRateOfChange();
+        // sensor data is all key-value pairs except for where the key is telemetry
+        const sensorData = Object.keys(data).reduce((acc, key) => {
+            if (key !== "telemetry") {
+                acc[key] = data[key];
+            }
+            return acc;
+        }, {});
+        if (Object.keys(sensorData).length !== 0) {
+            this.data.push({...sensorData, time: new Date(Date.now())});
+            console.log("data", this.data);
+            if (this.displayMode === "movingAverage") {
+                this.addMovingAverage();
+            } else if (this.displayMode === "rateOfChange") {
+                this.addRateOfChange();
+            }
+        }
+        if (data.telemetry) {
+            this.addLogMessage(data.telemetry);
         }
         console.log("modified", this.modifiedDataset);
     }
@@ -121,6 +134,17 @@ class DataManager {
     // Use for outside access to the display mode
     getDisplayMode() {
         return this.displayMode;
+    }
+    
+    getLogs() {
+        return this.logs;
+    }
+
+    addLogMessage(message) {
+        this.logs.push({
+            createdAt: new Date(Date.now()),
+            message: message
+        });
     }
 
     /**

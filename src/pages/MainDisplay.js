@@ -21,7 +21,8 @@ const MainDisplay = (props) => {
 
     const [displayMode, setDisplayMode] = useState("rawData");
     const [contextDuration, setContextDuration] = useState(10);
-    const [devInterval, setDevInterval] = useState(null);
+    const [dataDevInterval, setDataDevInterval] = useState(null);
+    const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
     const [dataManager, setDataManager] = useState(new DataManager());
 
     const processData = (data) => {
@@ -39,10 +40,14 @@ const MainDisplay = (props) => {
         if (diagram !== null && diagram.current !== null && diagram.current !== undefined) {
             diagram.current.update(dataManager);
         }
+
+        if (data.telemetry && telemetry.current !== null && telemetry.current !== undefined) {
+            telemetry.current.update(dataManager);
+        }
     }
 
-    if (devInterval === null) {
-        setDevInterval(setInterval(() => {
+    if (dataDevInterval === null) {
+        setDataDevInterval(setInterval(() => {
             processData({
                 load_cell: 1 + Math.random(),
                 feed_line_pt: 1.5 + Math.random(),
@@ -50,8 +55,12 @@ const MainDisplay = (props) => {
                 injector_pt: 3.0 + Math.random(),
                 ox_tank_pt: 4.0 + Math.random()
             });
-            console.log("data manager", dataManager);
         }, 1000));
+        setTelemetryDevInterval(setInterval(() => {
+            processData({
+                telemetry: "This is a test telemetry log"
+            });
+        }, 1500));
     }
 
     return (
