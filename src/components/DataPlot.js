@@ -238,7 +238,8 @@ class DataPlot extends React.Component {
                                     '& .MuiInputBase-root': {
                                         fontSize: '0.8rem', // Adjust as needed
                                         height: '30px', // Adjust as needed
-                                    } }}
+                                    } 
+                                }}
                             />
                             <Slider
                                 value={this.state.slidervals}

@@ -1,0 +1,17 @@
+{
+    "sensor_ids": {
+        "pts": {
+            "0": "cc_pt",
+            "1": "feed_line_pt",
+            "2": "injector_pt",
+            "3": "ox_tank_pt"
+        },
+        "tcs": {
+            "0": "tc1",
+            "1": "tc2"
+        },
+        "lcs": {
+            "0": "load_cell"
+        }
+    }
+}

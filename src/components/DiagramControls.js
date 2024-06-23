@@ -36,7 +36,7 @@ class DiagramControls extends React.Component {
             <div style={{position: "relative"}}>
                 <img src={Diagram} alt="Diagram" style={{height: 350}}></img>
                 <Box sx={{textAlign: "center"}} id="diagram-box">
-                    <div id="feed_line_pt"></div>
+                    <div id="feed_line_pt"><GaugeReading title="Feed Line PT" ref={this.gauge_refs.feed_line_pt}/></div>
                     <div id="cc_pt"><GaugeReading title="CC PT" ref={this.gauge_refs.cc_pt}/></div>
                     <div id="injector_pt"><GaugeReading title="Inj. PT" ref={this.gauge_refs.injector_pt}/></div>
                     <div id="ox_tank_pt"><GaugeReading title="Ox. PT" ref={this.gauge_refs.ox_tank_pt}/></div>
