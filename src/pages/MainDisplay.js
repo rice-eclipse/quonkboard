@@ -8,6 +8,7 @@ import DataPlot from "../components/DataPlot";
 import Telemetry from "../components/Telemetry";
 import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
+import Interface from "../logic/Interface";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -18,12 +19,15 @@ const MainDisplay = (props) => {
     const diagram = useRef();
     const telemetry = useRef();
 
+    const { ip } = props;
+
 
     const [displayMode, setDisplayMode] = useState("rawData");
     const [contextDuration, setContextDuration] = useState(10);
     const [dataDevInterval, setDataDevInterval] = useState(null);
     const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
     const [dataManager, setDataManager] = useState(new DataManager());
+    const [iface, setInterface] = useState(new Interface(ip, dataManager));
 
     const processData = (data) => {
         dataManager.addData(data);
@@ -46,7 +50,7 @@ const MainDisplay = (props) => {
         }
     }
 
-    if (dataDevInterval === null) {
+    if (iface == null && dataDevInterval === null) {
         setDataDevInterval(setInterval(() => {
             processData({
                 load_cell: 1 + Math.random(),

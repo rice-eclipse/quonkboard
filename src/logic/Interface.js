@@ -1,17 +1,50 @@
-import { net } from 'net';
+import io from 'socket.io-client';
 import config from "../config.json"
 
+/**
+ * Interface class
+ * make class documentation
+ * 
+ * @class
+ * @param {string} ip_port - The IP address and port of the controller.
+ * @param {DataManager} data_manager - The data manager to send data to.
+ * @returns {Interface} The Interface object.
+ * @throws {Error} Throws an error if the IP address and/or port is invalid.
+ * 
+ */
 class Interface {
-    constructor (ip, port, data_manager) {
-        this.tcpClient = new net.Socket();
+    /**
+     * Creates an instance of Interface.
+     * 
+     * @constructor
+     * @param {string} ip_port - The IP address and port in the format "ip:port".
+     * @param {Object} data_manager - The data manager object responsible for handling data.
+     * 
+     * @property {net.Socket} tcpClient - The TCP client socket.
+     * @property {Array} data_buffer - Buffer to store incoming data.
+     * @property {Object} data_manager - The data manager object.
+     * 
+     * @throws Will throw an error if the IP address and/or port is invalid.
+     */
+    constructor (ip_port, data_manager) {
+        console.log(ip_port);
         this.data_buffer = [];
-        this.tcpClient.connect(port, ip);
-        this.data_manager = data_manager
+        let [ip, port] = ["", ""];
+        try {
+            [ip, port] = ip_port.split(":");
+            port = parseInt(port);
+        } catch (e) {
+            console.error("Invalid IP address and/or port: " + ip_port);
+            return;
+        }
+
+        this.tcpClient = new io("http://" + ip + ":" + port);
+
+        this.tcpClient.on("connect", () => {
+            console.log("Connected to controller at " + ip + ":" + port);
+        });
 
         this.tcpClient.on('data', function (text) {
-            // We just received some data from the controller.
-            // Send that information down the correct pipeline using the emitter.
-        
             this.data_buffer.push(text);
             if (text == null) {
                 return;
@@ -51,8 +84,22 @@ class Interface {
                     }
                 }
             }
+            if (json_data.driver && json_data.driver.values) {
+                for ( const datum in json_data.driver.values ) {
+                    switch (config.sensor_ids.drivers[datum.sensor_id]) {
+                        default:
+                            console.log("Invalid sensor id " + datum.sensor_id)
+                            break;
+                    }
+                }
+            }
             this.data_manager.addData(new_data);
         });
+
+        this.tcpClient.on('close', function () {
+            console.log('Connection closed');
+        });
+
     }
 
 }

@@ -7,7 +7,7 @@ import ConnectBar from "./ConnectBar";
 
 const Topbar = (props) => {
 
-    const { setPigeonMode, pigeonMode } = props;
+    const { setPigeonMode, pigeonMode, setIP } = props;
 
     const handleHeadingClick = () => {
         // Reset the cursor style to its default value (auto)
@@ -22,7 +22,7 @@ const Topbar = (props) => {
                 <img style={{"marginTop": "10px", "marginBottom": "10px", "marginRight": "10px", "float":"right"}} src={logo} alt="logo"/>
                 <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: 'flex'}} onClick={handleHeadingClick}>Quonkboard</Typography>
                 <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
-                    {pigeonMode ? <PigeonMode enable={pigeonMode} /> : <ConnectBar sx={{width: 1.0}}/> }
+                    {pigeonMode ? <PigeonMode enable={pigeonMode} /> : <ConnectBar sx={{width: 1.0}} setIP={setIP}/> }
                 </Box>
             </Stack>
     )

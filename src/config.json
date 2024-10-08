@@ -12,6 +12,7 @@
         },
         "lcs": {
             "0": "load_cell"
-        }
+        },
+        "drivers": {}
     }
 }

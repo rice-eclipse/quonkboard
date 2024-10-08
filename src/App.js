@@ -27,15 +27,17 @@ const darkTheme = createTheme({
 
 function App() {
   const [pigeonMode, setPigeonMode] = useState(false);
+  const [ip, setIP] = useState("");
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Router>
-        <Topbar pigeonMode={pigeonMode} setPigeonMode={setPigeonMode}/>
+        <Topbar pigeonMode={pigeonMode} setPigeonMode={setPigeonMode} setIP={setIP}/>
         {pigeonMode ? <AnimatedCursor>{Array.from({ length: 2 }, (_, i) => <img src={partyPigeon} alt="party pigeon" style={{height: "30px"}}/>)}</AnimatedCursor> : ""}
         <Routes>
-          <Route path="/" element={<MainDisplay admin={false} pigeonMode={pigeonMode} sx={{cursor: "default"}}/>} />
-          <Route path="/admin" element={<MainDisplay admin={true} pigeonMode={pigeonMode} sx={{cursor: "default"}}/>} />
+          <Route path="/" element={<MainDisplay admin={false} pigeonMode={pigeonMode} ip={ip} sx={{cursor: "default"}}/>} />
+          <Route path="/admin" element={<MainDisplay admin={true} pigeonMode={pigeonMode} ip={ip} sx={{cursor: "default"}}/>} />
           {/* We should add a super secret code included in each request to slonkboard in case any impostor tries to be sus and send a request. 
           This requires labjack changes. */}
         </Routes>
