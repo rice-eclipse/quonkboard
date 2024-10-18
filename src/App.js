@@ -28,6 +28,28 @@ const darkTheme = createTheme({
 function App() {
   const [pigeonMode, setPigeonMode] = useState(false);
   const [ip, setIP] = useState("");
+  console.log(ip);
+
+  if (ip !== "") {
+    const socket = new WebSocket("ws://127.0.0.1:2707")
+    socket.binaryType = "arraybuffer";
+    socket.onopen = () => {
+      console.log("Connected to the server");
+    }
+    socket.addEventListener("data", (event) => {
+      if (event.data instanceof ArrayBuffer) {
+        // binary frame
+        const view = new DataView(event.data);
+        console.log(view.getInt32(0));
+      } else {
+        // text frame
+        console.log(event.data);
+      }
+    });
+    socket.onerror = (error) => {
+      console.error("WebSocket error: ", error);
+    }
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>

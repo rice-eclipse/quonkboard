@@ -14,19 +14,18 @@ import Interface from '../logic/Interface';
  * @returns {JSX.Element} The rendered ConnectBar component.
  */
 const ConnectBar = (props) => {
-    const [ip, setIP] = React.useState("127.0.0.1:3000");
+    const { setIP } = props;
     return (
         <Stack component="form" onSubmit={(event) => {
             event.preventDefault();
-            setIP(ip);
+            setIP(event.target[0].value);
         }} spacing={2} divider={<Divider orientation="vertical" flexItem />} direction="row" sx={{height: 90, p: 1, mt: 2, marginLeft: "auto", marginRight: "auto", display: "flex", flexDirection:"row"}}>
             <TextField 
               fullWidth 
               sx={{display:"flex", marginRight: '8px'}} 
               label="Connection IP" 
               variant="filled" 
-              defaultValue="127.0.0.1:3000"
-              onChange={(e) => setIP(e.target.value)}/>
+              defaultValue="127.0.0.1:3000"/>
             <Button
               type="submit"
               variant="contained"

@@ -21,13 +21,16 @@ const MainDisplay = (props) => {
 
     const { ip } = props;
 
-
-    const [displayMode, setDisplayMode] = useState("rawData");
-    const [contextDuration, setContextDuration] = useState(10);
-    const [dataDevInterval, setDataDevInterval] = useState(null);
-    const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
+    // const [displayMode, setDisplayMode] = useState("rawData");
+    // const [contextDuration, setContextDuration] = useState(10);
+    // const [dataDevInterval, setDataDevInterval] = useState(null);
+    // const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
     const [dataManager, setDataManager] = useState(new DataManager());
-    const [iface, setInterface] = useState(new Interface(ip, dataManager));
+    const [iface, setInterface] = useState(null);
+
+    if (ip !== "" && iface === null) {
+        setInterface(new Interface(ip, dataManager));
+    }
 
     const processData = (data) => {
         dataManager.addData(data);
@@ -50,22 +53,24 @@ const MainDisplay = (props) => {
         }
     }
 
-    if (iface == null && dataDevInterval === null) {
-        setDataDevInterval(setInterval(() => {
-            processData({
-                load_cell: 1 + Math.random(),
-                feed_line_pt: 1.5 + Math.random(),
-                cc_pt: 2.3 + Math.random(),
-                injector_pt: 3.0 + Math.random(),
-                ox_tank_pt: 4.0 + Math.random()
-            });
-        }, 1000));
-        setTelemetryDevInterval(setInterval(() => {
-            processData({
-                telemetry: "This is a test telemetry log"
-            });
-        }, 1500));
-    }
+    if (iface !== null) { iface.setOnData(processData); }
+
+    // if (dataDevInterval === null) {
+    //     setDataDevInterval(setInterval(() => {
+    //         processData({
+    //             load_cell: 1 + Math.random(),
+    //             feed_line_pt: 1.5 + Math.random(),
+    //             cc_pt: 2.3 + Math.random(),
+    //             injector_pt: 3.0 + Math.random(),
+    //             ox_tank_pt: 4.0 + Math.random()
+    //         });
+    //     }, 1000));
+    //     setTelemetryDevInterval(setInterval(() => {
+    //         processData({
+    //             telemetry: "This is a test telemetry log"
+    //         });
+    //     }, 1500));
+    // }
 
     return (
         <Box sx={{my:-2}}>
