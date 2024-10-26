@@ -272,7 +272,7 @@ class DataPlot extends React.Component {
                         }}}>
                         {
                             this.props.keys.length > 1 ?
-                            Array.from(this.props.keys.values().map((key) => (
+                            Array.from(this.props.keys.map((key) => (
                                 <FormControlLabel
                                     control={<Checkbox defaultChecked checked={this.state.enabledGraphs[key]} onChange={(event) => this.handleGraphCheckboxChange(event, key)}/>}
                                     label={key}

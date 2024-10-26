@@ -25,7 +25,7 @@ const ConnectBar = (props) => {
               sx={{display:"flex", marginRight: '8px'}} 
               label="Connection IP" 
               variant="filled" 
-              defaultValue="127.0.0.1:3000"/>
+              defaultValue="127.0.0.1:2707"/>
             <Button
               type="submit"
               variant="contained"
