@@ -26,34 +26,40 @@ const MainDisplay = (props) => {
     // const [dataDevInterval, setDataDevInterval] = useState(null);
     // const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
     const [dataManager, setDataManager] = useState(new DataManager());
-    const [iface, setInterface] = useState(null);
 
-    if (ip !== "" && iface === null) {
-        setInterface(new Interface(ip, dataManager));
-    }
-
-    const processData = (data) => {
-        dataManager.addData(data);
-        
-        if (data.load_cell && lc_plot.current) {
-            lc_plot.current.update(dataManager);
+    useEffect(() => {
+        const processData = (data) => {
+            dataManager.addData(data);
+            
+            if (data.load_cell && lc_plot.current) {
+                lc_plot.current.update(dataManager);
+            }
+            if ((data.feed_line_pt || data.cc_pt || data.injector_pt || data.ox_tank_pt) && pt_plot.current) {
+                pt_plot.current.update(dataManager);
+            }
+            if (readoutTable !== null && readoutTable.current !== null && readoutTable.current !== undefined) {
+                readoutTable.current.update(dataManager);
+            }
+            if (diagram !== null && diagram.current !== null && diagram.current !== undefined) {
+                diagram.current.update(dataManager);
+            }
+    
+            if (data.telemetry && telemetry.current !== null && telemetry.current !== undefined) {
+                telemetry.current.update(dataManager);
+            }
         }
-        if ((data.feed_line_pt || data.cc_pt || data.injector_pt || data.ox_tank_pt) && pt_plot.current) {
-            pt_plot.current.update(dataManager);
+        let iface = null;
+        if (ip !== "") {
+            iface = new Interface(ip, dataManager);
+            iface.setOnData(processData);
         }
-        if (readoutTable !== null && readoutTable.current !== null && readoutTable.current !== undefined) {
-            readoutTable.current.update(dataManager);
+        return () => {
+            if (iface !== null) {
+                console.log("closing iface");
+                iface.close();
+            }
         }
-        if (diagram !== null && diagram.current !== null && diagram.current !== undefined) {
-            diagram.current.update(dataManager);
-        }
-
-        if (data.telemetry && telemetry.current !== null && telemetry.current !== undefined) {
-            telemetry.current.update(dataManager);
-        }
-    }
-
-    if (iface !== null) { iface.setOnData(processData); }
+    }, [ip, dataManager]);
 
     // if (dataDevInterval === null) {
     //     setDataDevInterval(setInterval(() => {

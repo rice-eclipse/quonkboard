@@ -1,0 +1,58 @@
+{
+    "tcs": {
+        "type": "SensorValue", 
+        "group_id": 0, 
+        "readings": [
+            {
+                "sensor_id": 0, 
+                "reading": 1750.0, 
+                "time": {
+                    "secs_since_epoch": 1730239404, 
+                    "nanos_since_epoch": 0
+                }
+            }, 
+            {
+                "sensor_id": 1, 
+                "reading": 1350.0
+            }
+        ]
+    }, 
+    "pts": {
+        "type": "SensorValue", 
+        "group_id": 1, 
+        "readings": [
+            {
+                "sensor_id": 0, 
+                "reading": 2896.0
+            }, 
+            {
+                "sensor_id": 1, 
+                "reading": 4508.0
+            }, 
+            {
+                "sensor_id": 2, 
+                "reading": 1849.0
+            }, 
+            {
+                "sensor_id": 3, 
+                "reading": 5043.0
+            }
+        ]
+    }, 
+    "lcs": {
+        "type": "SensorValue", 
+        "group_id": 2, 
+        "readings": [
+            {
+                "sensor_id": 0, 
+                "reading": -11337.0
+            }
+        ]
+    }, 
+    "driver": {
+        "type": "DriverValue", 
+        "values": [
+            false, false, false, false, false, false
+        ]
+    }
+}
