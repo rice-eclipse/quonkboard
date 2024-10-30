@@ -61,18 +61,19 @@ class Interface {
             const json_data = JSON.parse(text);
             const new_data = {};
             if (json_data.pts) {
-                for (const datum in json_data.pts.readings) {
-                    switch (config.sensor_ids.pts[String(datum.sensor_id)]) {
-                        case "feed_line":
+                for (const datum of json_data.pts.readings) {
+                    console.log(datum);
+                    switch (config.sensor_ids.pts[datum.sensor_id]) {
+                        case "feed_line_pt":
                             new_data.feed_line_pt = datum.reading;
                             break;
-                        case "cc":
+                        case "cc_pt":
                             new_data.cc_pt = datum.reading;
                             break;
-                        case "injector":
+                        case "injector_pt":
                             new_data.injector_pt = datum.reading;
                             break;
-                        case "ox_tank":
+                        case "ox_tank_pt":
                             new_data.ox_tank_pt = datum.reading;
                             break;
                         default:
@@ -82,7 +83,7 @@ class Interface {
                 }
             }
             if (json_data.lcs) {
-                for (const datum in json_data.lcs.readings) {
+                for (const datum of json_data.lcs.readings) {
                     switch (config.sensor_ids.lcs[String(datum.sensor_id)]) {
                         case "load_cell":
                             new_data.load_cell = datum.reading;
@@ -95,7 +96,7 @@ class Interface {
             }
             if (json_data.driver && json_data.driver.values) {
                 let idx = 0;
-                for ( const datum in json_data.driver.values ) {
+                for ( const datum of json_data.driver.values ) {
                     switch (config.sensor_ids.drivers[String(idx)]) {
                         default:
                             console.log("Invalid sensor id " + datum.sensor_id)
@@ -104,6 +105,8 @@ class Interface {
                     idx++;
                 }
             }
+
+            console.log(new_data);
 
             if (this.onData !== null) {
                 this.onData(new_data);
