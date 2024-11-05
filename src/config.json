@@ -14,12 +14,11 @@
             "0": "load_cell"
         },
         "drivers": {
-            "0": "",
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": ""
+            "0": "feedline",
+            "1": "ox_vent",
+            "2": "ground_vent",
+            "3": "pressurization",
+            "4": "ignition"
         }
     }
 }

@@ -10,12 +10,15 @@ class Valve extends React.Component {
         this.state = {
             open: false,
         }
+        this.toggle_cmd = props.toggle_cmd;
+    }
+
+    setOpen = (state) => {
+        this.setState({open: state})
     }
 
     toggle = () => {
-        this.setState((state, props) => {
-            return {open: !state.open};
-        });
+        this.toggle_cmd(!this.state.open);
     }
 
     render() {

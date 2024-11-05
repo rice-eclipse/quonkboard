@@ -96,8 +96,22 @@ class Interface {
             }
             if (json_data.driver && json_data.driver.values) {
                 let idx = 0;
+                new_data.drivers = {}
                 for ( const datum of json_data.driver.values ) {
                     switch (config.sensor_ids.drivers[String(idx)]) {
+                        case "feedline":
+                            new_data.drivers.ox_fill = datum;
+                            break;
+                        case "ox_vent":
+                            new_data.drivers.nitrogen_purge = datum;
+                            break;
+                        case "ground_vent":
+                            new_data.drivers.ground_vent = datum;
+                            break;
+                        case "pressurization":
+                            new_data.drivers.engine_isolation = datum;
+                            break;
+
                         default:
                             console.log("Invalid sensor id " + datum.sensor_id)
                             break;
@@ -117,6 +131,28 @@ class Interface {
             console.log('Connection closed');
         };
 
+    }
+
+    sendIgnition() {
+        this.tcpClient.send(
+            {
+                "type": "Ignition"
+            }
+        );
+    }
+
+    sendDriverUpdate(driver_id, direction) {
+        this.tcpClient.send(
+            {
+                "type": "Actuate",
+                "driver_id": driver_id,
+                "value": direction
+            }
+        );
+    }
+
+    sendEStop() {
+        this.tcpClient.send({ "type": "EmergencyStop" });
     }
 
     setOnData(func) {

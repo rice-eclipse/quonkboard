@@ -9,13 +9,20 @@ import "../styles/diagram.css"
 class DiagramControls extends React.Component {
     constructor(props){
         super(props);
+        this.interface = props.interface;
         this.gauge_refs = {
             load_cell: React.createRef(),
             feed_line_pt: React.createRef(),
             cc_pt: React.createRef(),
             injector_pt: React.createRef(),
             ox_tank_pt: React.createRef()
-        }
+        };
+        this.valve_refs = {
+            ox_fill: React.createRef(),
+            ground_vent: React.createRef(),
+            nitrogen_purge: React.createRef(),
+            engine_isolation: React.createRef()
+        };
     }
 
     update(dataManager) {
@@ -29,6 +36,11 @@ class DiagramControls extends React.Component {
                 this.gauge_refs[sensor].current.setValue(val);
             }
         }
+        const valves = dataManager.valve_states;
+        this.valve_refs.ox_fill.current.setOpen(valves.ox_fill);
+        this.valve_refs.engine_isolation.current.setOpen(valves.engine_isolation);
+        this.valve_refs.nitrogen_purge.current.setOpen(valves.nitrogen_purge);
+        this.valve_refs.ground_vent.current.setOpen(valves.ground_vent);
     }
 
     render() {
@@ -41,10 +53,10 @@ class DiagramControls extends React.Component {
                     <div id="injector_pt"><GaugeReading title="Inj. PT" ref={this.gauge_refs.injector_pt}/></div>
                     <div id="ox_tank_pt"><GaugeReading title="Ox. PT" ref={this.gauge_refs.ox_tank_pt}/></div>
                     <div id="load_cell"><GaugeReading title="Load Cell" size={90} ref={this.gauge_refs.load_cell}/></div>
-                    <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve"/></div>
-                    <div id="ground_vent_valve"><Valve title="Ground Vent Valve" text_bottom text_margin="22px"/></div>
-                    <div id="nitrogen_purge_valve"><Valve title="Nitrogen Purge Valve"/></div>
-                    <div id="engine_isolation_valve"><Valve title="Engine Isolation Valve"/></div>
+                    <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve" toggle_cmd={this.interface.} ref={this.valve_refs.ox_fill}/></div>
+                    <div id="ground_vent_valve"><Valve title="Ground Vent Valve" ref={this.valve_refs.ground_vent} text_bottom text_margin="22px"/></div>
+                    <div id="nitrogen_purge_valve"><Valve title="Nitrogen Purge Valve" ref={this.valve_refs.nitrogen_purge}/></div>
+                    <div id="engine_isolation_valve"><Valve title="Engine Isolation Valve" ref={this.valve_refs.engine_isolation}/></div>
                 </Box>
             </div>
         )

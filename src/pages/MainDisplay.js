@@ -20,6 +20,7 @@ const MainDisplay = (props) => {
     const telemetry = useRef();
 
     const { ip } = props;
+    const iface = useRef();
 
     // const [displayMode, setDisplayMode] = useState("rawData");
     // const [contextDuration, setContextDuration] = useState(10);
@@ -48,15 +49,14 @@ const MainDisplay = (props) => {
                 telemetry.current.update(dataManager);
             }
         }
-        let iface = null;
         if (ip !== "") {
-            iface = new Interface(ip, dataManager);
-            iface.setOnData(processData);
+            iface.current = new Interface(ip, dataManager);
+            iface.current.setOnData(processData);
         }
         return () => {
-            if (iface !== null) {
+            if (iface.current !== null) {
                 console.log("closing iface");
-                iface.close();
+                iface.current.close();
             }
         }
     }, [ip, dataManager]);
@@ -101,7 +101,7 @@ const MainDisplay = (props) => {
                             <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:-3}}>
-                            <DiagramControls sx={{position: "relative"}} ref={diagram} dataManager={dataManager}/>
+                            <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface.current} dataManager={dataManager}/>
                         </Grid>
                         <Grid item xs={4} sx={{alignContent: "center", mt: -4}}>
                             <Typography sx={{textAlign: "center", mb: 1}} variant="h4">Telemetry Logs</Typography>

@@ -9,6 +9,12 @@ class DataManager {
         this.data = [];
         this.logs = [];
         this.modifiedDataset = this.data;
+        this.valve_states = {
+            ox_fill: false,
+            engine_isolation: false,
+            nitrogen_purge: false,
+            ground_vent: false
+        }
     }
 
     /**
@@ -34,6 +40,20 @@ class DataManager {
         }
         if (data.telemetry) {
             this.addLogMessage(data.telemetry);
+        }
+        if (data.drivers) {
+            if ("ox_fill" in data.drivers) {
+                this.valve_states.ox_fill = data.drivers.ox_fill;
+            }
+            if ("nitrogen_purge" in data.drivers) {
+                this.valve_states.nitrogen_purge = data.drivers.nitrogen_purge;
+            }
+            if ("ground_vent" in data.drivers) {
+                this.valve_states.ground_vent = data.drivers.ground_vent;
+            }
+            if ("engine_isolation" in data.drivers) {
+                this.valve_states.engine_isolation = data.drivers.engine_isolation;
+            }
         }
         console.log("modified", this.modifiedDataset);
     }
