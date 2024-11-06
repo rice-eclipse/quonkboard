@@ -54,12 +54,16 @@ const MainDisplay = (props) => {
             iface.current.setOnData(processData);
         }
         return () => {
-            if (iface.current !== null) {
+            if (iface.current !== undefined) {
                 console.log("closing iface");
                 iface.current.close();
             }
         }
     }, [ip, dataManager]);
+
+    const ignitionSequence = () => {
+        iface.current?.sendIgnition();
+    }
 
     // if (dataDevInterval === null) {
     //     setDataDevInterval(setInterval(() => {
@@ -85,7 +89,7 @@ const MainDisplay = (props) => {
                     <Stack>
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable} dataManager={dataManager}/>
                         <br />
-                        <IgnitionButton />
+                        <IgnitionButton callback={ignitionSequence}/>
                         <br />
                         <DataDisplayOptions dataManager={dataManager}/>
                     </Stack>
@@ -101,7 +105,7 @@ const MainDisplay = (props) => {
                             <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:-3}}>
-                            <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface.current} dataManager={dataManager}/>
+                            <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>
                         </Grid>
                         <Grid item xs={4} sx={{alignContent: "center", mt: -4}}>
                             <Typography sx={{textAlign: "center", mb: 1}} variant="h4">Telemetry Logs</Typography>

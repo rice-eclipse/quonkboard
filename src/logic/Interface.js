@@ -119,6 +119,9 @@ class Interface {
                     idx++;
                 }
             }
+            if (json_data.console) {
+                new_data.telemetry = json_data.console;
+            }
 
             console.log(new_data);
 
@@ -135,24 +138,34 @@ class Interface {
 
     sendIgnition() {
         this.tcpClient.send(
-            {
+            JSON.stringify({
                 "type": "Ignition"
-            }
+            })
         );
     }
 
-    sendDriverUpdate(driver_id, direction) {
+    sendDriverUpdate(driver_name, direction) {
+        let driver_id = -1;
+        for (const [id, name] of Object.entries(config.sensor_ids.drivers)) {
+            if (name === driver_name) {
+                driver_id = id;
+            }
+        }
+        if (driver_id < 0) {
+            console.error("Invalid driver id");
+            return;
+        }
         this.tcpClient.send(
-            {
+            JSON.stringify({
                 "type": "Actuate",
                 "driver_id": driver_id,
                 "value": direction
-            }
+            })
         );
     }
 
     sendEStop() {
-        this.tcpClient.send({ "type": "EmergencyStop" });
+        this.tcpClient.send(JSON.stringify({ "type": "EmergencyStop" }));
     }
 
     setOnData(func) {
