@@ -17,7 +17,6 @@ class DataDisplayOptions extends React.Component {
     handleRadioChange = (event) => {
         this.props.dataManager.updateDisplayMode(event.target.value, this.props.dataManager.contextDuration);
         this.setState({dataManager: this.props.dataManager});
-        console.log("Radio change", event.target.value, this.props.dataManager.contextDuration)
     }
 
     handleDurationChange = (event) => {

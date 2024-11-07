@@ -23,7 +23,6 @@ class Telemetry extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state.bottom_scroll)
         if (this.state.bottom_scroll) {
             if (this.scrollRef2 && this.scrollRef2.current) {
                 this.scrollRef2.current.scrollIntoView({behavior: "smooth"})

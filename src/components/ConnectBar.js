@@ -19,7 +19,6 @@ const ConnectBar = (props) => {
         <Stack component="form" onSubmit={(event) => {
             event.preventDefault();
             setIP(event.target[0].value);
-            console.log("Setting IP to %s", event.target[0].value)
         }} spacing={2} divider={<Divider orientation="vertical" flexItem />} direction="row" sx={{height: 90, p: 1, mt: 2, marginLeft: "auto", marginRight: "auto", display: "flex", flexDirection:"row"}}>
             <TextField 
               fullWidth 

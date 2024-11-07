@@ -20,5 +20,6 @@
             "3": "pressurization",
             "4": "ignition"
         }
-    }
+    },
+    "max_data_points": 500
 }

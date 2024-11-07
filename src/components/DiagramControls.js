@@ -29,8 +29,6 @@ class DiagramControls extends React.Component {
     update(dataManager) {
         const data = dataManager.modifiedDataset;
         this.interface = this.props.interface.current;
-        console.log("help me", data);
-        console.log("hel me", this.interface);
         if (data === null || data.length === 0) {
             return;
         }

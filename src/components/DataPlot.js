@@ -27,7 +27,6 @@ class DataPlot extends React.Component {
     }
 
     update(dataManager) {
-        console.log(dataManager.modifiedDataset);
         this.setState({data: dataManager.modifiedDataset});
     }
 
@@ -131,7 +130,6 @@ class DataPlot extends React.Component {
         if (this.state.slidervals === null) {
             this.setState({slidervals: [min_time, max_time]});
             sliderJustPopulated = true;
-            console.log("set state:", this.state.slidervals);
         }
 
         if (this.state.sliderrange === null || (sliderJustPopulated ? max_time : this.state.sliderrange[1]) < max_time) {
@@ -146,7 +144,6 @@ class DataPlot extends React.Component {
                 this.setState({sliderrange: [min_time, max_time]});
             }
         }
-        console.log("slider range", this.state.sliderrange);
     }
 
     render() {
@@ -177,9 +174,6 @@ class DataPlot extends React.Component {
                 enabledGraphsList.push(graph);
             }
         }
-        console.log(this.state.enabledGraphs);
-        console.log(this.props.keys);
-        console.log("enabled graph list", enabledGraphsList);
 
         let data_in_range = 0;
         for (const data_point of this.state.data) {

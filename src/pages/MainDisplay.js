@@ -55,14 +55,17 @@ const MainDisplay = (props) => {
         }
         return () => {
             if (iface.current !== undefined) {
-                console.log("closing iface");
                 iface.current.close();
             }
         }
     }, [ip, dataManager]);
 
-    const ignitionSequence = () => {
-        iface.current?.sendIgnition();
+    const ignitionSequence = (go) => {
+        if (go) {
+            iface.current?.sendIgnition();
+        } else {
+            iface.current?.sendIgnitionCancel();
+        }
     }
 
     // if (dataDevInterval === null) {

@@ -1,4 +1,6 @@
 // import * as fs from 'fs';
+import config from "../config.json"
+
 /**
  * A class that manages data and provides functionality to manipulate and save the data.
  */
@@ -31,7 +33,9 @@ class DataManager {
         }, {});
         if (Object.keys(sensorData).length !== 0) {
             this.data.push({...sensorData, time: new Date(Date.now())});
-            console.log("data", this.data);
+            if (this.data.length > config.max_data_points) {
+                this.data.shift();
+            }
             if (this.displayMode === "movingAverage") {
                 this.addMovingAverage();
             } else if (this.displayMode === "rateOfChange") {
@@ -55,7 +59,7 @@ class DataManager {
                 this.valve_states.engine_isolation = data.drivers.engine_isolation;
             }
         }
-        console.log("modified", this.modifiedDataset);
+        console.log(window.performance.memory);
     }
 
     /**
@@ -101,6 +105,9 @@ class DataManager {
             sum[key] /= count[key];
         }
         this.modifiedDataset.push({time: this.data[i].time, ...sum });
+        if (this.modifiedDataset.length > config.max_data_points) {
+            this.modifiedDataset.shift();
+        }
     }
 
     /**
@@ -147,7 +154,6 @@ class DataManager {
 
     // Use for outside access to the data
     getData() {
-        console.log("GET DATA", this.modifiedDataset);
         return this.modifiedDataset;
     }
 

@@ -26,7 +26,6 @@ class Interface {
      * @throws Will throw an error if the IP address and/or port is invalid.
      */
     constructor (ip_port) {
-        console.log("CREATED INTERFACE " + ip_port);
         this.data_buffer = [];
         this.onData = null;
         let [ip, port] = ["", ""];
@@ -39,13 +38,11 @@ class Interface {
         }
 
         try {
-            console.log("IP", `ws://${ip}:${port}`);
             this.tcpClient = new WebSocket(`ws://${ip}:${port}`);
         } catch (error) {
             console.error("WebSocket connection failed!! ", error);
             return;
         }
-        console.log(this.tcpClient.readyState);
 
         this.tcpClient.onopen = () => {
             console.log('Connected to the server');
@@ -53,7 +50,6 @@ class Interface {
 
         this.tcpClient.onmessage = (event) => {
             const text = event.data;
-            console.log(text);
             this.data_buffer.push(text);
             if (text == null) {
                 return;
@@ -62,7 +58,6 @@ class Interface {
             const new_data = {};
             if (json_data.pts) {
                 for (const datum of json_data.pts.readings) {
-                    console.log(datum);
                     switch (config.sensor_ids.pts[datum.sensor_id]) {
                         case "feed_line_pt":
                             new_data.feed_line_pt = datum.reading;
@@ -123,8 +118,6 @@ class Interface {
                 new_data.telemetry = json_data.console;
             }
 
-            console.log(new_data);
-
             if (this.onData !== null) {
                 this.onData(new_data);
             }
@@ -140,6 +133,14 @@ class Interface {
         this.tcpClient.send(
             JSON.stringify({
                 "type": "Ignition"
+            })
+        );
+    }
+
+    sendIgnitionCancel() {
+        this.tcpClient.send(
+            JSON.stringify({
+                "type": "CancelIgnition"
             })
         );
     }
