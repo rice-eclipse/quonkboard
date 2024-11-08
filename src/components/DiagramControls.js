@@ -50,6 +50,10 @@ class DiagramControls extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.valve_refs.ground_vent.current.setOpen(true);
+    }
+
     render() {
         return (
             <div style={{position: "relative"}}>
@@ -61,9 +65,9 @@ class DiagramControls extends React.Component {
                     <div id="ox_tank_pt"><GaugeReading title="Ox. PT" ref={this.gauge_refs.ox_tank_pt}/></div>
                     <div id="load_cell"><GaugeReading title="Load Cell" size={90} ref={this.gauge_refs.load_cell}/></div>
                     <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve" toggle_cmd={this.sendDriverCommand("feedline")} ref={this.valve_refs.ox_fill}/></div>
-                    <div id="ground_vent_valve"><Valve title="Ground Vent Valve" toggle_cmd={this.sendDriverCommand("ground_vent")} ref={this.valve_refs.ground_vent} text_bottom text_margin="22px"/></div>
-                    <div id="nitrogen_purge_valve"><Valve title="Nitrogen Purge Valve" toggle_cmd={this.sendDriverCommand("ox_vent")} ref={this.valve_refs.nitrogen_purge}/></div>
-                    <div id="engine_isolation_valve"><Valve title="Engine Isolation Valve" toggle_cmd={this.sendDriverCommand("pressurization")} ref={this.valve_refs.engine_isolation}/></div>
+                    <div id="ground_vent_valve"><Valve title="Ground Vent Valve" toggle_cmd={this.sendDriverCommand("ground_vent")} opposite={true} ref={this.valve_refs.ground_vent} text_bottom text_margin="22px"/></div>
+                    <div id="nitrogen_purge_valve"><Valve title="Engine Vent Valve" toggle_cmd={this.sendDriverCommand("ox_vent")} ref={this.valve_refs.nitrogen_purge}/></div>
+                    <div id="engine_isolation_valve"><Valve title="Pressurization Valve" toggle_cmd={this.sendDriverCommand("pressurization")} ref={this.valve_refs.engine_isolation}/></div>
                 </Box>
             </div>
         )

@@ -11,6 +11,10 @@ class Valve extends React.Component {
             open: false,
         }
         this.toggle_cmd = props.toggle_cmd;
+        this.opposite = false;
+        if (props.opposite) {
+            this.opposite = true;
+        }
     }
 
     setOpen = (state) => {
@@ -29,8 +33,8 @@ class Valve extends React.Component {
         if (this.props.text_bottom) {
             return (
                 <Stack>
-                    <img src={this.state.open ? open_valve : closed_valve} alt="valve" style={{height: 25}} />
-                    <Button onClick={this.toggle} sx={{fontSize: 20, border: 1, padding: 0,color:(this.state.open ? "green" : "red"), mt: text_margin}}>{this.state.open ? "OPEN" : "CLOSED"}</Button>
+                    <img src={(this.state.open ^ this.opposite) ? open_valve : closed_valve} alt="valve" style={{height: 25}} />
+                    <Button onClick={this.toggle} sx={{fontSize: 20, border: 1, padding: 0,color:((this.state.open ^ this.opposite) ? "green" : "red"), mt: text_margin}}>{(this.state.open ^ this.opposite) ? "OPEN" : "CLOSED"}</Button>
                     <Typography sx={{fontSize: 12, mt: "-2px"}}>{this.props.title}</Typography>
                 </Stack>
             )
@@ -38,8 +42,8 @@ class Valve extends React.Component {
         return (
             <Stack>
                 <Typography sx={{fontSize: 12, mb: "-2px"}}>{this.props.title}:</Typography>
-                <Button onClick={this.toggle} sx={{mb: text_margin, border: 1, padding: 0, fontSize: 20, color:(this.state.open ? "green" : "red")}}>{this.state.open ? "OPEN" : "CLOSED"}</Button>
-                <img src={this.state.open ? open_valve : closed_valve} alt="valve" style={{height: 25}} />
+                <Button onClick={this.toggle} sx={{mb: text_margin, border: 1, padding: 0, fontSize: 20, color:((this.state.open ^ this.opposite) ? "green" : "red")}}>{(this.state.open ^ this.opposite) ? "OPEN" : "CLOSED"}</Button>
+                <img src={(this.state.open ^ this.opposite) ? open_valve : closed_valve} alt="valve" style={{height: 25}} />
             </Stack>
         )
     }

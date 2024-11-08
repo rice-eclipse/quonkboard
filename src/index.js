@@ -10,4 +10,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-console.log("root render");
