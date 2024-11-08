@@ -9,6 +9,7 @@ import Telemetry from "../components/Telemetry";
 import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
 import Interface from "../logic/Interface";
+import AuthBox from "../components/AuthBox";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -21,6 +22,7 @@ const MainDisplay = (props) => {
 
     const { ip } = props;
     const iface = useRef();
+    const auth_box = useRef();
 
     // const [displayMode, setDisplayMode] = useState("rawData");
     // const [contextDuration, setContextDuration] = useState(10);
@@ -68,6 +70,14 @@ const MainDisplay = (props) => {
         }
     }
 
+    const setAuth = (password) => {
+        if (iface.current !== undefined) {
+            iface.current.setAuth(password);
+        } else {
+            auth_box?.current?.setPassword("");
+        }
+    }
+
     // if (dataDevInterval === null) {
     //     setDataDevInterval(setInterval(() => {
     //         processData({
@@ -94,6 +104,8 @@ const MainDisplay = (props) => {
                         <br />
                         <IgnitionButton callback={ignitionSequence}/>
                         <br />
+                        <AuthBox setAuth={setAuth} ref={auth_box}/>
+                        <br />
                         <DataDisplayOptions dataManager={dataManager}/>
                     </Stack>
                 </Grid>
@@ -107,7 +119,7 @@ const MainDisplay = (props) => {
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Load Cell</Typography> */}
                             <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
                         </Grid>
-                        <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:-3}}>
+                        <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:5}}>
                             <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>
                         </Grid>
                         <Grid item xs={4} sx={{alignContent: "center", mt: -4}}>

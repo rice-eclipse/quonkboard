@@ -28,6 +28,7 @@ class Interface {
     constructor (ip_port) {
         this.data_buffer = [];
         this.onData = null;
+        this.password = "";
         let [ip, port] = ["", ""];
         try {
             [ip, port] = ip_port.split(":");
@@ -132,7 +133,8 @@ class Interface {
     sendIgnition() {
         this.tcpClient.send(
             JSON.stringify({
-                "type": "Ignition"
+                "type": "Ignition",
+                "password": this.password
             })
         );
     }
@@ -160,7 +162,8 @@ class Interface {
             JSON.stringify({
                 "type": "Actuate",
                 "driver_id": driver_id,
-                "value": direction
+                "value": direction,
+                "password": this.password
             })
         );
     }
@@ -171,6 +174,10 @@ class Interface {
 
     setOnData(func) {
         this.onData = func;
+    }
+
+    setAuth(password) {
+        this.password = password;
     }
 
     close() {
