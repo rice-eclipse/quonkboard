@@ -14,10 +14,10 @@
             "0": "load_cell"
         },
         "drivers": {
-            "0": "feedline",
-            "1": "ox_vent",
-            "2": "ground_vent",
-            "3": "pressurization",
+            "0": "ox_fill",
+            "1": "ground_vent",
+            "2": "ops_pneumatic",
+            "3": "engine_vent",
             "4": "ignition"
         }
     },

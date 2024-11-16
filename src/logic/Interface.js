@@ -95,17 +95,17 @@ class Interface {
                 new_data.drivers = {}
                 for ( const datum of json_data.driver.values ) {
                     switch (config.sensor_ids.drivers[String(idx)]) {
-                        case "feedline":
+                        case "ox_fill":
                             new_data.drivers.ox_fill = datum;
-                            break;
-                        case "ox_vent":
-                            new_data.drivers.nitrogen_purge = datum;
                             break;
                         case "ground_vent":
                             new_data.drivers.ground_vent = datum;
                             break;
-                        case "pressurization":
-                            new_data.drivers.engine_isolation = datum;
+                        case "ops_pneumatic":
+                            new_data.drivers.ops_pneumatic = datum;
+                            break;
+                        case "engine_vent":
+                            new_data.drivers.engine_vent = datum;
                             break;
 
                         default:

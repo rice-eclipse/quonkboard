@@ -21,8 +21,8 @@ class DiagramControls extends React.Component {
         this.valve_refs = {
             ox_fill: React.createRef(),
             ground_vent: React.createRef(),
-            nitrogen_purge: React.createRef(),
-            engine_isolation: React.createRef()
+            engine_vent: React.createRef(),
+            ops_pneumatic: React.createRef()
         };
     }
 
@@ -39,9 +39,9 @@ class DiagramControls extends React.Component {
         }
         const valves = dataManager.valve_states;
         this.valve_refs.ox_fill.current.setOpen(valves.ox_fill);
-        this.valve_refs.engine_isolation.current.setOpen(valves.engine_isolation);
-        this.valve_refs.nitrogen_purge.current.setOpen(valves.nitrogen_purge);
         this.valve_refs.ground_vent.current.setOpen(valves.ground_vent);
+        this.valve_refs.ops_pneumatic.current.setOpen(valves.ops_pneumatic);
+        this.valve_refs.engine_vent.current.setOpen(valves.engine_vent);
     }
 
     sendDriverCommand(driver_name) {
@@ -64,10 +64,10 @@ class DiagramControls extends React.Component {
                     <div id="injector_pt"><GaugeReading title="Inj. PT" ref={this.gauge_refs.injector_pt}/></div>
                     <div id="ox_tank_pt"><GaugeReading title="Ox. PT" ref={this.gauge_refs.ox_tank_pt}/></div>
                     <div id="load_cell"><GaugeReading title="Load Cell" size={90} ref={this.gauge_refs.load_cell}/></div>
-                    <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve" toggle_cmd={this.sendDriverCommand("feedline")} ref={this.valve_refs.ox_fill}/></div>
+                    <div id="ox_fill_valve"><Valve title="Oxidizer Fill Valve" toggle_cmd={this.sendDriverCommand("ox_fill")} ref={this.valve_refs.ox_fill}/></div>
                     <div id="ground_vent_valve"><Valve title="Ground Vent Valve" toggle_cmd={this.sendDriverCommand("ground_vent")} opposite={true} ref={this.valve_refs.ground_vent} text_bottom text_margin="22px"/></div>
-                    <div id="nitrogen_purge_valve"><Valve title="Engine Vent Valve" toggle_cmd={this.sendDriverCommand("ox_vent")} ref={this.valve_refs.nitrogen_purge}/></div>
-                    <div id="engine_isolation_valve"><Valve title="Pressurization Valve" toggle_cmd={this.sendDriverCommand("pressurization")} ref={this.valve_refs.engine_isolation}/></div>
+                    <div id="nitrogen_purge_valve"><Valve title="Engine Vent Valve" toggle_cmd={this.sendDriverCommand("engine_vent")} ref={this.valve_refs.engine_vent}/></div>
+                    <div id="engine_isolation_valve"><Valve title="OPS Pneumatic Valve" toggle_cmd={this.sendDriverCommand("ops_pneumatic")} ref={this.valve_refs.ops_pneumatic}/></div>
                 </Box>
             </div>
         )

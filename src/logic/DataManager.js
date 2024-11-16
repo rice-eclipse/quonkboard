@@ -13,9 +13,9 @@ class DataManager {
         this.modifiedDataset = this.data;
         this.valve_states = {
             ox_fill: false,
-            engine_isolation: false,
-            nitrogen_purge: false,
-            ground_vent: false
+            ground_vent: false,
+            ops_pneumatic: false,
+            engine_vent: false
         }
     }
 
@@ -49,14 +49,14 @@ class DataManager {
             if ("ox_fill" in data.drivers) {
                 this.valve_states.ox_fill = data.drivers.ox_fill;
             }
-            if ("nitrogen_purge" in data.drivers) {
-                this.valve_states.nitrogen_purge = data.drivers.nitrogen_purge;
-            }
             if ("ground_vent" in data.drivers) {
                 this.valve_states.ground_vent = data.drivers.ground_vent;
             }
-            if ("engine_isolation" in data.drivers) {
-                this.valve_states.engine_isolation = data.drivers.engine_isolation;
+            if ("ops_pneumatic" in data.drivers) {
+                this.valve_states.ops_pneumatic = data.drivers.ops_pneumatic;
+            }
+            if ("engine_vent" in data.drivers) {
+                this.valve_states.engine_vent = data.drivers.engine_vent;
             }
         }
         console.log(window.performance.memory);
