@@ -56,6 +56,7 @@ class Interface {
                 return;
             }
             const json_data = JSON.parse(text);
+            
             const new_data = {};
             if (json_data.pts) {
                 for (const datum of json_data.pts.readings) {
