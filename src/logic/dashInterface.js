@@ -14,7 +14,7 @@
  * Connection should be created as soon as quonkboard initializes
  *  - useEffect in App.js that creates an instance of dashInterface
  */
-class dashInterface{
+class DashInterface{
     /**
      * @constructor
      * @property {Socket} dashClient - The websocket client
@@ -25,8 +25,8 @@ class dashInterface{
         constructor (Interface, DataManager) {
             //the commands sent by the user
             this.driverCommands = {};
-            //the current valve states
-            this.DataManager = DataManager;
+            //the initial valve states
+            this.valve_states = DataManager.getValveStates();
             this.Interface = Interface;
             
 
@@ -34,6 +34,8 @@ class dashInterface{
             this.client = new WebSocket('ws://127.0.0.1:8000');
             this.client.onopen = () =>{
                 console.log("connected to the dashboard");
+                //sends the initial valve states to the dash
+                this.client.send(JSON.stringify(this.valve_states));
                 
             };
     
@@ -47,20 +49,23 @@ class dashInterface{
                     console.log(data);
                     // Stores the commands in the driver commands object.
                     this.driverCommands =  data;
-                    
+
                     //checks for a change in switch states
                     for  (valve in this.driverCommands){
                         if (this.driverCommands[valve].update_state == 1){
                             //checks the actual valve state and changes it 
-                            new_state = !this.DataManager.driverStates[valve]
-
+                            new_state = !this.valve_states[valve];
                             //sends the command to update the driverstate
                             this.Interface.sendDriverUpdate(valve, new_state);
                         }
                     }
                 }
-    
+                
             };
+        }
+        updateValveStates(valve_states){
+            this.valve_states = valve_states;
+            this.client.send(JSON.stringify(valve_states));
         }
     
         closeConnection(){
@@ -68,4 +73,4 @@ class dashInterface{
         }
     
     }
-    export default dashInterface;
+    export default DashInterface;

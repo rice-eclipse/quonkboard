@@ -9,9 +9,11 @@ import Telemetry from "../components/Telemetry";
 import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
 import Interface from "../logic/Interface";
+import dashInterface from "../logic/dashInterface";
 import AuthBox from "../components/AuthBox";
 
 import { useState, useEffect, useRef } from "react";
+import DashInterface from "../logic/dashInterface";
 
 const MainDisplay = (props) => {
     const readoutTable = useRef();
@@ -22,6 +24,7 @@ const MainDisplay = (props) => {
 
     const { ip } = props;
     const iface = useRef();
+    const dash = useRef();
     const auth_box = useRef();
 
     // const [displayMode, setDisplayMode] = useState("rawData");
@@ -33,7 +36,7 @@ const MainDisplay = (props) => {
     useEffect(() => {
         const processData = (data) => {
             dataManager.addData(data);
-            
+
             if (data.load_cell && lc_plot.current) {
                 lc_plot.current.update(dataManager);
             }
@@ -51,14 +54,22 @@ const MainDisplay = (props) => {
                 telemetry.current.update(dataManager);
             }
         }
+
+        const sendValveUpdate = () =>{
+            dash.current.updateValveStates(dataManager.getValveStates());
+        }
         if (ip !== "") {
             iface.current = new Interface(ip, dataManager);
             iface.current.setOnData(processData);
+            dash.current = new DashInterface(iface.current);
         }
+        dataManager.eventEmitter.on('updated valve states',sendValveUpdate);
+
         return () => {
             if (iface.current !== undefined) {
                 iface.current.close();
             }
+            dataManager.eventEmitter.off('updated valve states',sendValveUpdate);
         }
     }, [ip, dataManager]);
 

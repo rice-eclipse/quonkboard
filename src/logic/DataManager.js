@@ -1,5 +1,6 @@
 // import * as fs from 'fs';
 import config from "../config.json"
+import EventEmitter from 'node:events';
 
 /**
  * A class that manages data and provides functionality to manipulate and save the data.
@@ -17,6 +18,7 @@ class DataManager {
             ops_pneumatic: false,
             engine_vent: false
         }
+        this.eventEmitter = new EventEmitter();
     }
 
     /**
@@ -60,6 +62,7 @@ class DataManager {
             }
         }
         console.log(window.performance.memory);
+        this.eventEmitter.emit('updated valve states');
     }
 
     /**
@@ -161,7 +164,10 @@ class DataManager {
     getDisplayMode() {
         return this.displayMode;
     }
-    
+    //Use for outside access to the valve states
+    getValveStates(){
+        return this.valve_states;
+    }
     getLogs() {
         return this.logs;
     }
