@@ -64,7 +64,7 @@ const MainDisplay = (props) => {
 
     const ignitionSequence = (go) => {
         if (go) {
-            iface.current?.sendIgnition();
+            iface.current?.startProximaIgnition();
         } else {
             iface.current?.sendIgnitionCancel();
         }
