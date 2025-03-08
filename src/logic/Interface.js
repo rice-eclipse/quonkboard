@@ -131,19 +131,12 @@ class Interface {
     }
 
     startProximaIgnition(){
-        //Opens oxfill for one second
-        this.sendDriverUpdate("ox_fill", true);
-        setTimeout(()=> {
-            console.log("Starting Ignition")
-            //starts ignition
-            this.sendIgnition();
-        },1000);
-
-        //closes oxfill valve after 10 seconds
-        setTimeout(() => {
-            console.log("closing ox fill");
-            this.sendDriverUpdate("ox_fill", false)
-        }, 11000);
+        this.tcpClient.send(
+            JSON.stringify({
+                "type": "Proxima Ignition",
+                "password": this.password
+            })
+        );
 
     }
     sendIgnition() {
