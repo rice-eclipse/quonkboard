@@ -20,7 +20,7 @@ const Topbar = (props) => {
     return (
             <Stack direction="row" sx={{width: 1.0, height: 90, mb:2, display: 'flex', borderBottom: 1, p: 1}}>
                 <img style={{"marginTop": "10px", "marginBottom": "10px", "marginRight": "10px", "float":"right"}} src={logo} alt="logo"/>
-                <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: 'flex'}} onClick={handleHeadingClick}>Titan II Mission Control</Typography>
+                <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: 'flex'}} onClick={handleHeadingClick}>Proxima Mission Control</Typography>
                 <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
                     {pigeonMode ? <PigeonMode enable={pigeonMode} /> : <ConnectBar sx={{width: 1.0}} setIP={setIP}/> }
                 </Box>

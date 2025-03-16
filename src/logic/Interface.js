@@ -67,10 +67,10 @@ class Interface {
                             new_data.cc_pt = datum.reading;
                             break;
                         case "injector_pt":
-                            new_data.injector_pt = datum.reading;
+                            new_data.pre_injection_pt = datum.reading;
                             break;
                         case "ox_tank_pt":
-                            new_data.ox_tank_pt = datum.reading;
+                            new_data.ops_pt = datum.reading;
                             break;
                         default:
                             console.log("Invalid sensor id " + datum.sensor_id)

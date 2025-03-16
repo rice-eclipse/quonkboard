@@ -1,0 +1,58 @@
+#feed_line_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 235px;
+    left: 372px;
+    color: white; /* Text color */
+}
+
+#cc_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 380px;
+    left: 682px;
+    color: white; /* Text color */
+}
+
+/*Pre-injection pt*/
+#injector_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 369px;
+    left: 752px;
+    color: white; /* Text color */
+}
+
+#ox_tank_pt /*ops pt*/{
+    position: absolute; /* Position the overlay absolutely */
+    top: 230px;
+    left: 107px;
+    color: white; /* Text color */
+}
+
+#load_cell {
+    position: absolute;
+    top: 239px;
+    left: 720px;
+}
+
+#ox_fill_valve {
+    position: absolute;
+    top: 160px;
+    left: 418px;
+}
+
+#ground_vent_valve {
+    position: absolute;
+    top: 120px;
+    left: 516px;
+}
+
+#nitrogen_purge_valve {
+    position: absolute;
+    top: -50px;
+    left: 590px;
+}
+
+#engine_isolation_valve /*ops valve*/ {
+    position: absolute;
+    top: 160px;
+    left: 163px;
+}

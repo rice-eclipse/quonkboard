@@ -16,29 +16,29 @@ class LiveReadoutTable extends React.Component {
                 load_cell: 0.0,
                 feed_line_pt: 0.0,
                 cc_pt: 0.0,
-                injector_pt: 0.0,
-                ox_tank_pt: 0.0,
+                pre_injection_pt: 0.0,
+                ops_pt: 0.0,
             },
             unit: {
                 load_cell: "lbf",
                 feed_line_pt: "psig",
                 cc_pt: "psig",
-                injector_pt: "psig",
-                ox_tank_pt: "psig",
+                pre_injection_pt: "psig",
+                ops_pt: "psig",
             },
             display_unit: {
               load_cell: "lbf",
               feed_line_pt: "psig",
               cc_pt: "psig",
-              injector_pt: "psig",
-              ox_tank_pt: "psig",
+              pre_injection_pt: "psig",
+              ops_pt: "psig",
             },
             precision: { // Nums past decimal point
                 load_cell: 2,
                 feed_line_pt: 2,
                 cc_pt: 2,
-                injector_pt: 2,
-                ox_tank_pt: 2,
+                pre_injection_pt: 2,
+                ops_pt: 2,
             }
         }
     }
@@ -56,8 +56,8 @@ class LiveReadoutTable extends React.Component {
             load_cell: newData.load_cell,
             feed_line_pt: newData.feed_line_pt,
             cc_pt: newData.cc_pt,
-            injector_pt: newData.injector_pt,
-            ox_tank_pt: newData.ox_tank_pt,
+            pre_injection_pt: newData.pre_injection_pt,
+            ops_pt: newData.ops_pt,
           },
           display_unit: ((dataManager.displayMode === "rateOfChange") ? rateOfChangeUnits : this.state.unit)
         }

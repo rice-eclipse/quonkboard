@@ -29,6 +29,7 @@ const MainDisplay = (props) => {
     // const [dataDevInterval, setDataDevInterval] = useState(null);
     // const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
     const [dataManager, setDataManager] = useState(new DataManager());
+    const [authStatus, setAuthStatus] = useState(false);
 
     useEffect(() => {
         const processData = (data) => {
@@ -73,8 +74,10 @@ const MainDisplay = (props) => {
     const setAuth = (password) => {
         if (iface.current !== undefined) {
             iface.current.setAuth(password);
+            setAuthStatus(password === "quonk");
         } else {
             auth_box?.current?.setPassword("");
+            setAuthStatus(false);
         }
     }
 
@@ -102,7 +105,7 @@ const MainDisplay = (props) => {
                     <Stack>
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable} dataManager={dataManager}/>
                         <br />
-                        <IgnitionButton callback={ignitionSequence}/>
+                        <IgnitionButton authenticated={authStatus} callback={ignitionSequence}/>
                         <br />
                         <AuthBox setAuth={setAuth} ref={auth_box}/>
                         <br />
@@ -113,14 +116,14 @@ const MainDisplay = (props) => {
                     <Grid container spacing={0}>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Pressure Transducers</Typography> */}
-                            <DataPlot ref={pt_plot} dataManager={dataManager} keys={["feed_line_pt", "cc_pt", "injector_pt", "ox_tank_pt"]}/>
+                            <DataPlot ref={pt_plot} dataManager={dataManager} keys={["feed_line_pt", "cc_pt", "pre_injection_pt", "ops_pt"]}/>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Load Cell</Typography> */}
                             <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:5}}>
-                            <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>
+                            <DiagramControls authenticated = {authStatus} sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>
                         </Grid>
                         <Grid item xs={4} sx={{alignContent: "center", mt: -4}}>
                             <Typography sx={{textAlign: "center", mb: 1}} variant="h4">Telemetry Logs</Typography>
