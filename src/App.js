@@ -7,6 +7,7 @@ import {
 
 import Topbar from './components/Topbar';
 import MainDisplay from './pages/MainDisplay';
+import Home from './pages/Home';
 import PigeonMode from './components/PigeonMode';
 import {useState, useEffect, useRef } from 'react';
 import partyPigeon from "./party-parrot.gif";

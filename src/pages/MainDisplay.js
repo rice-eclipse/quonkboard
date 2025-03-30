@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack"
 import { LiveReadoutTable } from "../components/LiveReadoutTable";
 import { DiagramControls } from "../components/DiagramControls";
 import { IgnitionButton } from "../components/IgnitionButton";
+
 import DataPlot from "../components/DataPlot";
 import Telemetry from "../components/Telemetry";
 import DataDisplayOptions from "../components/DataDisplayOptions";
@@ -30,6 +31,7 @@ const MainDisplay = (props) => {
     // const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
     const [dataManager, setDataManager] = useState(new DataManager());
     const [authStatus, setAuthStatus] = useState(false);
+    const [ignitedStatus, setIgnitedStatus] = useState(false);
 
     useEffect(() => {
         const processData = (data) => {
@@ -56,6 +58,7 @@ const MainDisplay = (props) => {
             iface.current = new Interface(ip, dataManager);
             iface.current.setOnData(processData);
         }
+        setIgnitedStatus(iface.current?.ignited);
         return () => {
             if (iface.current !== undefined) {
                 iface.current.close();
@@ -66,11 +69,11 @@ const MainDisplay = (props) => {
     const ignitionSequence = (go) => {
         if (go) {
             iface.current?.startProximaIgnition();
+            setIgnitedStatus(true);
         } else {
             iface.current?.sendIgnitionCancel();
         }
     }
-
     const setAuth = (password) => {
         if (iface.current !== undefined) {
             iface.current.setAuth(password);
@@ -105,7 +108,7 @@ const MainDisplay = (props) => {
                     <Stack>
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable} dataManager={dataManager}/>
                         <br />
-                        <IgnitionButton authenticated={authStatus} callback={ignitionSequence}/>
+                        <IgnitionButton authenticated={authStatus} callback={ignitionSequence} ignited={ignitedStatus}/>
                         <br />
                         <AuthBox setAuth={setAuth} ref={auth_box}/>
                         <br />

@@ -5,6 +5,7 @@ import { useState } from "react";
 const IgnitionButton = (props) => {
     const callback = props.callback;
     const authenticated = props.authenticated;
+    const ignited = props.ignited;
     const [ ignitionInProgress, setIgnitionInProgress] = useState(false);
     const ignition_callback = () => {
         callback(!ignitionInProgress);
@@ -13,6 +14,7 @@ const IgnitionButton = (props) => {
     return (
         <Button disabled={!authenticated} onClick={ignition_callback} variant="contained" color={ignitionInProgress ? "warning" : "error"}>
             {ignitionInProgress ? "Abort Ignition" : "Ignition"}
+            
         </Button>
     )
 }

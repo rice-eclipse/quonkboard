@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.aa217378.css",
-    "main.js": "/static/js/main.df23bd25.js",
+    "main.css": "/static/css/main.aa7a19b1.css",
+    "main.js": "/static/js/main.29c9c457.js",
     "static/media/song1.mp3": "/static/media/song1.6e2b01fe98fe2e71803b.mp3",
     "static/media/Jersey25-Regular.ttf": "/static/media/Jersey25-Regular.124a1cfeb3bb037fee5b.ttf",
     "static/media/quonkboard.png": "/static/media/quonkboard.dcf934543845326db295.png",
+    "static/media/proxima_diagram.svg": "/static/media/proxima_diagram.6babdc9a2a8708557e9d3c0f88a71f07.svg",
     "static/media/party-parrot.gif": "/static/media/party-parrot.30d7904a46bbec8552cf.gif",
-    "static/media/diagram.svg": "/static/media/diagram.cb4ba3420520d4f1b568bede9c5d3b6d.svg",
     "static/media/closed_valve.svg": "/static/media/closed_valve.6607dd33741e002d8a1023dc387db709.svg",
     "static/media/open_valve.svg": "/static/media/open_valve.e2e57b5042b98f071230a1474caaeaf9.svg",
     "index.html": "/index.html",
-    "main.aa217378.css.map": "/static/css/main.aa217378.css.map",
-    "main.df23bd25.js.map": "/static/js/main.df23bd25.js.map"
+    "main.aa7a19b1.css.map": "/static/css/main.aa7a19b1.css.map",
+    "main.29c9c457.js.map": "/static/js/main.29c9c457.js.map"
   },
   "entrypoints": [
-    "static/css/main.aa217378.css",
-    "static/js/main.df23bd25.js"
+    "static/css/main.aa7a19b1.css",
+    "static/js/main.29c9c457.js"
   ]
 }

@@ -16,8 +16,8 @@ class DiagramControls extends React.Component {
             load_cell: React.createRef(),
             feed_line_pt: React.createRef(),
             cc_pt: React.createRef(),
-            injector_pt: React.createRef(),
-            ox_tank_pt: React.createRef()
+            pre_injection_pt: React.createRef(),
+            ops_pt: React.createRef()
         };
         this.valve_refs = {
             ox_fill: React.createRef(),
@@ -39,10 +39,10 @@ class DiagramControls extends React.Component {
             }
         }
         const valves = dataManager.valve_states;
-        this.valve_refs.ox_fill.current.setOpen(valves.ox_fill);
-        this.valve_refs.ground_vent.current.setOpen(valves.ground_vent);
-        this.valve_refs.ops_pneumatic.current.setOpen(valves.ops_pneumatic);
-        //this.valve_refs.engine_vent.current.setOpen(valves.engine_vent);
+        this.valve_refs.ox_fill.current.setOpen(valves.ox_fill, this.props.authenticated);
+        this.valve_refs.ground_vent.current.setOpen(valves.ground_vent, this.props.authenticated);
+        //this.valve_refs.ops_pneumatic.current.setOpen(valves.ops_pneumatic, this.props.authenticated);
+        this.valve_refs.engine_vent.current.setOpen(valves.engine_vent, this.props.authenticated);
     }
 
     sendDriverCommand(driver_name) {
@@ -62,12 +62,12 @@ class DiagramControls extends React.Component {
                 <Box sx={{textAlign: "center"}} id="diagram-box">
                     <div id="feed_line_pt"><GaugeReading title="Feed Line PT" ref={this.gauge_refs.feed_line_pt}/></div>
                     <div id="cc_pt"><GaugeReading title="CC PT" ref={this.gauge_refs.cc_pt}/></div>
-                    <div id="injector_pt"><GaugeReading title="Pre-Inj. PT" ref={this.gauge_refs.injector_pt}/></div>
-                    <div id="ox_tank_pt"><GaugeReading title="Ops. PT" ref={this.gauge_refs.ox_tank_pt}/></div>
+                    <div id="injector_pt"><GaugeReading title="Pre-Inj. PT" ref={this.gauge_refs.pre_injection_pt}/></div>
+                    <div id="ox_tank_pt"><GaugeReading title="Ops. PT" ref={this.gauge_refs.ops_pt}/></div>
                     <div id="load_cell"><GaugeReading title="Load Cell" size={90} ref={this.gauge_refs.load_cell}/></div>
-                    <div id="ox_fill_valve"><Valve authenticated={this.authenticated} title="Nitrous Feed Valve" toggle_cmd={this.sendDriverCommand("ox_fill")} ref={this.valve_refs.ox_fill} /></div>
-                    <div id="ground_vent_valve"><Valve authenticated={this.authenticated} title="Ground Vent Valve" toggle_cmd={this.sendDriverCommand("ground_vent")} opposite={true} ref={this.valve_refs.ground_vent}/></div>
-                    <div id="engine_isolation_valve"><Valve authenticated={this.authenticated} title="OPS Pneumatic Valve" toggle_cmd={this.sendDriverCommand("ops_pneumatic")} ref={this.valve_refs.ops_pneumatic}/></div>
+                    <div id="ox_fill_valve"><Valve title="Nitrous Feed Valve" toggle_cmd={this.sendDriverCommand("ox_fill")} ref={this.valve_refs.ox_fill} /></div>
+                    <div id="ground_vent_valve"><Valve title="Ground Vent Valve" toggle_cmd={this.sendDriverCommand("ground_vent")} opposite={true} ref={this.valve_refs.ground_vent}/></div>
+                    <div id="engine_isolation_valve"><Valve  title="OPS Pneumatic Valve" toggle_cmd={this.sendDriverCommand("engine_vent")} ref={this.valve_refs.engine_vent}/></div>
                 </Box>
             </div>
         )
