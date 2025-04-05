@@ -57,6 +57,7 @@ class Interface {
             }
             const json_data = JSON.parse(text);
             const new_data = {};
+            console.log(json_data)
             if (json_data.pts) {
                 for (const datum of json_data.pts.readings) {
                     switch (config.sensor_ids.pts[datum.sensor_id]) {

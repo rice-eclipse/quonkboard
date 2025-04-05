@@ -16,9 +16,9 @@
         "drivers": {
             "0": "ox_fill",
             "1": "ground_vent",
-            "2": "ops_pneumatic",
+            "5": "ops_pneumatic",
             "3": "engine_vent",
-            "4": "ignition"
+            "6":"ignition"
         }
     },
     "max_data_points": 500

@@ -41,8 +41,8 @@ class DiagramControls extends React.Component {
         const valves = dataManager.valve_states;
         this.valve_refs.ox_fill.current.setOpen(valves.ox_fill, this.props.authenticated);
         this.valve_refs.ground_vent.current.setOpen(valves.ground_vent, this.props.authenticated);
-        //this.valve_refs.ops_pneumatic.current.setOpen(valves.ops_pneumatic, this.props.authenticated);
-        this.valve_refs.engine_vent.current.setOpen(valves.engine_vent, this.props.authenticated);
+        this.valve_refs.ops_pneumatic.current.setOpen(valves.ops_pneumatic, this.props.authenticated);
+        //this.valve_refs.engine_vent.current.setOpen(valves.engine_vent, this.props.authenticated);
     }
 
     sendDriverCommand(driver_name) {
@@ -67,7 +67,7 @@ class DiagramControls extends React.Component {
                     <div id="load_cell"><GaugeReading title="Load Cell" size={90} ref={this.gauge_refs.load_cell}/></div>
                     <div id="ox_fill_valve"><Valve title="Nitrous Feed Valve" toggle_cmd={this.sendDriverCommand("ox_fill")} ref={this.valve_refs.ox_fill} /></div>
                     <div id="ground_vent_valve"><Valve title="Ground Vent Valve" toggle_cmd={this.sendDriverCommand("ground_vent")} opposite={true} ref={this.valve_refs.ground_vent}/></div>
-                    <div id="engine_isolation_valve"><Valve  title="OPS Pneumatic Valve" toggle_cmd={this.sendDriverCommand("engine_vent")} ref={this.valve_refs.engine_vent}/></div>
+                    <div id="engine_isolation_valve"><Valve  title="OPS Pneumatic Valve" toggle_cmd={this.sendDriverCommand("ops_pneumatic")} ref={this.valve_refs.ops_pneumatic}/></div>
                 </Box>
             </div>
         )
