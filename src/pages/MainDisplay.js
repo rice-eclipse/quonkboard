@@ -34,7 +34,7 @@ const MainDisplay = (props) => {
         const processData = (data) => {
             dataManager.addData(data);
             
-            if (data.load_cell && lc_plot.current) {
+            if ((data.load_cell || data.star_load_cell) && lc_plot.current) {
                 lc_plot.current.update(dataManager);
             }
             if ((data.feed_line_pt || data.cc_pt || data.injector_pt || data.ox_tank_pt) && pt_plot.current) {
@@ -113,11 +113,11 @@ const MainDisplay = (props) => {
                     <Grid container spacing={0}>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Pressure Transducers</Typography> */}
-                            <DataPlot ref={pt_plot} dataManager={dataManager} keys={["feed_line_pt", "cc_pt", "injector_pt", "ox_tank_pt"]}/>
+                            <DataPlot ref={pt_plot} dataManager={dataManager} keys={["feed_line_pt", "ox_tank_pt"]}/>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
                             {/* <Typography sx={{textAlign: "center"}} variant="h5">Load Cell</Typography> */}
-                            <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
+                            <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell", "star_load_cell"]}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:5}}>
                             <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>

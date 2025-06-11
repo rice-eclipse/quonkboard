@@ -11,7 +11,8 @@
             "1": "tc2"
         },
         "lcs": {
-            "0": "load_cell"
+            "0": "load_cell",
+            "1": "star_load_cell"
         },
         "drivers": {
             "0": "ox_fill",
