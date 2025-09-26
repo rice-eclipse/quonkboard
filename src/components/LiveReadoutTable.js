@@ -14,6 +14,7 @@ class LiveReadoutTable extends React.Component {
             displayMode: "rawData",
             data: {
                 load_cell: 0.0,
+                star_load_cell: 0.0,
                 feed_line_pt: 0.0,
                 cc_pt: 0.0,
                 pre_injection_pt: 0.0,
@@ -21,6 +22,7 @@ class LiveReadoutTable extends React.Component {
             },
             unit: {
                 load_cell: "lbf",
+                star_load_cell: "lbf",
                 feed_line_pt: "psig",
                 cc_pt: "psig",
                 pre_injection_pt: "psig",
@@ -28,6 +30,7 @@ class LiveReadoutTable extends React.Component {
             },
             display_unit: {
               load_cell: "lbf",
+              star_load_cell: "lbf",
               feed_line_pt: "psig",
               cc_pt: "psig",
               pre_injection_pt: "psig",
@@ -35,6 +38,7 @@ class LiveReadoutTable extends React.Component {
             },
             precision: { // Nums past decimal point
                 load_cell: 2,
+                star_load_cell: 2,
                 feed_line_pt: 2,
                 cc_pt: 2,
                 pre_injection_pt: 2,
@@ -54,6 +58,7 @@ class LiveReadoutTable extends React.Component {
           displayMode: dataManager.getDisplayMode(),
           data: {
             load_cell: newData.load_cell,
+            star_load_cell: newData.star_load_cell,
             feed_line_pt: newData.feed_line_pt,
             cc_pt: newData.cc_pt,
             pre_injection_pt: newData.pre_injection_pt,

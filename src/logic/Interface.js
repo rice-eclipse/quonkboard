@@ -85,6 +85,9 @@ class Interface {
                         case "load_cell":
                             new_data.load_cell = datum.reading;
                             break;
+                        case "star_load_cell":
+                            new_data.star_load_cell = datum.reading;
+                            break;
                         default:
                             console.log("Invalid sensor id " + datum.sensor_id)
                             break;
