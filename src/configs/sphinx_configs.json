@@ -1,0 +1,21 @@
+{
+  "Title": "Sphinx Mission Control",
+  "sensor_ids": {
+    "pts": {
+      "0": "ox_pt",
+      "1": "feed_line_pt"
+    },
+    "lcs": {
+      "0": "load_cell"
+    },
+    "drivers": {
+      "0": "ox_fill",
+      "1": "ground_vent",
+      "3": "engine_vent",
+      "4": "ignition",
+      "5": "fuel_run",
+      "6": "nitrous_run"
+    }
+  },
+  "max_data_points": 500
+}

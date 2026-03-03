@@ -6,10 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import proxima_configs from '../configs/proxima_configs.json';
+import sphinx_configs from '../configs/sphinx_configs.json';
 
 class LiveReadoutTable extends React.Component {
     constructor(props) {
         super(props);
+        var sensors = 
         this.state = {
             displayMode: "rawData",
             data: {

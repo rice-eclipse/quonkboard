@@ -1,9 +1,13 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Diagram from '../diagram.svg';
+import Sphinx_Diagram from '../diagrams/sphinx_diagram.svg';
+import Proxima_Diagram from '../diagrams/proxima_diagram.svg';
 import { GaugeReading } from './GaugeReading';
 import { Valve } from './Valve';
-import "../styles/diagram.css"
+import "../styles/proxima_diagram.css"
+import "../styles/sphinx_diagram.css"
+
+
 
 
 class DiagramControls extends React.Component {
@@ -57,7 +61,7 @@ class DiagramControls extends React.Component {
     render() {
         return (
             <div style={{position: "relative"}}>
-                <img src={Diagram} alt="Diagram" style={{height: 350}}></img>
+                <img src={Sphinx_Diagram} alt="Diagram" style={{height: 550, width: 1000}}></img>
                 <Box sx={{textAlign: "center"}} id="diagram-box">
                     {/* <div id="feed_line_pt"><GaugeReading title="Feed Line PT" ref={this.gauge_refs.feed_line_pt}/></div>
                     <div id="cc_pt"><GaugeReading title="CC PT" ref={this.gauge_refs.cc_pt}/></div>
