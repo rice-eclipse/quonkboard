@@ -32,25 +32,25 @@
     left: 650px;
 }
 
-#ox_fill_valve {
+#ox_fill {
     position: absolute;
     top: 101px;
     left: 127px;
 }
 
-#ground_vent_valve {
+#ground_vent {
     position: absolute;
     top: 190px;
     left: 203px;
 }
 
-#nitrogen_purge_valve {
+#ops_pneumatic {
     position: absolute;
     top: -50px;
     left: 590px;
 }
 
-#engine_isolation_valve {
+#engine_vent {
     position: absolute;
     top: 101px;
     left: 390px;

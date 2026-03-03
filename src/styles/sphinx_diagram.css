@@ -5,20 +5,6 @@
     color: white; /* Text color */
 }
 
-#cc_pt {
-    position: absolute; /* Position the overlay absolutely */
-    top: 240px;
-    left: 640px;
-    color: white; /* Text color */
-}
-
-#injector_pt {
-    position: absolute; /* Position the overlay absolutely */
-    top: 138px;
-    left: 694px;
-    color: white; /* Text color */
-}
-
 #ox_tank_pt {
     position: absolute; /* Position the overlay absolutely */
     top: 22px;
@@ -32,26 +18,31 @@
     left: 650px;
 }
 
-#ox_fill_valve {
+#ox_fill {
     position: absolute;
     top: 101px;
     left: 127px;
 }
 
-#ground_vent_valve {
+#ground_vent {
     position: absolute;
     top: 190px;
     left: 203px;
 }
 
-#nitrogen_purge_valve {
+#engine_vent {
     position: absolute;
     top: -50px;
     left: 590px;
 }
 
-#engine_isolation_valve {
+#fuel_run{
     position: absolute;
     top: 101px;
     left: 390px;
+}
+#nitrous_run{
+    position: absolute;
+    top: 101px;
+    left: 590px;
 }
