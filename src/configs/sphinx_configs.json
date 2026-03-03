@@ -2,7 +2,7 @@
   "Title": "Sphinx Mission Control",
   "sensor_ids": {
     "pts": {
-      "0": "ox_pt",
+      "0": "ox_tank_pt",
       "1": "feed_line_pt"
     },
     "lcs": {

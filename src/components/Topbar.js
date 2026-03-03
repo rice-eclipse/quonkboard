@@ -10,16 +10,17 @@ import sphinxConfig from "../configs/sphinx_configs.json";
 const Topbar = (props) => {
     const { setPigeonMode, pigeonMode, setIP } = props;
     const location = useLocation();
+    const path = location.pathname.toLowerCase();
+    const showConnectBar = path.includes("proximamaindisplay") || path.includes("sphinxmaindisplay");
 
     const getTitle = () => {
-        const path = location.pathname.toLowerCase();
         if (path.includes("proximamaindisplay")) {
             return proximaConfig.Title;
         }
         if (path.includes("sphinxmaindisplay")) {
             return sphinxConfig.Title;
         }
-        return "Mission Control";
+        return "";
     };
 
     const handleHeadingClick = () => {
@@ -34,7 +35,7 @@ const Topbar = (props) => {
             <img style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px", float:"right"}} src={logo} alt="logo"/>
             <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: "flex"}} onClick={handleHeadingClick}>{getTitle()}</Typography>
             <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
-                {pigeonMode ? <PigeonMode enable={pigeonMode} /> : <ConnectBar sx={{width: 1.0}} setIP={setIP}/> }
+                {pigeonMode ? <PigeonMode enable={pigeonMode} /> : (showConnectBar ? <ConnectBar sx={{width: 1.0}} setIP={setIP}/> : null)}
             </Box>
         </Stack>
     );

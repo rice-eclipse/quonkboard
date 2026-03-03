@@ -28,9 +28,6 @@ class DiagramControls extends React.Component {
             acc[key] = React.createRef();
             return acc;
         }, {});
-
-        this.gauge_slots = ["feed_line_pt", "cc_pt", "injector_pt", "ox_tank_pt", "load_cell"];
-        this.valve_slots = ["ox_fill_valve", "ground_vent_valve", "nitrogen_purge_valve", "engine_isolation_valve"];
     }
 
     getActiveConfig = () => {
@@ -50,8 +47,6 @@ class DiagramControls extends React.Component {
     getDriverKeys = (config) => {
         return Object.values(config?.sensor_ids?.drivers || {}).filter((driver) => driver !== "ignition");
     }
-
-
 
     update(dataManager) {
         const data = dataManager.modifiedDataset;
@@ -80,18 +75,9 @@ class DiagramControls extends React.Component {
         };
     }
 
-    componentDidMount() {
-        if (this.valve_refs.ground_vent?.current) {
-            this.valve_refs.ground_vent.current.setOpen(true);
-        }
-    }
-
-    renderGauge = (sensor, index) => {
-        const slotId = this.gauge_slots[index];
-        const wrapperProps = { id: slotId };
-
+    renderGauge = (sensor) => {
         return (
-            <div key={sensor} {...wrapperProps}>
+            <div key={sensor} id={sensor}>
                 <GaugeReading
                     title={sensor}
                     size={sensor === "load_cell" ? 90 : 70}
@@ -101,20 +87,12 @@ class DiagramControls extends React.Component {
         );
     }
 
-    renderValve = (driver, index) => {
-        const slotId = this.valve_slots[index];
-        const wrapperProps = slotId
-            ? { id: slotId }
-            : { style: { position: "absolute", right: 20, top: 20 + (index - this.valve_slots.length) * 95 } };
-
+    renderValve = (driver) => {
         return (
-            <div key={driver} {...wrapperProps}>
+            <div key={driver} id={driver}>
                 <Valve
                     title={driver}
                     toggle_cmd={this.sendDriverCommand(driver)}
-                    opposite={driver === "ground_vent"}
-                    text_bottom={driver === "ground_vent"}
-                    text_margin={driver === "ground_vent" ? "22px" : 0}
                     ref={this.valve_refs[driver]}
                 />
             </div>
