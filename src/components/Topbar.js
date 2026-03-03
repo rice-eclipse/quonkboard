@@ -12,7 +12,7 @@ const Topbar = (props) => {
     const location = useLocation();
     const path = location.pathname.toLowerCase();
     const showConnectBar = path.includes("proximamaindisplay") || path.includes("sphinxmaindisplay");
-
+    
     const getTitle = () => {
         if (path.includes("proximamaindisplay")) {
             return proximaConfig.Title;
@@ -32,7 +32,7 @@ const Topbar = (props) => {
 
     return (
         <Stack direction="row" sx={{width: 1.0, height: 90, mb:2, display: "flex", borderBottom: 1, p: 1}}>
-            <img style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px", float:"right"}} src={logo} alt="logo"/>
+            {showConnectBar ? <img style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px", float:"right"}} src={logo} alt="logo"/>: null}
             <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: "flex"}} onClick={handleHeadingClick}>{getTitle()}</Typography>
             <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
                 {pigeonMode ? <PigeonMode enable={pigeonMode} /> : (showConnectBar ? <ConnectBar sx={{width: 1.0}} setIP={setIP}/> : null)}

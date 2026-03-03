@@ -92,6 +92,7 @@ class DiagramControls extends React.Component {
             <div key={driver} id={driver}>
                 <Valve
                     title={driver}
+                    authenticated={this.props.authenticated}
                     toggle_cmd={this.sendDriverCommand(driver)}
                     ref={this.valve_refs[driver]}
                 />
