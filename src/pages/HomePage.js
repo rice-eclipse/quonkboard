@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from "../quonkboard.png";
 import eclipseLogo from "../Rice_Eclipse_Vertical_White.svg";
+import "../styles/background.css"
 import Button from '@mui/material/Button';
 import {
     BrowserRouter as Router,
@@ -20,11 +21,21 @@ const HomePage = ({ type }) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             minHeight: '100vh',
-            gap: '16px',
+            gap: '0.5rem',
         }}>
-            <img src={eclipseLogo} alt="eclipseLogo" style={{height: '150px', marginTop: '-500px', marginLeft: '60px', position: 'relative'}}></img>
+
+        <div class="stars"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        
+
+
+            <img src={eclipseLogo} alt="eclipseLogo" style={{height: '150px', marginTop: '2vh', marginLeft: '60px', position: 'relative'}}></img>
             <h1 style={{fontSize: '6.5rem'}}> Quonkboard</h1>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
             <Button variant="contained" onClick={() => navigate('./ProximaMainDisplay')}
@@ -49,7 +60,7 @@ const HomePage = ({ type }) => {
                 >
                     Sphinx
                 </Button>
-            <Button disabled='true' variant="contained" onClick={() => navigate('./TODO')}
+            <Button disabled='true' variant="contained" onClick={() => navigate('./TODOy')}
                     sx={{
                         backgroundColor: '#fff',
                         color: '#000',
