@@ -1,57 +1,63 @@
 #feed_line_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 200px;
-    left: 68px;
+    top: 235px;
+    left: 372px;
     color: white; /* Text color */
 }
 
 #cc_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 240px;
-    left: 640px;
+    top: 380px;
+    left: 682px;
     color: white; /* Text color */
 }
 
+/*Pre-injection pt*/
 #injector_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 138px;
-    left: 694px;
+    top: 369px;
+    left: 752px;
     color: white; /* Text color */
 }
 
-#ox_tank_pt {
+#ox_tank_pt /*ops pt*/{
     position: absolute; /* Position the overlay absolutely */
-    top: 22px;
-    left: 516px;
+    top: 230px;
+    left: 107px;
     color: white; /* Text color */
 }
 
 #load_cell {
     position: absolute;
-    top: 20px;
-    left: 650px;
+    top: 239px;
+    left: 720px;
+}
+#star_load_cell {
+    position: absolute;
+    top: 239px;
+    left: 720px;
 }
 
 #ox_fill {
     position: absolute;
-    top: 101px;
-    left: 127px;
+    top: 160px;
+    left: 418px;
 }
 
 #ground_vent {
     position: absolute;
-    top: 190px;
-    left: 203px;
+    top: 120px;
+    left: 516px;
 }
 
-#ops_pneumatic {
+#engine_vent {
     position: absolute;
     top: -50px;
     left: 590px;
 }
 
-#engine_vent {
+#ops_pneumatic /*ops valve*/ {
     position: absolute;
-    top: 101px;
-    left: 390px;
+    top: 160px;
+    left: 163px;
 }
