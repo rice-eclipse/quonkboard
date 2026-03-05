@@ -10,6 +10,8 @@ import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
 import Interface from "../logic/Interface";
 import AuthBox from "../components/AuthBox";
+import proxima_config from "../configs/proxima_configs.json";
+import sphinx_config from "../configs/sphinx_configs.json";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -20,12 +22,20 @@ const MainDisplay = (props) => {
     const diagram = useRef();
     const telemetry = useRef();
 
-    const { ip } = props;
+    const { ip, configKey } = props;
     const iface = useRef();
     const auth_box = useRef();
 
-    const [dataManager, setDataManager] = useState(new DataManager());
+    const engineConfig = configKey === "proxima" ? proxima_config : sphinx_config;
+
+    const [dataManager, setDataManager] = useState(new DataManager(engineConfig));
     const [authStatus, setAuthStatus] = useState(false);
+
+    useEffect(() => {
+        setDataManager(new DataManager(engineConfig));
+        setAuthStatus(false);
+        auth_box?.current?.setPassword("");
+    }, [engineConfig]);
 
     useEffect(() => {
         const processData = (data) => {
@@ -37,27 +47,29 @@ const MainDisplay = (props) => {
             if ((data.feed_line_pt || data.cc_pt || data.injector_pt || data.ox_tank_pt) && pt_plot.current) {
                 pt_plot.current.update(dataManager);
             }
-            if (readoutTable !== null && readoutTable.current !== null && readoutTable.current !== undefined) {
+            if (readoutTable?.current) {
                 readoutTable.current.update(dataManager);
             }
-            if (diagram !== null && diagram.current !== null && diagram.current !== undefined) {
+            if (diagram?.current) {
                 diagram.current.update(dataManager);
             }
 
-            if (data.telemetry && telemetry.current !== null && telemetry.current !== undefined) {
+            if (data.telemetry && telemetry?.current) {
                 telemetry.current.update(dataManager);
             }
         };
+
         if (ip !== "") {
-            iface.current = new Interface(ip, dataManager);
+            iface.current = new Interface(ip, engineConfig);
             iface.current.setOnData(processData);
         }
+
         return () => {
             if (iface.current !== undefined) {
                 iface.current.close();
             }
         };
-    }, [ip, dataManager]);
+    }, [ip, dataManager, engineConfig]);
 
     const ignitionSequence = (go) => {
         if (go) {

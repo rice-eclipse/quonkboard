@@ -8,7 +8,8 @@
       "3": "ox_tank_pt"
     },
     "lcs": {
-      "0": "load_cell"
+      "0": "load_cell",
+      "1": "star_load_cell"
     },
     "drivers": {
       "0": "ox_fill",
