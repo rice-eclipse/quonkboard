@@ -1,63 +1,68 @@
-#feed_line_pt {
+.proxima #feed_line_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 235px;
-    left: 372px;
+    top: 255px;
+    left: 452px;
     color: white; /* Text color */
 }
 
-#cc_pt {
+.proxima #cc_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 380px;
-    left: 682px;
+    top: 420px;
+    left: 792px;
     color: white; /* Text color */
 }
 
 /*Pre-injection pt*/
-#injector_pt {
+.proxima #injector_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 369px;
-    left: 752px;
+    top: 405px;
+    left: 870px;
     color: white; /* Text color */
 }
 
-#ox_tank_pt /*ops pt*/{
+.proxima #ops_pt /*ops pt*/{
     position: absolute; /* Position the overlay absolutely */
-    top: 230px;
-    left: 107px;
+    top: 255px;
+    left: 160px;
     color: white; /* Text color */
 }
 
-#load_cell {
+.proxima #load_cell {
     position: absolute;
-    top: 239px;
-    left: 720px;
+    top: 269px;
+    left: 830px;
 }
-#star_load_cell {
+.proxima #star_load_cell {
     position: absolute;
-    top: 239px;
-    left: 720px;
+    top: 359px;
+    left: 90px;
 }
 
-#ox_fill {
+.proxima #ox_fill {
     position: absolute;
-    top: 160px;
+    top: 180px;
+    left: 518px;
+}
+.proxima #remote_purge {
+    position: absolute;
+    top: 380px;
+    left: 518px;
+}
+
+.proxima #low_flow_ops {
+    position: absolute;
+    top: 380px;
     left: 418px;
 }
-
-#ground_vent {
+.proxima #ground_vent {
     position: absolute;
-    top: 120px;
-    left: 516px;
+    top: 140px;
+    left: 620px;
 }
 
-#engine_vent {
-    position: absolute;
-    top: -50px;
-    left: 590px;
-}
 
-#ops_pneumatic /*ops valve*/ {
+.proxima #ops_pneumatic /*ops valve*/ {
     position: absolute;
-    top: 160px;
-    left: 163px;
+    top: 180px;
+    left: 233px;
 }

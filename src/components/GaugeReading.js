@@ -8,6 +8,7 @@ class GaugeReading extends React.Component {
     constructor(props) {
         super(props);
         let size = 70;
+        
         if (props.size) {
             size = props.size;
         }
@@ -18,8 +19,10 @@ class GaugeReading extends React.Component {
             valueMin: 0,
             valueMax: 10,
             title: props.title,
+            text_pos: (props.title === "load_cell") ? -1 : -1,//Remove this. I
             minMaxDisplay: "none"
         }
+        
     }
 
     setValue(value) {
@@ -29,6 +32,7 @@ class GaugeReading extends React.Component {
             this.setState({value: (value < 10 ? value.toFixed(1) : Math.floor(value))});
         }
     }
+
 
     render() {
         return (
@@ -49,7 +53,7 @@ class GaugeReading extends React.Component {
             })}
             onClick={() => {this.setState({minMaxDisplay: this.state.minMaxDisplay === "none" ? "block" : "none"})}}
             />
-            <Typography sx={{mt: -1}}>{this.state.title}</Typography>
+            <Typography sx={{mt:this.state.text_pos}}>{this.state.title}</Typography>
             <FormControl sx={{mt:4, width: 150, 
                 "& .base-NumberInput-root input": {
                     width: 50

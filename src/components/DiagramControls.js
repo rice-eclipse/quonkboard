@@ -14,7 +14,7 @@ class DiagramControls extends React.Component {
         super(props);
         this.props = props;
         this.interface = props.interface.current;
-
+        this.css_config = "";
         this.config = this.getActiveConfig();
         this.gauge_keys = this.getGaugeKeys(this.config);
         this.driver_keys = this.getDriverKeys(this.config);
@@ -33,8 +33,10 @@ class DiagramControls extends React.Component {
     getActiveConfig = () => {
         const path = window.location.pathname.toLowerCase();
         if (path.includes("proximamaindisplay")) {
+            this.css_config = "proxima";
             return proxima_configs;
         }
+        this.css_config = "sphinx";
         return sphinx_configs;
     }
 
@@ -77,6 +79,7 @@ class DiagramControls extends React.Component {
 
     renderGauge = (sensor) => {
         return (
+            <body class={this.css_config}>
             <div key={sensor} id={sensor}>
                 <GaugeReading
                     title={sensor}
@@ -84,11 +87,13 @@ class DiagramControls extends React.Component {
                     ref={this.gauge_refs[sensor]}
                 />
             </div>
+            </body>
         );
     }
 
     renderValve = (driver) => {
         return (
+            <body class={this.css_config}>
             <div key={driver} id={driver}>
                 <Valve
                     title={driver}
@@ -97,6 +102,7 @@ class DiagramControls extends React.Component {
                     ref={this.valve_refs[driver]}
                 />
             </div>
+            </body>
         );
     }
 
