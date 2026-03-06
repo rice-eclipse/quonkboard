@@ -79,7 +79,7 @@ class DiagramControls extends React.Component {
 
     renderGauge = (sensor) => {
         return (
-            <body class={this.css_config}>
+            <div class={this.css_config}>
             <div key={sensor} id={sensor}>
                 <GaugeReading
                     title={sensor}
@@ -87,13 +87,13 @@ class DiagramControls extends React.Component {
                     ref={this.gauge_refs[sensor]}
                 />
             </div>
-            </body>
+            </div>
         );
     }
 
     renderValve = (driver) => {
         return (
-            <body class={this.css_config}>
+            <div class={this.css_config}>
             <div key={driver} id={driver}>
                 <Valve
                     title={driver}
@@ -102,7 +102,7 @@ class DiagramControls extends React.Component {
                     ref={this.valve_refs[driver]}
                 />
             </div>
-            </body>
+            </div>
         );
     }
 
