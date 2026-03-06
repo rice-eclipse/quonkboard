@@ -4,11 +4,12 @@ import proxima_config from "../configs/proxima_configs.json";
  * Interface class
  */
 class Interface {
-    constructor(ip_port, engineConfig = proxima_config) {
+    constructor(ip_port, engineConfig = proxima_config, setConnection) {
         this.config = engineConfig;
         this.data_buffer = [];
         this.onData = null;
         this.password = "";
+        this.setConnection = setConnection;
 
         let [ip, port] = ["", ""];
         try {
@@ -79,6 +80,7 @@ class Interface {
 
         this.tcpClient.onclose = () => {
             console.log('Connection closed');
+            this.setConnection({ip: "", engineType: ""});
         };
     }
 

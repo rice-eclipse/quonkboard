@@ -8,7 +8,9 @@ import React from "react";
  * ConnectBar component renders a form with a text field for connection IP and a connect button.
  */
 const ConnectBar = (props) => {
-    const { setConnection, engineType } = props;
+    const { setConnection, engineType, connection} = props;
+
+    const isConnected = connection.ip && connection.engineType;
 
     return (
         <Stack
@@ -36,7 +38,7 @@ const ConnectBar = (props) => {
               sx={{display:"flex", height: 58}}
               margin="auto"
             >
-              Connect
+              {isConnected ? "Disconnect" : "Connect"}
             </Button>
         </Stack>
     );

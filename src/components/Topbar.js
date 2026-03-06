@@ -8,7 +8,7 @@ import proximaConfig from "../configs/proxima_configs.json";
 import sphinxConfig from "../configs/sphinx_configs.json";
 
 const Topbar = (props) => {
-    const { setPigeonMode, pigeonMode, setConnection } = props;
+    const { setPigeonMode, pigeonMode, setConnection, connection } = props;
     const location = useLocation();
     const path = location.pathname.toLowerCase();
     const showConnectBar = path.includes("proximamaindisplay") || path.includes("sphinxmaindisplay");
@@ -36,7 +36,7 @@ const Topbar = (props) => {
             {showConnectBar ? <img style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px", float:"right"}} src={logo} alt="logo"/>: null}
             <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: "flex"}} onClick={handleHeadingClick}>{getTitle()}</Typography>
             <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
-                {pigeonMode ? <PigeonMode enable={pigeonMode} /> : (showConnectBar ? <ConnectBar sx={{width: 1.0}} setConnection={setConnection} engineType={engineType} /> : null)}
+                {pigeonMode ? <PigeonMode enable={pigeonMode} /> : (showConnectBar ? <ConnectBar sx={{width: 1.0}} setConnection={setConnection} connection={connection} engineType={engineType} /> : null)}
             </Box>
         </Stack>
     );

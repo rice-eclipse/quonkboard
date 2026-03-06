@@ -33,12 +33,12 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Router>
-        <Topbar pigeonMode={pigeonMode} setPigeonMode={setPigeonMode} setConnection={setConnection} />
+        <Topbar pigeonMode={pigeonMode} setPigeonMode={setPigeonMode} setConnection={setConnection} connection={connection}/>
         {pigeonMode ? <AnimatedCursor>{Array.from({ length: 2 }, (_, i) => <img src={partyPigeon} alt="party pigeon" style={{height: "30px"}} key={i} />)}</AnimatedCursor> : ""}
         <Routes>
           <Route path="/" element={<HomePage admin={false} pigeonMode={pigeonMode} ip={connection.ip} sx={{cursor: "default"}}/>} />
-          <Route path="/ProximaMainDisplay" element={<ProximaMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} sx={{cursor: "default"}}/>} />
-          <Route path="/SphinxMainDisplay" element={<SphinxMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} sx={{cursor: "default"}}/>} />
+          <Route path="/ProximaMainDisplay" element={<ProximaMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} connection={connection} setConnection={setConnection} sx={{cursor: "default"}}/>} />
+          <Route path="/SphinxMainDisplay" element={<SphinxMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} connection={connection} setConnection={setConnection} sx={{cursor: "default"}}/>} />
         </Routes>
       </Router>
     </ThemeProvider>

@@ -22,7 +22,7 @@ const MainDisplay = (props) => {
     const diagram = useRef();
     const telemetry = useRef();
 
-    const { ip, configKey } = props;
+    const { ip, configKey, connection, setConnection} = props;
     const iface = useRef();
     const auth_box = useRef();
 
@@ -60,7 +60,7 @@ const MainDisplay = (props) => {
         };
 
         if (ip !== "") {
-            iface.current = new Interface(ip, engineConfig);
+            iface.current = new Interface(ip, engineConfig, setConnection);
             iface.current.setOnData(processData);
         }
 
