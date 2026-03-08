@@ -1,0 +1,24 @@
+{
+  "Title": "Proxima Mission Control",
+  "sensor_ids": {
+    "pts": {
+      "0": "cc_pt",
+      "1": "feed_line_pt",
+      "2": "injector_pt",
+      "3": "ops_pt"
+    },
+    "lcs": {
+      "0": "load_cell",
+      "1": "star_load_cell"
+    },
+    "drivers": {
+      "0": "ox_fill",
+      "1": "ground_vent",
+      "3": "remote_purge",
+      "4": "low_flow_ops",
+      "5": "ops_pneumatic",
+      "6": "ignition"
+    }
+  },
+  "max_data_points": 500
+}

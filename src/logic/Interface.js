@@ -1,34 +1,16 @@
-import config from "../config.json"
+import proxima_config from "../configs/proxima_configs.json";
 
 /**
  * Interface class
- * make class documentation
- * 
- * @class
- * @param {string} ip_port - The IP address and port of the controller.
- * @param {DataManager} data_manager - The data manager to send data to.
- * @returns {Interface} The Interface object.
- * @throws {Error} Throws an error if the IP address and/or port is invalid.
- * 
  */
 class Interface {
-    /**
-     * Creates an instance of Interface.
-     * 
-     * @constructor
-     * @param {string} ip_port - The IP address and port in the format "ip:port".
-     * @param {Object} data_manager - The data manager object responsible for handling data.
-     * 
-     * @property {Socket} tcpClient - The TCP client socket.
-     * @property {Array} data_buffer - Buffer to store incoming data.
-     * @property {Object} data_manager - The data manager object.
-     * 
-     * @throws Will throw an error if the IP address and/or port is invalid.
-     */
-    constructor (ip_port) {
+    constructor(ip_port, engineConfig = proxima_config, setConnection) {
+        this.config = engineConfig;
         this.data_buffer = [];
         this.onData = null;
         this.password = "";
+        this.setConnection = setConnection;
+
         let [ip, port] = ["", ""];
         try {
             [ip, port] = ip_port.split(":");
@@ -55,66 +37,38 @@ class Interface {
             if (text == null) {
                 return;
             }
+
             const json_data = JSON.parse(text);
             const new_data = {};
-            if (json_data.pts) {
-                for (const datum of json_data.pts.readings) {
-                    switch (config.sensor_ids.pts[datum.sensor_id]) {
-                        case "feed_line_pt":
-                            new_data.feed_line_pt = datum.reading;
-                            break;
-                        case "cc_pt":
-                            new_data.cc_pt = datum.reading;
-                            break;
-                        case "injector_pt":
-                            new_data.injector_pt = datum.reading;
-                            break;
-                        case "ox_tank_pt":
-                            new_data.ox_tank_pt = datum.reading;
-                            break;
-                        default:
-                            console.log("Invalid sensor id " + datum.sensor_id)
-                            break;
-                    }
-                }
-            }
-            if (json_data.lcs) {
-                for (const datum of json_data.lcs.readings) {
-                    switch (config.sensor_ids.lcs[String(datum.sensor_id)]) {
-                        case "load_cell":
-                            new_data.load_cell = datum.reading;
-                            break;
-                        default:
-                            console.log("Invalid sensor id " + datum.sensor_id)
-                            break;
-                    }
-                }
-            }
-            if (json_data.driver && json_data.driver.values) {
-                let idx = 0;
-                new_data.drivers = {}
-                for ( const datum of json_data.driver.values ) {
-                    switch (config.sensor_ids.drivers[String(idx)]) {
-                        case "ox_fill":
-                            new_data.drivers.ox_fill = datum;
-                            break;
-                        case "ground_vent":
-                            new_data.drivers.ground_vent = datum;
-                            break;
-                        case "ops_pneumatic":
-                            new_data.drivers.ops_pneumatic = datum;
-                            break;
-                        case "engine_vent":
-                            new_data.drivers.engine_vent = datum;
-                            break;
 
-                        default:
-                            console.log("Invalid sensor id " + datum.sensor_id)
-                            break;
+            if (json_data.pts?.readings) {
+                for (const datum of json_data.pts.readings) {
+                    const sensorKey = this.config?.sensor_ids?.pts?.[String(datum.sensor_id)];
+                    if (sensorKey) {
+                        new_data[sensorKey] = datum.reading;
                     }
-                    idx++;
                 }
             }
+
+            if (json_data.lcs?.readings) {
+                for (const datum of json_data.lcs.readings) {
+                    const sensorKey = this.config?.sensor_ids?.lcs?.[String(datum.sensor_id)];
+                    if (sensorKey) {
+                        new_data[sensorKey] = datum.reading;
+                    }
+                }
+            }
+
+            if (json_data.driver?.values) {
+                new_data.drivers = {};
+                for (let idx = 0; idx < json_data.driver.values.length; idx++) {
+                    const driverKey = this.config?.sensor_ids?.drivers?.[String(idx)];
+                    if (driverKey) {
+                        new_data.drivers[driverKey] = json_data.driver.values[idx];
+                    }
+                }
+            }
+
             if (json_data.console) {
                 new_data.telemetry = json_data.console;
             }
@@ -126,8 +80,8 @@ class Interface {
 
         this.tcpClient.onclose = () => {
             console.log('Connection closed');
+            this.setConnection({ip: "", engineType: ""});
         };
-
     }
 
     sendIgnition() {
@@ -149,7 +103,7 @@ class Interface {
 
     sendDriverUpdate(driver_name, direction) {
         let driver_id = -1;
-        for (const [id, name] of Object.entries(config.sensor_ids.drivers)) {
+        for (const [id, name] of Object.entries(this.config?.sensor_ids?.drivers || {})) {
             if (name === driver_name) {
                 driver_id = id;
             }
@@ -181,7 +135,7 @@ class Interface {
     }
 
     close() {
-        this.tcpClient.close()
+        this.tcpClient.close();
     }
 }
 

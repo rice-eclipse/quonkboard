@@ -1,0 +1,68 @@
+.proxima #feed_line_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 255px;
+    left: 452px;
+    color: white; /* Text color */
+}
+
+.proxima #cc_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 420px;
+    left: 792px;
+    color: white; /* Text color */
+}
+
+/*Pre-injection pt*/
+.proxima #injector_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 405px;
+    left: 870px;
+    color: white; /* Text color */
+}
+
+.proxima #ops_pt /*ops pt*/{
+    position: absolute; /* Position the overlay absolutely */
+    top: 255px;
+    left: 160px;
+    color: white; /* Text color */
+}
+
+.proxima #load_cell {
+    position: absolute;
+    top: 269px;
+    left: 830px;
+}
+.proxima #star_load_cell {
+    position: absolute;
+    top: 359px;
+    left: 90px;
+}
+
+.proxima #ox_fill {
+    position: absolute;
+    top: 180px;
+    left: 518px;
+}
+.proxima #remote_purge {
+    position: absolute;
+    top: 380px;
+    left: 518px;
+}
+
+.proxima #low_flow_ops {
+    position: absolute;
+    top: 380px;
+    left: 418px;
+}
+.proxima #ground_vent {
+    position: absolute;
+    top: 140px;
+    left: 620px;
+}
+
+
+.proxima #ops_pneumatic /*ops valve*/ {
+    position: absolute;
+    top: 180px;
+    left: 233px;
+}

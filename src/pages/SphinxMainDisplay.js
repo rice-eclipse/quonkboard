@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box, Grid } from "@mui/material";
-import Stack from "@mui/material/Stack"
+import Stack from "@mui/material/Stack";
 import { LiveReadoutTable } from "../components/LiveReadoutTable";
 import { DiagramControls } from "../components/DiagramControls";
 import { IgnitionButton } from "../components/IgnitionButton";
@@ -10,6 +10,8 @@ import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
 import Interface from "../logic/Interface";
 import AuthBox from "../components/AuthBox";
+import proxima_config from "../configs/proxima_configs.json";
+import sphinx_config from "../configs/sphinx_configs.json";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -20,47 +22,54 @@ const MainDisplay = (props) => {
     const diagram = useRef();
     const telemetry = useRef();
 
-    const { ip } = props;
+    const { ip, configKey, connection, setConnection} = props;
     const iface = useRef();
     const auth_box = useRef();
 
-    // const [displayMode, setDisplayMode] = useState("rawData");
-    // const [contextDuration, setContextDuration] = useState(10);
-    // const [dataDevInterval, setDataDevInterval] = useState(null);
-    // const [telemetryDevInterval, setTelemetryDevInterval] = useState(null);
-    const [dataManager, setDataManager] = useState(new DataManager());
+    const engineConfig = configKey === "proxima" ? proxima_config : sphinx_config;
+
+    const [dataManager, setDataManager] = useState(new DataManager(engineConfig));
+    const [authStatus, setAuthStatus] = useState(false);
+
+    useEffect(() => {
+        setDataManager(new DataManager(engineConfig));
+        setAuthStatus(false);
+        auth_box?.current?.setPassword("");
+    }, [engineConfig]);
 
     useEffect(() => {
         const processData = (data) => {
             dataManager.addData(data);
-            
+
             if (data.load_cell && lc_plot.current) {
                 lc_plot.current.update(dataManager);
             }
             if ((data.feed_line_pt || data.cc_pt || data.injector_pt || data.ox_tank_pt) && pt_plot.current) {
                 pt_plot.current.update(dataManager);
             }
-            if (readoutTable !== null && readoutTable.current !== null && readoutTable.current !== undefined) {
+            if (readoutTable?.current) {
                 readoutTable.current.update(dataManager);
             }
-            if (diagram !== null && diagram.current !== null && diagram.current !== undefined) {
+            if (diagram?.current) {
                 diagram.current.update(dataManager);
             }
-    
-            if (data.telemetry && telemetry.current !== null && telemetry.current !== undefined) {
+
+            if (data.telemetry && telemetry?.current) {
                 telemetry.current.update(dataManager);
             }
-        }
+        };
+
         if (ip !== "") {
-            iface.current = new Interface(ip, dataManager);
+            iface.current = new Interface(ip, engineConfig, setConnection);
             iface.current.setOnData(processData);
         }
+
         return () => {
             if (iface.current !== undefined) {
                 iface.current.close();
             }
-        }
-    }, [ip, dataManager]);
+        };
+    }, [ip, dataManager, engineConfig]);
 
     const ignitionSequence = (go) => {
         if (go) {
@@ -68,32 +77,18 @@ const MainDisplay = (props) => {
         } else {
             iface.current?.sendIgnitionCancel();
         }
-    }
+    };
 
     const setAuth = (password) => {
+        const isAuthenticated = password === "quonk";
         if (iface.current !== undefined) {
             iface.current.setAuth(password);
+            setAuthStatus(isAuthenticated);
         } else {
             auth_box?.current?.setPassword("");
+            setAuthStatus(false);
         }
-    }
-
-    // if (dataDevInterval === null) {
-    //     setDataDevInterval(setInterval(() => {
-    //         processData({
-    //             load_cell: 1 + Math.random(),
-    //             feed_line_pt: 1.5 + Math.random(),
-    //             cc_pt: 2.3 + Math.random(),
-    //             injector_pt: 3.0 + Math.random(),
-    //             ox_tank_pt: 4.0 + Math.random()
-    //         });
-    //     }, 1000));
-    //     setTelemetryDevInterval(setInterval(() => {
-    //         processData({
-    //             telemetry: "This is a test telemetry log"
-    //         });
-    //     }, 1500));
-    // }
+    };
 
     return (
         <Box sx={{my:-2}}>
@@ -102,7 +97,7 @@ const MainDisplay = (props) => {
                     <Stack>
                         <LiveReadoutTable sx={{margin: { top: 10, bottom: 20 }}} ref={readoutTable} dataManager={dataManager}/>
                         <br />
-                        <IgnitionButton callback={ignitionSequence}/>
+                        <IgnitionButton authenticated={authStatus} callback={ignitionSequence}/>
                         <br />
                         <AuthBox setAuth={setAuth} ref={auth_box}/>
                         <br />
@@ -112,15 +107,13 @@ const MainDisplay = (props) => {
                 <Grid item xs={10}>
                     <Grid container spacing={0}>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
-                            {/* <Typography sx={{textAlign: "center"}} variant="h5">Pressure Transducers</Typography> */}
                             <DataPlot ref={pt_plot} dataManager={dataManager} keys={["feed_line_pt", "cc_pt", "injector_pt", "ox_tank_pt"]}/>
                         </Grid>
                         <Grid item xs={6} sx={{textAlign: "center"}}>
-                            {/* <Typography sx={{textAlign: "center"}} variant="h5">Load Cell</Typography> */}
                             <DataPlot ref={lc_plot} dataManager={dataManager} keys={["load_cell"]}/>
                         </Grid>
                         <Grid item xs={8} sx={{alignContent: "center", height: 350, mt:5}}>
-                            <DiagramControls sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>
+                            <DiagramControls authenticated={authStatus} sx={{position: "relative"}} ref={diagram} interface={iface} dataManager={dataManager}/>
                         </Grid>
                         <Grid item xs={4} sx={{alignContent: "center", mt: -4}}>
                             <Typography sx={{textAlign: "center", mb: 1}} variant="h4">Telemetry Logs</Typography>
@@ -131,6 +124,6 @@ const MainDisplay = (props) => {
             </Grid>
         </Box>
     );
-}
+};
 
 export default MainDisplay;
