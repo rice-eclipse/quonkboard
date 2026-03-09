@@ -1,5 +1,6 @@
 {
   "Title": "Proxima Mission Control",
+  "engine": "proxima",
   "sensor_ids": {
     "pts": {
       "0": "cc_pt",
