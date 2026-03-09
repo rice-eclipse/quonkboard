@@ -1,5 +1,6 @@
 {
   "Title": "Sphinx Mission Control",
+  "engine": "sphinx",
   "sensor_ids": {
     "pts": {
       "0": "cc_pt",
@@ -14,9 +15,9 @@
       "0": "ox_fill",
       "1": "ground_vent",
       "3": "remote_purge",
-      "4": "ignition",
-      "5": "fuel_run",
-      "6": "nitrous_run"
+      "4": "fuel_run",
+      "5": "nitrous_run",
+      "6": "ignition"
     }
   },
   "max_data_points": 500

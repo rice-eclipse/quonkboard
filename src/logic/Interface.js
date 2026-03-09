@@ -88,7 +88,8 @@ class Interface {
         this.tcpClient.send(
             JSON.stringify({
                 "type": "Ignition",
-                "password": this.password
+                "password": this.password,
+                "engine": this.config.engine
             })
         );
     }
