@@ -59,6 +59,15 @@ class Interface {
                 }
             }
 
+            if (json_data.rtds?.readings) {
+                for (const datum of json_data.rtds.readings) {
+                    const sensorKey = this.config?.sensor_ids?.rtds?.[String(datum.sensor_id)];
+                    if (sensorKey) {
+                        new_data[sensorKey] = datum.reading;
+                    }
+                }
+            }
+
             if (json_data.driver?.values) {
                 new_data.drivers = {};
                 for (let idx = 0; idx < json_data.driver.values.length; idx++) {

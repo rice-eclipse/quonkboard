@@ -54,7 +54,6 @@ class LiveReadoutTable extends React.Component {
         if (sensorKey.includes("_pt") || sensorKey === "ox_pt" || sensorKey === "ops_pt") {
             return "psig";
         }
-        return "";
     }
 
     buildDefaults = (sensorKeys) => {

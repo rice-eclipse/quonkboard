@@ -12,12 +12,15 @@
       "0": "load_cell",
       "1": "star_load_cell"
     },
+    "rtds":{
+      "0": "main_rtd"
+    },
     "drivers": {
       "0": "ox_fill",
       "1": "ground_vent",
       "3": "remote_purge",
-      "4": "low_flow_ops",
-      "5": "ops_pneumatic",
+      "5": "low_flow_ops",
+      "4": "ops_pneumatic",
       "6": "ignition"
     }
   },
