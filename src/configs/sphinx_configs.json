@@ -4,7 +4,7 @@
   "sensor_ids": {
     "pts": {
       "0": "cc_pt",
-      "1": "feed_line_pt",
+      "1": "ox_fee_pt",
       "2": "ox_tank_pt"
 
     },
@@ -13,8 +13,8 @@
     },
     "drivers": {
       "0": "ox_fill",
-      "1": "ground_vent",
-      "3": "remote_purge",
+      "1": "ox_ground_vent",
+      "3": "ox_remote_purge",
       "4": "fuel_run",
       "5": "nitrous_run",
       "6": "ignition"
