@@ -2,12 +2,15 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Sphinx_Diagram from '../diagrams/sphinx_diagram.svg';
 import Proxima_Diagram from '../diagrams/proxima_diagram.svg';
+import Prometheus_Diagram from '../diagrams/prometheus_diagram.svg';
 import { GaugeReading } from './GaugeReading';
 import { Valve } from './Valve';
 import proxima_configs from '../configs/proxima_configs.json';
 import sphinx_configs from '../configs/sphinx_configs.json';
+import prometheus_configs from '../configs/prometheus_configs.json';
 import "../styles/proxima_diagram.css";
 import "../styles/sphinx_diagram.css";
+import "../styles/prometheus_diagram.css";
 
 class DiagramControls extends React.Component {
     constructor(props){
@@ -35,6 +38,10 @@ class DiagramControls extends React.Component {
         if (path.includes("proximamaindisplay")) {
             this.css_config = "proxima";
             return proxima_configs;
+        }
+        if (path.includes("prometheusmaindisplay")) {
+            this.css_config = "prometheus";
+            return prometheus_configs;
         }
         this.css_config = "sphinx";
         return sphinx_configs;
@@ -109,7 +116,12 @@ class DiagramControls extends React.Component {
 
     render() {
         const path = window.location.pathname.toLowerCase();
-        const diagram = path.includes("proximamaindisplay") ? Proxima_Diagram : Sphinx_Diagram;
+        let diagram = Sphinx_Diagram;
+        if (path.includes("proximamaindisplay")) {
+            diagram = Proxima_Diagram;
+        } else if (path.includes("prometheusmaindisplay")) {
+            diagram = Prometheus_Diagram;
+        }
 
         return (
             <div style={{position: "relative"}}>

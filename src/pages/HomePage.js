@@ -12,6 +12,7 @@ import {
 
 import ProximaMainDisplay from './ProximaMainDisplay';
 import SphinxMainDisplay from './SphinxMainDisplay';
+import PrometheusMainDisplay from './PrometheusMainDisplay';
 
 const HomePage = ({ type }) => {
     const navigate = useNavigate();
@@ -60,7 +61,7 @@ const HomePage = ({ type }) => {
                 >
                     Sphinx
                 </Button>
-            <Button disabled='true' variant="contained" onClick={() => navigate('./TODOy')}
+            <Button variant="contained" onClick={() => navigate('./PrometheusMainDisplay')}
                     sx={{
                         backgroundColor: '#fff',
                         color: '#000',
@@ -75,6 +76,7 @@ const HomePage = ({ type }) => {
             <Routes>
                 <Route path='test' element={<ProximaMainDisplay />} />
                 <Route path='test' element={<SphinxMainDisplay />} />
+                <Route path='test' element={<PrometheusMainDisplay />} />
             </Routes>
         </div>
     );

@@ -8,6 +8,7 @@ import {
 import Topbar from './components/Topbar';
 import ProximaMainDisplay from './pages/ProximaMainDisplay';
 import SphinxMainDisplay from './pages/SphinxMainDisplay';
+import PrometheusMainDisplay from './pages/PrometheusMainDisplay';
 import HomePage from './pages/HomePage';
 import { useState } from 'react';
 import partyPigeon from "./party-parrot.gif";
@@ -39,6 +40,7 @@ function App() {
           <Route path="/" element={<HomePage admin={false} pigeonMode={pigeonMode} ip={connection.ip} sx={{cursor: "default"}}/>} />
           <Route path="/ProximaMainDisplay" element={<ProximaMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} connection={connection} setConnection={setConnection} sx={{cursor: "default"}}/>} />
           <Route path="/SphinxMainDisplay" element={<SphinxMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} connection={connection} setConnection={setConnection} sx={{cursor: "default"}}/>} />
+          <Route path="/PrometheusMainDisplay" element={<PrometheusMainDisplay admin={false} pigeonMode={pigeonMode} ip={connection.ip} configKey={connection.engineType} connection={connection} setConnection={setConnection} sx={{cursor: "default"}}/>} />
         </Routes>
       </Router>
     </ThemeProvider>

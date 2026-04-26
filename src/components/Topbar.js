@@ -6,13 +6,14 @@ import ConnectBar from "./ConnectBar";
 import { useLocation } from "react-router-dom";
 import proximaConfig from "../configs/proxima_configs.json";
 import sphinxConfig from "../configs/sphinx_configs.json";
+import prometheusConfig from "../configs/prometheus_configs.json";
 
 const Topbar = (props) => {
     const { setPigeonMode, pigeonMode, setConnection, connection } = props;
     const location = useLocation();
     const path = location.pathname.toLowerCase();
-    const showConnectBar = path.includes("proximamaindisplay") || path.includes("sphinxmaindisplay");
-    const engineType = path.includes("proximamaindisplay") ? "proxima" : (path.includes("sphinxmaindisplay") ? "sphinx" : "");
+    const showConnectBar = path.includes("proximamaindisplay") || path.includes("sphinxmaindisplay") || path.includes("prometheusmaindisplay");
+    const engineType = path.includes("proximamaindisplay") ? "proxima" : (path.includes("sphinxmaindisplay") ? "sphinx" : (path.includes("prometheusmaindisplay") ? "prometheus" : ""));
 
     const getTitle = () => {
         if (path.includes("proximamaindisplay")) {
@@ -20,6 +21,9 @@ const Topbar = (props) => {
         }
         if (path.includes("sphinxmaindisplay")) {
             return sphinxConfig.Title;
+        }
+        if (path.includes("prometheusmaindisplay")) {
+            return prometheusConfig.Title;
         }
         return "";
     };

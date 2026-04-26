@@ -18,9 +18,9 @@
       "3": "fuel_ground_vent",
       "4": "fuel_remote_purge",
       "5": "bps", 
-      "6": "ox_remote_purge",
-      "7": "fuel_fill",
-      "8": "ignition"
+      "8": "ox_remote_purge",
+      "9": "fuel_fill",
+      "6": "ignition"
     }
   },
   "max_data_points": 500

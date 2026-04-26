@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import proxima_configs from '../configs/proxima_configs.json';
 import sphinx_configs from '../configs/sphinx_configs.json';
+import prometheus_configs from '../configs/prometheus_configs.json';
+
 
 class LiveReadoutTable extends React.Component {
     constructor(props) {
@@ -29,6 +31,9 @@ class LiveReadoutTable extends React.Component {
         const path = window.location.pathname.toLowerCase();
         if (path.includes("proximamaindisplay")) {
             return proxima_configs;
+        }
+        else if (path.includes("prometheusmaindisplay")){
+          return prometheus_configs;
         }
         return sphinx_configs;
     }
