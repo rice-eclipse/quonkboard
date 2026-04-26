@@ -1,0 +1,27 @@
+{
+  "Title": "Prometheus Mission Control",
+  "engine": "prometheus",
+  "sensor_ids": {
+    "pts": {
+      "0": "bps_pt",
+      "1": "ox_feed_line_pt",
+      "2": "fuel_feedline_pt",
+      "3": "injector_pt",
+      "4": "cc_pt"
+    },
+    "lcs": {
+      "0": "load_cell"
+    },
+    "drivers": {
+      "0": "ox_fill",
+      "1": "ox_ground_vent",
+      "3": "fuel_ground_vent",
+      "4": "fuel_remote_purge",
+      "5": "bps", 
+      "6": "ox_remote_purge",
+      "7": "fuel_fill",
+      "8": "ignition"
+    }
+  },
+  "max_data_points": 500
+}

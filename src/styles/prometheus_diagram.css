@@ -1,0 +1,87 @@
+#bps_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 320px;
+    left: 453px;
+    color: white; /* Text color */
+}
+
+#ox_feedline_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 342px;
+    left: 956px;
+    color: white; /* Text color */
+}
+#fuel_feedline_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 342px;
+    left: 956px;
+    color: white; /* Text color */
+}
+#injector_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 342px;
+    left: 956px;
+    color: white; /* Text color */
+}
+.prometheus #cc_pt {
+    position: absolute; /* Position the overlay absolutely */
+    top: 342px;
+    left: 846px;
+    color: white; /* Text color */
+}
+.prometheus #load_cell {
+    position: absolute;
+    top: 430px;
+    left: 890px;
+}
+
+.prometheus #ox_fill {
+    position: absolute;
+    top: 225px;
+    left: 527px;
+}
+
+#ox_ground_vent {
+    position: absolute;
+    top: 340px;
+    left: 710px;
+    transform: rotate(90deg);
+}
+#fuel_ground_vent {
+    position: absolute;
+    top: 340px;
+    left: 700px;
+    transform: rotate(90deg);
+}
+#fuel_ground_vent {
+    position: absolute;
+    top: 340px;
+    left: 700px;
+    transform: rotate(90deg);
+}
+#fuel_remote_purge {
+    position: absolute;
+    top: 330px;
+    left: 573px;
+    transform: rotate(270deg);
+}
+
+#bps {
+    position: absolute;
+    top: 330px;
+    left: 573px;
+    transform: rotate(270deg);
+}
+#ox_remote_purge {
+    position: absolute;
+    top: 330px;
+    left: 573px;
+    transform: rotate(270deg);
+}
+
+#fuel_fill{
+    position: absolute;
+    top: 330px;
+    left: 573px;
+    transform: rotate(270deg);
+}
