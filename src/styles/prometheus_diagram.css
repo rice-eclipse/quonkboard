@@ -1,7 +1,7 @@
 .prometheus #bps_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 320px;
-    left: 453px;
+    top: 265px;
+    left: 150px;
     color: white; /* Text color */
 }
 
@@ -11,28 +11,31 @@
     left: 496px;
     color: white; /* Text color */
 }
-.prometheus #fuel_feedline_pt {
+.prometheus #fuel_injector_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 312px;
-    left: 496px;
+    top: 237px;
+    left: 900px;
     color: white; /* Text color */
+    transform: scale(0.6);
 }
-.prometheus #injector_pt {
+.prometheus #ox_injector_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 342px;
-    left: 956px;
+    top: 235px;
+    left: 837px;
     color: white; /* Text color */
+    transform: scale(0.6);
 }
 .prometheus #cc_pt {
     position: absolute; /* Position the overlay absolutely */
-    top: 342px;
-    left: 846px;
+    top: 157px;
+    left: 915px;
     color: white; /* Text color */
+    transform: scale(0.6);
 }
 .prometheus #load_cell {
     position: absolute;
-    top: 430px;
-    left: 890px;
+    top: 190px;
+    left: 970px;
 }
 
 .prometheus #ox_fill {
@@ -43,27 +46,22 @@
 
 .prometheus #ox_ground_vent {
     position: absolute;
-    top: 340px;
-    left: 710px;
-    transform: rotate(90deg);
+    top: 185px;
+    left: 755px;
+    transform: rotate(90deg) scale(0.7);
 }
+
 .prometheus #fuel_ground_vent {
     position: absolute;
-    top: 340px;
-    left: 700px;
-    transform: rotate(90deg);
-}
-.prometheus #fuel_ground_vent {
-    position: absolute;
-    top: 340px;
-    left: 700px;
-    transform: rotate(90deg);
+    top: 255px;
+    left: 750px;
+    transform: rotate(90deg) scale(0.7);
 }
 .prometheus #fuel_remote_purge {
     position: absolute;
     top: 230px;
-    left: 673px;
-    transform: rotate(90deg) scale(0.8);
+    left: 663px;
+    transform: rotate(90deg) scale(0.6);
 }
 
 .prometheus #bps {
@@ -73,9 +71,9 @@
 }
 .prometheus #ox_remote_purge {
     position: absolute;
-    top: 330px;
-    left: 573px;
-    transform: rotate(900deg) scale(0.8);
+    top: 170px;
+    left: 673px;
+    transform: rotate(90deg) scale(0.6);
 }
 
 .prometheus #fuel_fill{
