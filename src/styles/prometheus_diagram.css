@@ -81,3 +81,8 @@
     top: 245px;
     left: 605px;
 }
+.prometheus #flowmeter{
+    position: absolute;
+    top: 190px;
+    left: 1000px;
+}
