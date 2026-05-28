@@ -33,18 +33,21 @@ The page can be refreshed after edits are made to reflect changes
 
 ## Deployment
 1. Stop the quonkboard service on the RPi on labjack and delete the build folder
-```systemctl --user stop quonkboard
-    rm -rf ~/labjack_sphinx/quonkboard/build
 ```
-2. Run `npm run build` - Create a production build in `build/`
+systemctl --user stop quonkboard
+rm -rf ~/labjack_sphinx/quonkboard/build
+```
+2. Run `npm run build` to Create a production build in `build/`
 3. Compress the file `tar -cvf build.tar build`
 4. Secure copy to the RPi on labjack 
-```scp <path-to-repo>/quonkboard/build.tar eclipsepi@192.168.0.100:~/labjack_sphinx/quonkboard
+```
+scp <path-to-repo>/quonkboard/build.tar eclipsepi@192.168.0.100:~/labjack_sphinx/quonkboard
 tar -xvf build.tar build
 ```
 5. restart the quonkboard service
-```systemctl --user daemon-reload
-    systemctl --user restart quonkboar
+```
+systemctl --user daemon-reload
+systemctl --user restart quonkboard
 ```
 ## Usage
 1. Open the dashboard in a browser.
