@@ -106,7 +106,7 @@ class DiagramControls extends React.Component {
                     title={driver}
                     authenticated={this.props.authenticated}
                     toggle_cmd={this.sendDriverCommand(driver)}
-                    opposite = {driver === "ground_vent"}
+                    // opposite = {driver === "ground_vent"}
                     ref={this.valve_refs[driver]}
                 />
             </div>
