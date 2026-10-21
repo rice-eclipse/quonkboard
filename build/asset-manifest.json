@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.7740a089.css",
-    "main.js": "/static/js/main.3e77d7de.js",
+    "main.css": "/static/css/main.1d51ad22.css",
+    "main.js": "/static/js/main.d1d2234c.js",
     "static/media/song1.mp3": "/static/media/song1.6e2b01fe98fe2e71803b.mp3",
     "static/media/Jersey25-Regular.ttf": "/static/media/Jersey25-Regular.124a1cfeb3bb037fee5b.ttf",
     "static/media/quonkboard.png": "/static/media/quonkboard.dcf934543845326db295.png",
     "static/media/proxima_diagram.svg": "/static/media/proxima_diagram.6babdc9a2a8708557e9d3c0f88a71f07.svg",
     "static/media/party-parrot.gif": "/static/media/party-parrot.30d7904a46bbec8552cf.gif",
-    "static/media/sphinx_diagram.svg": "/static/media/sphinx_diagram.1ecf93eec5e1cef3940b7c538f489f55.svg",
+    "static/media/prometheus_diagram.svg": "/static/media/prometheus_diagram.5ccbc809003136fb5714cb03cf361ea1.svg",
+    "static/media/sphinx_diagram.svg": "/static/media/sphinx_diagram.ac40c78f1f09386dc13ccb9f53c20725.svg",
     "static/media/Rice_Eclipse_Vertical_White.svg": "/static/media/Rice_Eclipse_Vertical_White.58e37b3b43efbf64e3e0c4a7153e7a7c.svg",
     "static/media/closed_valve.svg": "/static/media/closed_valve.6607dd33741e002d8a1023dc387db709.svg",
     "static/media/open_valve.svg": "/static/media/open_valve.e2e57b5042b98f071230a1474caaeaf9.svg",
     "index.html": "/index.html",
-    "main.7740a089.css.map": "/static/css/main.7740a089.css.map",
-    "main.3e77d7de.js.map": "/static/js/main.3e77d7de.js.map"
+    "main.1d51ad22.css.map": "/static/css/main.1d51ad22.css.map",
+    "main.d1d2234c.js.map": "/static/js/main.d1d2234c.js.map"
   },
   "entrypoints": [
-    "static/css/main.7740a089.css",
-    "static/js/main.3e77d7de.js"
+    "static/css/main.1d51ad22.css",
+    "static/js/main.d1d2234c.js"
   ]
 }

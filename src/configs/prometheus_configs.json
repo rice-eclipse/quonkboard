@@ -3,11 +3,12 @@
   "engine": "prometheus",
   "sensor_ids": {
     "pts": {
-      "0": "bps_pt",
+      "0": "cc_pt",
       "1": "ox_feed_line_pt",
       "2": "fuel_injector_pt",
       "3": "ox_injector_pt",
-      "4": "cc_pt"
+      "4": "bps_pt",
+      "5": "flow_meter"
     },
     "lcs": {
       "0": "load_cell"
