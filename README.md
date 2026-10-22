@@ -12,24 +12,75 @@ QuonkBoard is a React mission-control dashboard for Rice Eclipse engine test ope
 - `src/diagrams/`, `src/styles/`, `src/audio/`, and `src/fonts/` - Static assets and styling for the dashboard experience.
 - `public/` - Static HTML and manifest files used by Create React App.
 
+## Prerequisites
+
+This guide assumes you already have Git and a web browser (Chrome, Firefox, or Edge). The only other thing you need is **Node.js (LTS version)**. npm, which installs the dependencies and runs `npm start`, is included with Node.js.
+
+Download the LTS installer from https://nodejs.org/en/download and run it with the default options. Alternatively, from a terminal:
+
+```bash
+# Windows (PowerShell)
+winget install OpenJS.NodeJS.LTS
+
+# macOS (requires Homebrew, https://brew.sh)
+brew install node
+
+# Ubuntu / Debian
+sudo apt update
+sudo apt install nodejs npm
+
+# Fedora
+sudo dnf install nodejs npm
+```
+
+A code editor such as [VS Code](https://code.visualstudio.com/) is optional, but it has a built-in terminal that makes the steps below easier.
+
+**Close and reopen your terminal after installing**, then check that everything is installed correctly. Each command should print a version number:
+
+```bash
+git --version
+node --version
+npm --version
+```
+
+If a command says it is not recognized or not found, see [Troubleshooting](#troubleshooting). On Ubuntu / Debian, the version of Node.js from `apt` can be very old. If `node --version` prints something older than `v18`, install the LTS version from https://nodejs.org/en/download instead.
+
 ## Installation
 
-Install Node.js and npm, then install the project dependencies:
+The computer needs internet access for this section, so do it **before** you connect to the labjack over ethernet.
+
+1. Open a terminal. On Windows, search for "PowerShell" in the Start menu. On macOS, open "Terminal". On Linux, open your terminal app (`Ctrl + Alt + T` on Ubuntu). If you installed VS Code, you can use its built-in terminal instead.
+2. Download the code and move into the project folder:
+
+```bash
+git clone https://github.com/rice-eclipse/quonkboard.git
+cd quonkboard
+```
+
+3. Install the project dependencies. This can take a few minutes. You only need to do this once, or again after the dependencies in `package.json` change:
 
 ```bash
 npm install
 ```
 
 ## Development
-Start the development server:
+1. Make sure your terminal is in the `quonkboard` folder, then start the development server:
 
 ```bash
 npm start
 ```
 
+2. Wait until the terminal says it compiled successfully. Your browser should open automatically. If it does not, open `http://localhost:3000` yourself.
+
 The app will run at `http://localhost:3000` by default.
 
 The page can be refreshed after edits are made to reflect changes
+
+To stop the server, click on the terminal and press `Ctrl + C`. Leave the terminal open while you are using the dashboard, since closing it stops the server.
+
+On Windows you can also double-click `windows_start.bat` to start the server without typing anything. It runs `npm start` for you, but you still need to run `npm install` first.
+
+The dashboard runs on your own computer, so `npm start` and `localhost:3000` work without any network connection.
 
 ## Deployment
 1. Stop the quonkboard service on the RPi on labjack and delete the build folder
@@ -50,11 +101,22 @@ systemctl --user daemon-reload
 systemctl --user restart quonkboard
 ```
 ## Usage
-1. Open the dashboard in a browser.
-2. Select the appropriate engine display.
-3. Enter the target WebSocket endpoint in `ip:port` format, such as `192.168.0.100:2707`.
-4. Connect to begin receiving telemetry and enabling authenticated commands.
+The dashboard needs the labjack on the RPi to be powered on and running in order to show live data. Without it the pages still open, but nothing will be plotted.
 
+1. Connect your computer to the RPi with an ethernet cable, either directly or through the network switch. There is no wifi or wireless connection, so the dashboard only works over ethernet.
+2. Make sure your computer's ethernet connection is on the same network as the RPi (`192.168.0.x`). If it is not assigned an address automatically (for example, when plugged directly into the RPi), set a manual IPv4 address on the ethernet adapter such as `192.168.0.50` with subnet mask `255.255.255.0`. Do not use `192.168.0.100`, since that is the RPi. Check the connection with `ping 192.168.0.100`.
+3. Start the dashboard with `npm start` and open `http://localhost:3000` in a browser.
+4. Select the appropriate engine display (Proxima, Sphinx, or Prometheus) on the home page.
+5. Enter the target WebSocket endpoint in `ip:port` format in the `Connection IP` box at the top right, such as `192.168.0.100:2707`. This is the default value in the box.
+6. Click `Connect` to begin receiving telemetry. The button changes to `Disconnect`, which you can click to end the connection.
+7. To send valve or ignition commands, enter the labjack password in the `Password` box. Commands are rejected unless it matches the `password` under `[general]` in the labjack config `.ini` file on the RPi.
+
+## Troubleshooting
+- **`npm`, `node`, or `git` is not recognized / command not found:** Close and reopen your terminal, or restart your computer, so it picks up the new install. If it still fails, reinstall Node.js or Git.
+- **`npm install` fails or `Module not found` appears when starting:** Check that you have internet access (not just the ethernet link to the labjack), then delete the `node_modules` folder and `package-lock.json` and run `npm install` again.
+- **Port 3000 is already in use:** Another copy of the dashboard or program is using it. Close it, or type `Y` when asked if you want to use another port and open the address shown in the terminal.
+- **The dashboard opens but will not connect:** Check that the ethernet cable is plugged in at both ends, that your computer has an address on `192.168.0.x`, that `ping 192.168.0.100` gets a reply, that the labjack service is running on the RPi, and that the `ip:port` is correct.
+- **Commands are rejected with `Invalid password`:** Re-enter the password in the `Password` box and check that it matches the labjack config on the RPi.
 
 ## Notes
 QuonkBoard was bootstrapped with Create React App and uses React 18, React Router, Material UI, and MUI X Charts.
