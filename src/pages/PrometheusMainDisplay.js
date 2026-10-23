@@ -10,6 +10,7 @@ import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
 import Interface from "../logic/Interface";
 import AuthBox from "../components/AuthBox";
+import { ConnectionBanner } from "../components/ConnectionBanner";
 import prometheus_config from "../configs/prometheus_configs.json";
 
 import { useState, useEffect, useMemo, useRef } from "react";
@@ -31,6 +32,7 @@ const PrometheusMainDisplay = (props) => {
 
     const [dataManager, setDataManager] = useState(new DataManager(engineConfig));
     const [authStatus, setAuthStatus] = useState(false);
+    const [linkStatus, setLinkStatus] = useState({ state: "connecting", attempt: 0 });
     const [ignitedStatus, setIgnitedStatus] = useState(false);
 
     useEffect(() => {
@@ -63,6 +65,7 @@ const PrometheusMainDisplay = (props) => {
         if (ip !== "") {
             iface.current = new Interface(ip, engineConfig, setConnection);
             iface.current.setOnData(processData);
+            iface.current.setOnStatus(setLinkStatus);
         }
         setIgnitedStatus(iface.current?.ignited);
 
@@ -94,6 +97,7 @@ const PrometheusMainDisplay = (props) => {
 
     return (
         <Box sx={{my:-2}}>
+            <ConnectionBanner link={linkStatus} visible={ip !== ""} />
             <Grid container spacing={0}>
                 <Grid item xs={2} sx={{textAlign: "center", alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <Stack>

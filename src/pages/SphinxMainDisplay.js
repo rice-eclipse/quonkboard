@@ -10,6 +10,7 @@ import DataDisplayOptions from "../components/DataDisplayOptions";
 import DataManager from "../logic/DataManager";
 import Interface from "../logic/Interface";
 import AuthBox from "../components/AuthBox";
+import { ConnectionBanner } from "../components/ConnectionBanner";
 import proxima_config from "../configs/proxima_configs.json";
 import sphinx_config from "../configs/sphinx_configs.json";
 
@@ -30,6 +31,7 @@ const MainDisplay = (props) => {
 
     const [dataManager, setDataManager] = useState(new DataManager(engineConfig));
     const [authStatus, setAuthStatus] = useState(false);
+    const [linkStatus, setLinkStatus] = useState({ state: "connecting", attempt: 0 });
 
     useEffect(() => {
         setDataManager(new DataManager(engineConfig));
@@ -62,6 +64,7 @@ const MainDisplay = (props) => {
         if (ip !== "") {
             iface.current = new Interface(ip, engineConfig, setConnection);
             iface.current.setOnData(processData);
+            iface.current.setOnStatus(setLinkStatus);
         }
 
         return () => {
@@ -92,6 +95,7 @@ const MainDisplay = (props) => {
 
     return (
         <Box sx={{my:-2}}>
+            <ConnectionBanner link={linkStatus} visible={ip !== ""} />
             <Grid container spacing={0}>
                 <Grid item xs={2} sx={{textAlign: "center", alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <Stack>
