@@ -17,7 +17,8 @@
       "3": "remote_purge",
       "4": "fuel_run",
       "5": "nitrous_run",
-      "6": "ignition"
+      "6": "ignition",
+      "7": "heating"
     }
   },
   "max_data_points": 500

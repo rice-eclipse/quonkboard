@@ -55,3 +55,9 @@
     left: 879px;
     transform: rotate(270deg);
 }
+
+.sphinx #heating {
+    position: absolute;
+    top: 330px;
+    left: 120px;
+}
