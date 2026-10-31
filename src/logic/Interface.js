@@ -106,6 +106,13 @@ class Interface {
 
         this.connect();
         this.stale_timer = setInterval(() => this.checkStale(), 1000);
+        // An unreachable host can hold the first attempt open for a long time, so
+        // start checking if it's taking a while. A normal connect cancels this.
+        this.probe_timer = setTimeout(() => {
+            if (this.link.state === "connecting") {
+                this.startProbing();
+            }
+        }, PROBE_INTERVAL_MS);
     }
 
     /**

@@ -95,7 +95,7 @@ const MainDisplay = (props) => {
 
     return (
         <Box sx={{my:-2}}>
-            <ConnectionBanner link={linkStatus} visible={ip !== ""} />
+            <ConnectionBanner link={linkStatus} ip={ip} visible={ip !== ""} />
             <Grid container spacing={0}>
                 <Grid item xs={2} sx={{textAlign: "center", alignItems: "center", justifyContent: "center", display: "flex"}}>
                     <Stack>

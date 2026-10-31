@@ -1,6 +1,10 @@
-import { probePi } from './probePi';
+import { probePi, PROBE_TIMEOUT_MS } from './probePi';
 
-// fetch stand-in: each URL maps to 'answered', 'refused' (fast network error) or 'silent' (never replies).
+// How long a refused connection takes to fail on Windows, measured in Chrome.
+const WINDOWS_REFUSAL_MS = 2040;
+
+// fetch stand-in: each URL maps to 'answered', 'refused' (fast network error), 'windows-refused'
+// (the same error, as slowly as Windows reports it) or 'silent' (never replies).
 const mockFetch = (behaviour) => {
     global.fetch = jest.fn((url, { signal }) => {
         const result = behaviour[new URL(url).port];
@@ -9,6 +13,11 @@ const mockFetch = (behaviour) => {
         }
         if (result === 'refused') {
             return Promise.reject(new TypeError('Failed to fetch'));
+        }
+        if (result === 'windows-refused') {
+            return new Promise((_, reject) => {
+                setTimeout(() => reject(new TypeError('Failed to fetch')), WINDOWS_REFUSAL_MS);
+            });
         }
         return new Promise((_, reject) => {
             signal.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
@@ -24,13 +33,14 @@ const advance = async (ms) => {
     }
 };
 
-// Run probePi with fake timers: start it, let the 2 s timeout elapse, then collect the result.
+// Run probePi with fake timers: start it, let the timeout elapse, then collect the result.
 // Pending promises are flushed first: a refused or answered fetch settles immediately, long
 // before the timeout, so it must not be overtaken by the timer firing.
 const run = async (options) => {
     const promise = probePi('192.168.0.100', 2707, options);
     await advance(0);
-    await advance(2500);
+    await advance(WINDOWS_REFUSAL_MS);
+    await advance(PROBE_TIMEOUT_MS);
     return promise;
 };
 
@@ -49,6 +59,16 @@ describe('probePi', () => {
     test('service port refused fast -> host up, service refused', async () => {
         mockFetch({ 2707: 'refused', 2708: 'refused' });
         expect(await run()).toEqual({ host: 'up', service: 'refused' });
+    });
+
+    test('a refusal as slow as Windows reports it still means the host is up', async () => {
+        mockFetch({ 2707: 'windows-refused', 2708: 'windows-refused' });
+        expect(await run()).toEqual({ host: 'up', service: 'refused' });
+    });
+
+    test('a hung service behind a slow refusal is still seen as hung', async () => {
+        mockFetch({ 2707: 'silent', 2708: 'windows-refused' });
+        expect(await run()).toEqual({ host: 'up', service: 'silent' });
     });
 
     test('host answers but the service is silent -> host up, service silent (hung)', async () => {

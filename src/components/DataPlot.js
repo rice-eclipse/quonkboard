@@ -14,6 +14,8 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+import { followData } from '../logic/sliderWindow';
+
 class DataPlot extends React.Component {
     constructor(props){
         super(props);
@@ -120,29 +122,20 @@ class DataPlot extends React.Component {
     }
 
     componentDidUpdate = () => {
-        var min_time = 0.0;
-        var max_time = 1.0;
-        if (this.state.data.length > 0) {
-            min_time = Math.min(...this.state.data.map((data_point) => data_point.time.getTime()));
-            max_time = Math.max(...this.state.data.map((data_point) => data_point.time.getTime()));
+        // The page can re-render before any data arrives. There's no time range to show yet.
+        if (this.state.data.length === 0) {
+            return;
         }
-        var sliderJustPopulated = false;
-        if (this.state.slidervals === null) {
-            this.setState({slidervals: [min_time, max_time]});
-            sliderJustPopulated = true;
-        }
+        const min_time = Math.min(...this.state.data.map((data_point) => data_point.time.getTime()));
+        const max_time = Math.max(...this.state.data.map((data_point) => data_point.time.getTime()));
 
-        if (this.state.sliderrange === null || (sliderJustPopulated ? max_time : this.state.sliderrange[1]) < max_time) {
-            if (!sliderJustPopulated && this.state.slidervals[1] === this.state.sliderrange[1]) {
-                const newSliderVals = [...this.state.slidervals];
-                if (this.state.constantTimeDelta) {
-                    newSliderVals[0] = this.state.slidervals[0] + max_time - this.state.sliderrange[1];
-                }
-                newSliderVals[1] = max_time;
-                this.setState((state) => ({sliderrange: [min_time, max_time], slidervals: newSliderVals}));
-            } else {
-                this.setState({sliderrange: [min_time, max_time]});
-            }
+        if (this.state.slidervals === null || this.state.sliderrange === null) {
+            this.setState({slidervals: [min_time, max_time], sliderrange: [min_time, max_time]});
+        } else if (this.state.sliderrange[1] < max_time) {
+            this.setState({
+                sliderrange: [min_time, max_time],
+                slidervals: followData(this.state.slidervals, this.state.sliderrange, min_time, max_time, this.state.constantTimeDelta),
+            });
         }
     }
 
@@ -236,7 +229,8 @@ class DataPlot extends React.Component {
                                 }}
                             />
                             <Slider
-                                value={this.state.slidervals}
+                                value={this.state.slidervals ?? [0, 1]}
+                                disabled={this.state.slidervals === null}
                                 onChange={this.handleSliderChange}
                                 valueLabelDisplay="auto"
                                 valueLabelFormat={(value) => (new Date(value)).toLocaleTimeString()}

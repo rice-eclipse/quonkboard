@@ -82,35 +82,6 @@ On Windows you can also double-click `windows_start.bat` to start the server wit
 
 The dashboard runs on your own computer, so `npm start` and `localhost:3000` work without any network connection.
 
-## Deployment
-1. Stop the quonkboard service on the RPi on labjack and delete the build folder
-```
-systemctl --user stop quonkboard
-rm -rf ~/labjack_sphinx/quonkboard/build
-```
-2. Run `npm run build` to Create a production build in `build/`
-3. Compress the file `tar -cvf build.tar build`
-4. Secure copy to the RPi on labjack 
-```
-scp <path-to-repo>/quonkboard/build.tar eclipsepi@192.168.0.100:~/labjack_sphinx/quonkboard
-tar -xvf build.tar build
-```
-5. restart the quonkboard service
-```
-systemctl --user daemon-reload
-systemctl --user restart quonkboard
-```
-## Usage
-The dashboard needs the labjack on the RPi to be powered on and running in order to show live data. Without it the pages still open, but nothing will be plotted.
-
-1. Connect your computer to the RPi with an ethernet cable, either directly or through the network switch. There is no wifi or wireless connection, so the dashboard only works over ethernet.
-2. Make sure your computer's ethernet connection is on the same network as the RPi (`192.168.0.x`). If it is not assigned an address automatically (for example, when plugged directly into the RPi), set a manual IPv4 address on the ethernet adapter such as `192.168.0.50` with subnet mask `255.255.255.0`. Do not use `192.168.0.100`, since that is the RPi. Check the connection with `ping 192.168.0.100`.
-3. Start the dashboard with `npm start` and open `http://localhost:3000` in a browser.
-4. Select the appropriate engine display (Proxima, Sphinx, or Prometheus) on the home page.
-5. Enter the target WebSocket endpoint in `ip:port` format in the `Connection IP` box at the top right, such as `192.168.0.100:2707`. This is the default value in the box.
-6. Click `Connect` to begin receiving telemetry. The button changes to `Disconnect`, which you can click to end the connection.
-7. To send valve or ignition commands, enter the labjack password in the `Password` box. Commands are rejected unless it matches the `password` under `[general]` in the labjack config `.ini` file on the RPi.
-
 ## Troubleshooting
 - **`npm`, `node`, or `git` is not recognized / command not found:** Close and reopen your terminal, or restart your computer, so it picks up the new install. If it still fails, reinstall Node.js or Git.
 - **`npm install` fails or `Module not found` appears when starting:** Check that you have internet access (not just the ethernet link to the labjack), then delete the `node_modules` folder and `package-lock.json` and run `npm install` again.

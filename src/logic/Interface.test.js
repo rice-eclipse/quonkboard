@@ -215,6 +215,37 @@ describe('Interface auto-reconnect', () => {
             iface.close();
         });
 
+        test('probes if the first connection is stuck', async () => {
+            const iface = make('1.2.3.4:2707', config, jest.fn());
+            const statuses = [];
+            iface.setOnStatus((s) => statuses.push(s));
+            await advance(2999);
+            expect(probePi).not.toHaveBeenCalled();
+            await advance(1);
+            expect(probePi).toHaveBeenCalledTimes(1);
+            expect(statuses[statuses.length - 1].state).toBe('connecting');
+            expect(statuses[statuses.length - 1].probe).toEqual({ host: 'up', service: 'silent' });
+            iface.close();
+        });
+
+        test('a failed first attempt that recovers quickly does not leave probing running', async () => {
+            const iface = make('1.2.3.4:2707', config, jest.fn());
+            last().drop();
+            await advance(1000);
+            last().open();
+            probePi.mockClear();
+            await feed(10000);
+            expect(probePi).not.toHaveBeenCalled();
+            iface.close();
+        });
+
+        test('closing during a stuck connection stops the checks', async () => {
+            const iface = make('1.2.3.4:2707', config, jest.fn());
+            iface.close();
+            await advance(10000);
+            expect(probePi).not.toHaveBeenCalled();
+        });
+
         test('probes the Pi as soon as the link drops, then every 3 s, with the probe result in the status', async () => {
             const iface = make('1.2.3.4:2707', config, jest.fn());
             const statuses = [];

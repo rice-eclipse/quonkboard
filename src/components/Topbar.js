@@ -3,6 +3,7 @@ import { Stack } from "@mui/material";
 import logo from "../quonkboard.png";
 import PigeonMode from "./PigeonMode";
 import ConnectBar from "./ConnectBar";
+import { STATUS_SLOT_ID } from "./ConnectionBanner";
 import { useLocation } from "react-router-dom";
 import proximaConfig from "../configs/proxima_configs.json";
 import sphinxConfig from "../configs/sphinx_configs.json";
@@ -39,6 +40,7 @@ const Topbar = (props) => {
         <Stack direction="row" sx={{width: 1.0, height: 90, mb:2, display: "flex", borderBottom: 1, p: 1}}>
             {showConnectBar ? <img style={{marginTop: "10px", marginBottom: "10px", marginRight: "10px", float:"right"}} src={logo} alt="logo"/>: null}
             <Typography variant="h2" sx={{cursor: "pointer", pr:4, display: "flex"}} onClick={handleHeadingClick}>{getTitle()}</Typography>
+            <Box id={STATUS_SLOT_ID} sx={{flex: 1, minWidth: 0, position: "relative", mr: 1}} />
             <Box alignItems="center" display="flex" sx={{ marginLeft: "auto", marginRight: 0}}>
                 {pigeonMode ? <PigeonMode enable={pigeonMode} /> : (showConnectBar ? <ConnectBar sx={{width: 1.0}} setConnection={setConnection} connection={connection} engineType={engineType} /> : null)}
             </Box>

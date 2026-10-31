@@ -2,15 +2,17 @@
 // A browser can't send ICMP pings, so this makes two plain HTTP requests and
 // looks at how each one fails:
 //   - an HTTP reply of any kind ("answered"): something is listening and replied
-//   - a fast network error ("refused"): the Pi's OS reset the connection, so the
-//     host is up but nothing is listening on that port
+//   - a network error before the timeout ("refused"): the Pi's OS reset the
+//     connection, so the host is up but nothing is listening on that port
 //   - no reply before the timeout ("silent"): host unreachable, or something
 //     accepted the connection but never answered (e.g. a hung service)
 
-// Nothing on the Pi listens here, so a reachable Pi refuses it immediately.
+// Nothing on the Pi listens here, so a reachable Pi refuses it.
 // (Pick a port that browsers don't block outright.)
 const HOST_PROBE_PORT = 2708;
-const PROBE_TIMEOUT_MS = 2000;
+// Windows retries a refused connection for about 2 s before reporting it, so
+// this has to be well over that or a refusal looks like an unreachable host.
+const PROBE_TIMEOUT_MS = 4000;
 
 async function tryFetch(url, timeoutMs) {
     const controller = new AbortController();

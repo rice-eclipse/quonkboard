@@ -11,7 +11,6 @@ class Telemetry extends React.Component {
             bottom_scroll: true,
         }
         this.scrollRef = React.createRef();
-        this.scrollRef2 = React.createRef();
     }
 
     update(dataManager) {
@@ -24,11 +23,8 @@ class Telemetry extends React.Component {
 
     componentDidUpdate() {
         if (this.state.bottom_scroll) {
-            if (this.scrollRef2 && this.scrollRef2.current) {
-                this.scrollRef2.current.scrollIntoView({behavior: "smooth"})
-            } else {
-                this.scrollRef.current.scrollTop = this.scrollRef.current.scrollHeight;
-            }
+            // Only the log box scrolls. scrollIntoView would drag the whole page down too.
+            this.scrollRef.current.scrollTop = this.scrollRef.current.scrollHeight;
         }
     }
 
@@ -56,7 +52,6 @@ class Telemetry extends React.Component {
                             return this.logDisplay(log);
                         })
                     }
-                    <div ref={this.scrollRef2} />
                 </Box>
                 <FormControlLabel control={<Checkbox checked={this.state.bottom_scroll} onChange={this.handleChangeScroll}/>} label="Scroll to bottom when new content loads" />
             </div>
