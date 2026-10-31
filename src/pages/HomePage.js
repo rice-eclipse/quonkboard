@@ -39,17 +39,6 @@ const HomePage = ({ type }) => {
             <img src={eclipseLogo} alt="eclipseLogo" style={{height: '150px', marginTop: '2vh', marginLeft: '60px', position: 'relative'}}></img>
             <h1 style={{fontSize: '6.5rem'}}> Quonkboard</h1>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
-            <Button variant="contained" onClick={() => navigate('./ProximaMainDisplay')}
-                    sx={{
-                        backgroundColor: '#fff',
-                        color: '#000',
-                        width: '200px',
-                        fontSize: '25px',
-                        '&:hover': { backgroundColor: '#333' },
-                    }}
-                >
-                    Proxima
-                </Button>
             <Button variant="contained" onClick={() => navigate('./SphinxMainDisplay')}
                     sx={{
                         backgroundColor: '#fff',

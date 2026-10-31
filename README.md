@@ -1,6 +1,6 @@
 # QuonkBoard
 
-QuonkBoard is a React mission-control dashboard for Rice Eclipse engine test operations. It provides live telemetry views, engine diagrams, valve controls, ignition controls, and plotting for the Proxima, Sphinx, and Prometheus configurations.
+QuonkBoard is a React mission-control dashboard for Rice Eclipse engine test operations. It provides live telemetry views, engine diagrams, valve controls, ignition controls, and plotting for the Sphinx and Prometheus configurations.
 
 ## Project Structure
 
