@@ -18,9 +18,9 @@
       "1": "ox_ground_vent",
       "3": "fuel_ground_vent",
       "4": "fuel_remote_purge",
-      "5": "bps",            
+      "7": "bps",
       "6": "ignition",
-      "7": "ox_remote_purge",
+      "5": "ox_remote_purge",
       "8": "fuel_fill"
     }
   },
