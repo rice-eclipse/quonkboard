@@ -24,5 +24,6 @@
       "6": "ignition"
     }
   },
-  "max_data_points": 500
+  "max_data_points": 500,
+  "pt_disconnected_below": -150
 }

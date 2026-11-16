@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import proxima_configs from '../configs/proxima_configs.json';
 import sphinx_configs from '../configs/sphinx_configs.json';
 import prometheus_configs from '../configs/prometheus_configs.json';
+import { isPtDisconnected, latestRawReadings } from '../logic/sensorStatus';
 
 
 class LiveReadoutTable extends React.Component {
@@ -21,6 +22,7 @@ class LiveReadoutTable extends React.Component {
         this.state = {
             displayMode: "rawData",
             data: defaults.data,
+            disconnected: {},
             unit: defaults.unit,
             display_unit: defaults.display_unit,
             precision: defaults.precision,
@@ -89,14 +91,18 @@ class LiveReadoutTable extends React.Component {
         rateOfChangeUnits[key] = value ? value + "/s" : "";
       }
 
+      const rawData = latestRawReadings(dataManager);
       const nextData = {};
+      const disconnected = {};
       for (const key of this.sensorKeys) {
         nextData[key] = newData[key];
+        disconnected[key] = isPtDisconnected(this.config, key, rawData[key]);
       }
 
       this.setState({
         displayMode: dataManager.getDisplayMode(),
         data: nextData,
+        disconnected: disconnected,
         display_unit: ((dataManager.displayMode === "rateOfChange") ? rateOfChangeUnits : this.state.unit)
       });
     }
@@ -105,6 +111,10 @@ class LiveReadoutTable extends React.Component {
         const rows = [];
         for (const key of this.sensorKeys) {
           const value = this.state.data[key];
+          if (this.state.disconnected[key]) {
+            rows.push({sensor: key, value: "N/C"});
+            continue;
+          }
           if (value === undefined || value === null || isNaN(value)) continue;
           const unit = this.state.display_unit[key] ? ` ${this.state.display_unit[key]}` : "";
           rows.push({sensor: key, value: value.toFixed(this.state.precision[key]) + unit});

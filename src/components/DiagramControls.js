@@ -8,6 +8,7 @@ import { Valve } from './Valve';
 import proxima_configs from '../configs/proxima_configs.json';
 import sphinx_configs from '../configs/sphinx_configs.json';
 import prometheus_configs from '../configs/prometheus_configs.json';
+import { isPtDisconnected, latestRawReadings } from '../logic/sensorStatus';
 import "../styles/proxima_diagram.css";
 import "../styles/sphinx_diagram.css";
 import "../styles/prometheus_diagram.css";
@@ -64,9 +65,11 @@ class DiagramControls extends React.Component {
             return;
         }
 
+        const rawData = latestRawReadings(dataManager);
         for (const [sensor, val] of Object.entries(data[data.length - 1])) {
             if (sensor in this.gauge_refs && this.gauge_refs[sensor].current !== null) {
-                this.gauge_refs[sensor].current.setValue(val);
+                const disconnected = isPtDisconnected(this.config, sensor, rawData[sensor]);
+                this.gauge_refs[sensor].current.setValue(val, disconnected);
             }
         }
 

@@ -20,25 +20,30 @@ class GaugeReading extends React.Component {
             valueMax: 10,
             title: props.title,
             text_pos: (props.title === "load_cell") ? -1 : -1,//Remove this. I
-            minMaxDisplay: "none"
+            minMaxDisplay: "none",
+            disconnected: false
         }
         
     }
 
-    setValue(value) {
-        if (isNaN(value) || value === null || value === undefined) {
-            this.setState({value: null});
+    setValue(value, disconnected = false) {
+        if (disconnected) {
+            this.setState({value: null, disconnected: true});
+        } else if (isNaN(value) || value === null || value === undefined) {
+            this.setState({value: null, disconnected: false});
         } else {
-            this.setState({value: (value < 10 ? value.toFixed(1) : Math.floor(value))});
+            this.setState({value: (value < 10 ? value.toFixed(1) : Math.floor(value)), disconnected: false});
         }
     }
 
 
     render() {
+        const { disconnected, ...gaugeState } = this.state;
         return (
         <div style={{position: "relative"}}>
             <Gauge
-            {...this.state}
+            {...gaugeState}
+            text={disconnected ? "N/C" : undefined}
             cornerRadius="50%"
             sx={(theme) => ({
                 [`& .${gaugeClasses.valueText}`]: {
