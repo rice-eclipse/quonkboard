@@ -191,7 +191,10 @@ class DataPlot extends React.Component {
                                 legend: {
                                     direction: "row",
                                     position: {vertical: "top", horizontal: "left"},
-                                    padding: {left: 30, top: 6}
+                                    // right padding keeps the legend clear of the "Preserve timespan" checkbox
+                                    padding: {left: 30, top: 6, right: 200},
+                                    labelStyle: {fontSize: 12},
+                                    itemGap: 8
                                 }
                             }}
                             xAxis={[{ 

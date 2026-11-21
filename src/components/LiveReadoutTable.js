@@ -55,11 +55,14 @@ class LiveReadoutTable extends React.Component {
     }
 
     inferUnit = (sensorKey) => {
-        if (sensorKey === "load_cell") {
+        if (sensorKey === "load_cell" || sensorKey.endsWith("_lc") || /^lc\d+$/.test(sensorKey)) {
             return "lbf";
         }
         if (sensorKey.includes("_pt") || sensorKey === "ox_pt" || sensorKey === "ops_pt") {
             return "psig";
+        }
+        if (/^tc\d+$/.test(sensorKey) || sensorKey.endsWith("_rtd")) {
+            return "°C";
         }
     }
 
@@ -133,7 +136,7 @@ class LiveReadoutTable extends React.Component {
                 {rows.map((row) => (
                   <TableRow
                     key={row.sensor}
-                    sx={{ 'td, th': { border: 1, fontSize: 16 } }}
+                    sx={{ 'td, th': { border: 1, fontSize: 14, px: 1.25, py: 1.5 }, td: { whiteSpace: 'nowrap' } }}
                   >
                     <TableCell component="th" scope="row">{row.sensor}</TableCell>
                     <TableCell>{row.value}</TableCell>

@@ -37,8 +37,41 @@
   }
 }
 
+/* Jersey: pixel display font, used only for the big page titles. */
 @font-face {
   font-family: 'Jersey';
   src: local('Jersey25-Regular'),
-       url('./fonts/Jersey25-Regular.ttf') format('truetype'),
+       url('./fonts/Jersey25-Regular.ttf') format('truetype');
+}
+
+/* IBM Plex Sans Condensed: everything else. Narrow so labels fit the diagrams.
+   Bundled in src/fonts (SIL OFL, see IBMPlexSansCondensed-OFL.txt) so it looks the same
+   on every machine and works with no internet at the test site. */
+@font-face {
+  font-family: 'IBM Plex Sans Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/IBMPlexSansCondensed-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./fonts/IBMPlexSansCondensed-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/IBMPlexSansCondensed-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/IBMPlexSansCondensed-700.woff2') format('woff2');
 }

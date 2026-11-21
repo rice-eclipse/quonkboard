@@ -9,7 +9,10 @@
 
     },
     "lcs": {
-      "0": "load_cell"
+      "0": "ox_tank_lc",
+      "1": "lc3",
+      "2": "lc4",
+      "3": "load_cell"
     },
     "drivers": {
       "0": "ox_fill",

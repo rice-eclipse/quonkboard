@@ -19,7 +19,15 @@ import AnimatedCursor from 'react-animated-cursor';
 
 const darkTheme = createTheme({
   typography: {
-    fontFamily: "Jersey"
+    fontFamily: '"IBM Plex Sans Condensed", "Arial Narrow", Arial, sans-serif'
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        // equal-width digits everywhere, so live numbers don't shift as they update
+        body: { fontVariantNumeric: 'tabular-nums' },
+      },
+    },
   },
   palette: {
     mode: 'dark',

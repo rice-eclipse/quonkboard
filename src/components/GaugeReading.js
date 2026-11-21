@@ -58,7 +58,7 @@ class GaugeReading extends React.Component {
             })}
             onClick={() => {this.setState({minMaxDisplay: this.state.minMaxDisplay === "none" ? "block" : "none"})}}
             />
-            <Typography sx={{mt:this.state.text_pos}}>{this.state.title}</Typography>
+            <Typography sx={{mt:this.state.text_pos, fontSize: 14}}>{this.state.title}</Typography>
             <FormControl sx={{mt:4, width: 150, 
                 "& .base-NumberInput-root input": {
                     width: 50

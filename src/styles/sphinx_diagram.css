@@ -17,6 +17,14 @@
     left: 846px;
     color: white; /* Text color */
 }
+/* ox tank load cell: left of the N2O tank */
+.sphinx #ox_tank_lc {
+    position: absolute;
+    top: 352px;
+    left: 360px;
+    color: white;
+    transform: scale(0.8);
+}
 .sphinx #load_cell {
     position: absolute;
     top: 430px;

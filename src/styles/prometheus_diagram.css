@@ -38,6 +38,22 @@
     left: 970px;
 }
 
+/* tank load cells: next to the Ox and Fuel tanks */
+.prometheus #ox_tank_lc {
+    position: absolute;
+    top: 200px;
+    left: 372px;
+    color: white;
+    transform: scale(0.8);
+}
+.prometheus #fuel_tank_lc {
+    position: absolute;
+    top: 330px;
+    left: 372px;
+    color: white;
+    transform: scale(0.8);
+}
+
 .prometheus #ox_fill {
     position: absolute;
     top: 105px;
@@ -80,9 +96,4 @@
     position: absolute;
     top: 245px;
     left: 605px;
-}
-.prometheus #flowmeter{
-    position: absolute;
-    top: 190px;
-    left: 1000px;
 }

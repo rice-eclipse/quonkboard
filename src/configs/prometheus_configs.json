@@ -8,10 +8,16 @@
       "2": "fuel_injector_pt",
       "3": "ox_injector_pt",
       "4": "bps_pt",
-      "5": "flow_meter"
+      "5": "pt6_pt"
     },
     "lcs": {
-      "0": "load_cell"
+      "0": "ox_tank_lc",
+      "1": "fuel_tank_lc",
+      "2": "load_cell"
+    },
+    "rtds": {
+      "1": "tc1",
+      "2": "tc2"
     },
     "drivers": {
       "0": "ox_fill",
