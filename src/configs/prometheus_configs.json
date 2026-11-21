@@ -24,12 +24,13 @@
       "1": "ox_ground_vent",
       "3": "fuel_ground_vent",
       "4": "fuel_remote_purge",
-      "7": "bps",
-      "6": "ignition",
       "5": "ox_remote_purge",
+      "6": "ignition",
+      "7": "bps",
       "8": "fuel_fill"
     }
   },
+  "inverted_drivers": ["fuel_remote_purge", "ox_remote_purge"],
   "max_data_points": 500,
   "pt_disconnected_below": -150
 }

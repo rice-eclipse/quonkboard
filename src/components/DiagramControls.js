@@ -109,7 +109,8 @@ class DiagramControls extends React.Component {
                     title={driver}
                     authenticated={this.props.authenticated}
                     toggle_cmd={this.sendDriverCommand(driver)}
-                    // opposite = {driver === "ground_vent"}
+                    // valves listed in "inverted_drivers" are open with no voltage, closed when powered
+                    opposite={(this.config?.inverted_drivers || []).includes(driver)}
                     ref={this.valve_refs[driver]}
                 />
             </div>

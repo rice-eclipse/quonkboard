@@ -17,13 +17,14 @@
     "drivers": {
       "0": "ox_fill",
       "1": "ground_vent",
-      "3": "remote_purge",
-      "4": "fuel_run",
-      "5": "nitrous_run",
+      "3": "nitrous_run",
+      "5": "remote_purge",
       "6": "ignition",
-      "7": "heating"
+      "7": "heating",
+      "8": "fuel_run"
     }
   },
+  "inverted_drivers": ["remote_purge"],
   "max_data_points": 500,
   "pt_disconnected_below": -150
 }
